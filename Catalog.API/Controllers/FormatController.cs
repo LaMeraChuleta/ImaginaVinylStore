@@ -1,8 +1,7 @@
-﻿using Catalog.API.Data;
-using Catalog.API.Models;
+﻿using SharedApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol;
+using SharedApp.Data;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,11 +23,12 @@ namespace Catalog.API.Controllers
 			return _context.formats.Include(x => x.Presentations).ToArray();
 		}
 		[HttpPost]
-		public void Post([FromBody] Format value)
+		public Format Post([FromBody] Format value)
 		{
 			_context.formats.Add(value);
 			_context.SaveChanges();
-		}
+            return value;
+        }
 
 	}
 }

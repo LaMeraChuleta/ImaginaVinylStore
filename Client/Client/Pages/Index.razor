@@ -1,0 +1,39 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject HttpClient Http
+
+<PageTitle>Index</PageTitle>
+<NavBar></NavBar>
+<Carrousel></Carrousel>
+
+<div class="grid grid-cols-1">
+    <p class="pl-5">NOVEDADES</p>
+    <div class="grid sm:grid-cols-1 md:grid-cols-5 sm:gap-y-5 md:gap-x-5 px-5">
+        @foreach (var item in CatalogMusics)
+        {
+            <CardCatalogMusic CatalogMusic="item"></CardCatalogMusic>
+        }
+    </div>
+</div>
+
+<div class="grid grid-cols-1 mt-10">
+    <p class="pl-5">ARTISTA</p>
+    <div class="grid sm:grid-cols-1 md:grid-cols-5 sm:gap-y-5 md:gap-x-5 px-5">
+        @foreach (var item in CatalogMusics)
+        {
+            <CardCatalogMusic CatalogMusic="item"></CardCatalogMusic>
+        }
+    </div>
+</div>
+
+<div class="grid grid-cols-1 mt-10">
+    <p class="pl-5">EDICION LIMITADA</p>
+    <div class="grid sm:grid-cols-1 md:grid-cols-5 sm:gap-y-5 md:gap-x-5 px-5">
+        @foreach (var item in CatalogMusics)
+        {
+            <CardCatalogMusic CatalogMusic="item"></CardCatalogMusic>
+        }
+    </div>
+</div>
+

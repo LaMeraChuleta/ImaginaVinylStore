@@ -1,6 +1,6 @@
-using Catalog.API.Data;
-using Catalog.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using SharedApp.Data;
+using SharedApp.Models;
 
 namespace Catalog.API.Controllers
 {
@@ -23,7 +23,7 @@ namespace Catalog.API.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<Models.CatalogMusic> Get()
+        public IEnumerable<CatalogMusic> Get()
         {
             return _catalogDbContext.catalogMusics.ToArray();
         }

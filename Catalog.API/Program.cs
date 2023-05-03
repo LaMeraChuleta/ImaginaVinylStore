@@ -1,5 +1,5 @@
-using Catalog.API.Data;
 using Microsoft.EntityFrameworkCore;
+using SharedApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +11,20 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data S
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Client",
+        policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
+;
 var app = builder.Build();
+app.UseCors("Client");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
