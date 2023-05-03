@@ -13,7 +13,7 @@ namespace Client.App.Pages
         protected override async Task OnInitializedAsync()
         {
             _Http = _HttpFactory.CreateClient("CatalogMusic.API");
-            CatalogMusics = await _Http.GetFromJsonAsync<List<CatalogMusic>>("CatalogMusic");        
+            CatalogMusics = await _Http.GetFromJsonAsync<List<CatalogMusic>>("CatalogMusic");
         }
     }
 }

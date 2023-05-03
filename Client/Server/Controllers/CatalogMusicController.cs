@@ -5,7 +5,7 @@ using SharedApp.Data;
 using SharedApp.Models;
 
 namespace Client.Server.Controllers
-{    
+{
     [ApiController]
     [Route("[controller]")]
     public class CatalogMusicController : ControllerBase
@@ -32,7 +32,7 @@ namespace Client.Server.Controllers
                 _logger.LogError(ex.Message);
                 return new List<CatalogMusic>();
             }
-            
+
         }
     }
 }

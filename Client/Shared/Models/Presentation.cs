@@ -6,7 +6,7 @@
         public string? Name { get; set; }
         //public Format? Format { get; set; }
         public int FormatId { get; set; }
-		public ICollection<CatalogMusic> CatalogMusics { get; } = new List<CatalogMusic>();
+        public ICollection<CatalogMusic> CatalogMusics { get; } = new List<CatalogMusic>();
 
-	}
+    }
 }

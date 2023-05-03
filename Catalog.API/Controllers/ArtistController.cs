@@ -6,27 +6,27 @@ using SharedApp.Data;
 
 namespace Catalog.API.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class ArtistController : ControllerBase
-	{
-		private readonly AppDbContext _context;
-		public ArtistController(AppDbContext context)
-		{
-			_context = context;
-		}
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ArtistController : ControllerBase
+    {
+        private readonly AppDbContext _context;
+        public ArtistController(AppDbContext context)
+        {
+            _context = context;
+        }
 
-		[HttpGet]
-		public IEnumerable<Artist> Get()
-		{
-			return _context.artists.ToArray();
-		}
-		[HttpPost]
-		public Artist Post([FromBody] Artist value)
-		{
-			_context.artists.Add(value);
-			_context.SaveChanges();
+        [HttpGet]
+        public IEnumerable<Artist> Get()
+        {
+            return _context.artists.ToArray();
+        }
+        [HttpPost]
+        public Artist Post([FromBody] Artist value)
+        {
+            _context.artists.Add(value);
+            _context.SaveChanges();
             return value;
         }
-	}
+    }
 }

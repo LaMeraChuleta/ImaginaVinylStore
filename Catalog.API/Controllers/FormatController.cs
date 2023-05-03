@@ -7,28 +7,28 @@ using SharedApp.Data;
 
 namespace Catalog.API.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class FormatController : ControllerBase
-	{
-		private readonly AppDbContext _context;
-		public FormatController(AppDbContext context)
-		{
-			_context = context;
-		}
+    [Route("api/[controller]")]
+    [ApiController]
+    public class FormatController : ControllerBase
+    {
+        private readonly AppDbContext _context;
+        public FormatController(AppDbContext context)
+        {
+            _context = context;
+        }
 
-		[HttpGet]
-		public IEnumerable<Format> Get()
-		{
-			return _context.formats.Include(x => x.Presentations).ToArray();
-		}
-		[HttpPost]
-		public Format Post([FromBody] Format value)
-		{
-			_context.formats.Add(value);
-			_context.SaveChanges();
+        [HttpGet]
+        public IEnumerable<Format> Get()
+        {
+            return _context.formats.Include(x => x.Presentations).ToArray();
+        }
+        [HttpPost]
+        public Format Post([FromBody] Format value)
+        {
+            _context.formats.Add(value);
+            _context.SaveChanges();
             return value;
         }
 
-	}
+    }
 }

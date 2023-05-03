@@ -12,31 +12,31 @@ namespace Catalog.API.Controllers
     public class CatalogMusicController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public CatalogMusicController(AppDbContext context) 
+        public CatalogMusicController(AppDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
         public IEnumerable<CatalogMusic> Get()
-        {            
-            return _context.catalogMusics                
-                .Include(x => x.Artist)                    
-                .Include(x => x.Genre) 
-                .Include(x => x.Presentation)     
+        {
+            return _context.catalogMusics
+                .Include(x => x.Artist)
+                .Include(x => x.Genre)
+                .Include(x => x.Presentation)
                 .Include(x => x.Format)
                 .ToArray();
         }
-		[HttpGet("{id}")]
-		public CatalogMusic Get(int id)
-		{
-			return _context.catalogMusics.Find(id);
-		}
-		[HttpPost]
-		public void Post([FromBody] CatalogMusic value)
-		{
-			_context.catalogMusics.Add(value);
-			_context.SaveChanges();
-		}			    
+        [HttpGet("{id}")]
+        public CatalogMusic Get(int id)
+        {
+            return _context.catalogMusics.Find(id);
+        }
+        [HttpPost]
+        public void Post([FromBody] CatalogMusic value)
+        {
+            _context.catalogMusics.Add(value);
+            _context.SaveChanges();
+        }
     }
 }

@@ -19,35 +19,35 @@ namespace SharedApp.Data
         {
             //optionsBuilder.UseSqlServer(@"Server=tcp:imagina.database.windows.net,1433;Initial Catalog=catalog-microservice;Persist Security Info=False;User ID=imagina;Password=Vaca$Loca69;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             optionsBuilder.UseSqlite("Data Source=Catalog.db;", connection => connection.MigrationsAssembly("Catalog.API"));
-            
+
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Artist>()                                
+            modelBuilder.Entity<Artist>()
                 .Ignore(p => p.CatalogMusics);
 
             modelBuilder.Entity<Artist>()
                 .Property(f => f.Id)
                 .ValueGeneratedOnAdd();
 
-			modelBuilder.Entity<Genre>()
+            modelBuilder.Entity<Genre>()
                 .Ignore(p => p.CatalogMusics);
 
             modelBuilder.Entity<Genre>()
                 .Property(f => f.Id)
-                .ValueGeneratedOnAdd();			
+                .ValueGeneratedOnAdd();
 
-			modelBuilder.Entity<Format>()
-		        .Property(f => f.Id)
-		        .ValueGeneratedOnAdd();
+            modelBuilder.Entity<Format>()
+                .Property(f => f.Id)
+                .ValueGeneratedOnAdd();
 
-			modelBuilder.Entity<Presentation>()                
-				.Ignore(p => p.CatalogMusics);
+            modelBuilder.Entity<Presentation>()
+                .Ignore(p => p.CatalogMusics);
 
-			modelBuilder.Entity<Presentation>()
-		        .Property(f => f.Id)
-		        .ValueGeneratedOnAdd();
-		}
+            modelBuilder.Entity<Presentation>()
+                .Property(f => f.Id)
+                .ValueGeneratedOnAdd();
+        }
     }
 }

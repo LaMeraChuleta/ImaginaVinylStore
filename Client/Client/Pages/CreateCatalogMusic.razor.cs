@@ -28,13 +28,13 @@ namespace Client.App.Pages
         public bool ShowModalNewFormat { get; set; }
 
         public List<Presentation> Presentations { get; set; } = new();
-        public Presentation NewPresentation { get; set; } = new();             
+        public Presentation NewPresentation { get; set; } = new();
         public bool ShowModalNewPresentation { get; set; }
 
 
 
-        public CreateCatalogMusic() 
-        {            
+        public CreateCatalogMusic()
+        {
         }
         protected override async Task OnInitializedAsync()
         {
@@ -71,12 +71,12 @@ namespace Client.App.Pages
         private async void CreateFormat()
         {
             var response = await _Http.PostAsJsonAsync<Format>("Format", NewFormat);
-            if (response != null) Formats.Add(await response.Content.ReadFromJsonAsync<Format>());                        
-            _navigationManager.NavigateTo("/CreateCatalogMusic", forceLoad: true);            
+            if (response != null) Formats.Add(await response.Content.ReadFromJsonAsync<Format>());
+            _navigationManager.NavigateTo("/CreateCatalogMusic", forceLoad: true);
         }
 
         private async void CreatePresentation()
-        {            
+        {
             var response = await _Http.PostAsJsonAsync<Presentation>("Presentation", NewPresentation);
             if (response != null) Presentations.Add(await response.Content.ReadFromJsonAsync<Presentation>());
             NewPresentation = new();
