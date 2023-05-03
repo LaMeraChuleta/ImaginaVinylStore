@@ -39,7 +39,7 @@ namespace Client.App.Pages
         protected override async Task OnInitializedAsync()
         {
             _Http = _HttpFactory.CreateClient("CatalogMusic.API");
-            Presentations = await _Http.GetFromJsonAsync<List<Presentation>>("Presentation");
+            Presentations = await _Http.GetFromJsonAsync<List<Presentation>>("Presentation") ?? new();
             Formats = await _Http.GetFromJsonAsync<List<Format>>("Format");
             Artists = await _Http.GetFromJsonAsync<List<Artist>>("Artist");
             Genres = await _Http.GetFromJsonAsync<List<Genre>>("Genre");
