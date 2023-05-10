@@ -45,14 +45,14 @@ else
 
 @code {
     private WeatherForecast[]? forecasts;
-    private List<CatalogMusic> CatalogMusics { get; set; } = new();
+    private List<MusicCatalog> CatalogMusics { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
-            CatalogMusics = await Http.GetFromJsonAsync<List<CatalogMusic>>("CatalogMusic");
+            CatalogMusics = await Http.GetFromJsonAsync<List<MusicCatalog>>("CatalogMusic");
         }
         catch (AccessTokenNotAvailableException exception)
         {

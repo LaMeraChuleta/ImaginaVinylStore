@@ -10,26 +10,25 @@ namespace Client.App.Pages
         [Inject] public HttpClient _Http { get; set; }
         [Inject] public IHttpClientFactory _HttpFactory { get; set; }
         [Inject] public NavigationManager _navigationManager { get; set; }
+        
+        private MusicCatalog NewMusicCatalog { get; set; } = new();
+        private List<int> PhotoCatalogMusic { get; set; } = new();
 
+        private List<Artist> Artists { get; set; } = new();
+        private Artist NewArtist { get; set; } = new();
+        private bool ShowModalNewArtist { get; set; }
 
-        public CatalogMusic NewCatalogMusic { get; set; } = new();
-        public List<int> PhotoCatalogMusic { get; set; } = new();
+        private List<Genre> Genres { get; set; } = new();
+        private Genre NewGenre { get; set; } = new();
+        private bool ShowModalNewGenre { get; set; }
 
-        public List<Artist> Artists { get; set; } = new();
-        public Artist NewArtist { get; set; } = new();
-        public bool ShowModalNewArtist { get; set; }
+        private List<Format> Formats { get; set; } = new();
+        private Format NewFormat { get; set; } = new();
+        private bool ShowModalNewFormat { get; set; }
 
-        public List<Genre> Genres { get; set; } = new();
-        public Genre NewGenre { get; set; } = new();
-        public bool ShowModalNewGenre { get; set; }
-
-        public List<Format> Formats { get; set; } = new();
-        public Format NewFormat { get; set; } = new();
-        public bool ShowModalNewFormat { get; set; }
-
-        public List<Presentation> Presentations { get; set; } = new();
-        public Presentation NewPresentation { get; set; } = new();
-        public bool ShowModalNewPresentation { get; set; }
+        private List<Presentation> Presentations { get; set; } = new();
+        private Presentation NewPresentation { get; set; } = new();
+        private bool ShowModalNewPresentation { get; set; }
 
 
 
@@ -47,9 +46,9 @@ namespace Client.App.Pages
 
         private async void CreateCatalogMusics()
         {
-            var response = await _Http.PostAsJsonAsync<CatalogMusic>("CatalogMusic", NewCatalogMusic);
-            if (response != null) NewCatalogMusic = new();
-            NewCatalogMusic = new();
+            var response = await _Http.PostAsJsonAsync<MusicCatalog>("CatalogMusic", NewMusicCatalog);
+            if (response != null) NewMusicCatalog = new();
+            NewMusicCatalog = new();
             StateHasChanged();
         }
         private async void CreateArtist()

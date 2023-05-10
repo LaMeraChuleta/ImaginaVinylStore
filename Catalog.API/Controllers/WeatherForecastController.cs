@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Mvc;
 using SharedApp.Data;
 using SharedApp.Models;
@@ -14,18 +15,30 @@ namespace Catalog.API.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IConfiguration _configuration;
         private AppDbContext _catalogDbContext { get; set; }
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, AppDbContext catalogDbContext)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, AppDbContext catalogDbContext, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
             _catalogDbContext = catalogDbContext;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<CatalogMusic> Get()
+        public async Task<bool> Get([FromForm] IFormFile file)
         {
-            return _catalogDbContext.catalogMusics.ToArray();
+            var strinconn = _configuration["BlobConnectionString"];
+            var containerName = _configuration["BlobContainerName"];
+            BlobContainerClient containerClient = new BlobContainerClient(strinconn, containerName);
+            using (var ms = new MemoryStream())
+            {
+                await file.CopyToAsync(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                var result = containerClient.UploadBlob("test.jpg", ms);                
+                return true;
+            }
+            return false;
         }
     }
 }

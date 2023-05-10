@@ -21,7 +21,7 @@ namespace Client.Server.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<List<CatalogMusic>> Get()
+        public async Task<List<MusicCatalog>> Get()
         {
             try
             {
@@ -30,7 +30,7 @@ namespace Client.Server.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new List<CatalogMusic>();
+                return new List<MusicCatalog>();
             }
 
         }

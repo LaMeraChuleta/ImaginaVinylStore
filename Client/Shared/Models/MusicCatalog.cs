@@ -1,8 +1,9 @@
 ﻿namespace SharedApp.Models
 {
-    public class CatalogMusic
+    public class MusicCatalog
     {
         public int Id { get; set; }
+        public IEnumerable<ImageCatalog>? Images { get; set; }
         public string Title { get; set; }
         public Artist? Artist { get; set; }
         public int ArtistId { get; set; }

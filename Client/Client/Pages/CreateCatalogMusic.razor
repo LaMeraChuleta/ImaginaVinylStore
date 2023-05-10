@@ -23,12 +23,12 @@
                 <!-- https://www.youtube.com/watch?v=nJzKi6oIvBA implementar este video para los form -->
                 <label for="title">
                     <span class="block text-sm font-medium text-slate-700">Titulo</span>
-                    <input @bind="NewCatalogMusic.Title" type="text" class="w-full rounded border" />
+                    <input @bind="NewMusicCatalog.Title" type="text" class="w-full rounded border" />
                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                 </label>
                 <label for="artist">
                     <span class="block text-sm font-medium text-slate-700">Artista</span>
-                    <select @bind="NewCatalogMusic.ArtistId" class="w-full rounded border">
+                    <select @bind="NewMusicCatalog.ArtistId" class="w-full rounded border">
                         <option value="0">Seleccione una opcion</option>
                         @foreach (var artist in Artists)
                         {
@@ -39,7 +39,7 @@
                 </label>
                 <label for="genre">
                     <span class="block text-sm font-medium text-slate-700">Genero</span>
-                    <select @bind="NewCatalogMusic.GenreId" class="w-full rounded border">
+                    <select @bind="NewMusicCatalog.GenreId" class="w-full rounded border">
                         <option value="0">Seleccione una opcion</option>
                         @foreach (var genre in Genres)
                         {
@@ -52,12 +52,12 @@
             <div>
                 <label for="origen">
                     <span class="block text-sm font-medium text-slate-700">Origen</span>
-                    <input @bind="NewCatalogMusic.Country" type="text" class="w-full rounded border" />
+                    <input @bind="NewMusicCatalog.Country" type="text" class="w-full rounded border" />
                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                 </label>
                 <label for="format">
                     <span class="block text-sm font-medium text-slate-700">Formato</span>
-                    <select @bind="NewCatalogMusic.FormatId" class="w-full rounded border">
+                    <select @bind="NewMusicCatalog.FormatId" class="w-full rounded border">
                         <option value="0">Seleccione una opcion</option>
                         @foreach (var format in Formats)
                         {
@@ -68,7 +68,7 @@
                 </label>
                 <label for="presentation">
                     <span class="block text-sm font-medium text-slate-700">Presentacion</span>
-                    <select @bind="NewCatalogMusic.PresentationId" class="w-full rounded border">
+                    <select @bind="NewMusicCatalog.PresentationId" class="w-full rounded border">
                         <option value="0">Seleccione una opcion</option>
                         @foreach (var presentation in Presentations)
                         {
@@ -83,36 +83,36 @@
             <div>
                 <label for="label">
                     <span class="block text-sm font-medium text-slate-700">Etiqueta</span>
-                    <input @bind="NewCatalogMusic.Label" type="text" class="w-full rounded border" />
+                    <input @bind="NewMusicCatalog.Label" type="text" class="w-full rounded border" />
                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                 </label>
                 <label for="year">
                     <span class="block text-sm font-medium text-slate-700">Año</span>
-                    <input @bind="NewCatalogMusic.Year" type="number" class="w-full rounded border" />
+                    <input @bind="NewMusicCatalog.Year" type="number" class="w-full rounded border" />
                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                 </label>
                 <label for="matrix">
                     <span class="block text-sm font-medium text-slate-700">Matriz</span>
-                    <input @bind="NewCatalogMusic.Matrix" type="text" class="w-full rounded border" />
+                    <input @bind="NewMusicCatalog.Matrix" type="text" class="w-full rounded border" />
                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                 </label>
             </div>
             <div>
                 <label for="statusCover">
                     <span class="block text-sm font-medium text-slate-700">Estado de portada</span>
-                    <input @bind="NewCatalogMusic.StatusCover" type="number" class="w-full rounded border" />
+                    <input @bind="NewMusicCatalog.StatusCover" type="number" class="w-full rounded border" />
                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                 </label>
                 <label for="statusGeneral">
                     <span class="block text-sm font-medium text-slate-700">Estado del disco</span>
-                    <input @bind="NewCatalogMusic.StatusGeneral" type="number" class="w-full rounded border" />
+                    <input @bind="NewMusicCatalog.StatusGeneral" type="number" class="w-full rounded border" />
                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">
                         Please provide a valid title.
                     </p>
                 </label>
                 <label for="price">
                     <span class="block text-sm font-medium text-slate-700">Precio</span>
-                    <input @bind="NewCatalogMusic.Price" type="number" class="w-full rounded border" />
+                    <input @bind="NewMusicCatalog.Price" type="number" class="w-full rounded border" />
                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                 </label>
             </div>

@@ -5,10 +5,11 @@ namespace SharedApp.Data
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<CatalogMusic> catalogMusics { get; set; }
+        public DbSet<MusicCatalog> catalogMusics { get; set; }
         public DbSet<Artist> artists { get; set; }
         public DbSet<Genre> genres { get; set; }
         public DbSet<Format> formats { get; set; }
+        public DbSet<ImageCatalog> images { get; set; }
         public DbSet<Presentation> presentations { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -19,8 +20,6 @@ namespace SharedApp.Data
         {
             //optionsBuilder.UseSqlServer(@"Server=tcp:imagina.database.windows.net,1433;Initial Catalog=catalog-microservice;Persist Security Info=False;User ID=imagina;Password=Vaca$Loca69;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             optionsBuilder.UseSqlite("Data Source=Catalog.db;", connection => connection.MigrationsAssembly("Catalog.API"));
-
-
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -41,6 +40,11 @@ namespace SharedApp.Data
             modelBuilder.Entity<Format>()
                 .Property(f => f.Id)
                 .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<ImageCatalog>()
+                .Property(i => i.Id)
+                .ValueGeneratedOnAdd();
+                
 
             modelBuilder.Entity<Presentation>()
                 .Ignore(p => p.CatalogMusics);
