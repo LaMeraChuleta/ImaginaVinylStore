@@ -5,12 +5,12 @@ namespace SharedApp.Data
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<MusicCatalog> catalogMusics { get; set; }
-        public DbSet<Artist> artists { get; set; }
-        public DbSet<Genre> genres { get; set; }
-        public DbSet<Format> formats { get; set; }
-        public DbSet<ImageCatalog> images { get; set; }
-        public DbSet<Presentation> presentations { get; set; }
+        public DbSet<MusicCatalog> MusicCatalogs { get; set; }
+        public DbSet<Artist> Artists { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Format> Formats { get; set; }
+        public DbSet<ImageCatalog> ImagesCatalog { get; set; }
+        public DbSet<Presentation> Presentations { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
@@ -18,40 +18,50 @@ namespace SharedApp.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Server=tcp:imagina.database.windows.net,1433;Initial Catalog=catalog-microservice;Persist Security Info=False;User ID=imagina;Password=Vaca$Loca69;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-            optionsBuilder.UseSqlite("Data Source=Catalog.db;", connection => connection.MigrationsAssembly("Catalog.API"));
+            var connectionString = "Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
+            optionsBuilder.UseSqlServer(connectionString);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<MusicCatalog>()
+                .HasOne<Presentation>(s => s.Presentation)
+                .WithMany(g => g.CatalogMusics)
+                .OnDelete(DeleteBehavior.NoAction);
+            
+            modelBuilder.Entity<ImageCatalog>()
+                .Property(i => i.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<ImageCatalog>()
+                .Ignore(i => i.MusicCatalog);
+   
             modelBuilder.Entity<Artist>()
-                .Ignore(p => p.CatalogMusics);
+                .Ignore(a => a.CatalogMusics);
 
             modelBuilder.Entity<Artist>()
-                .Property(f => f.Id)
+                .Property(a => a.Id)
                 .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Genre>()
-                .Ignore(p => p.CatalogMusics);
+                .Ignore(g => g.CatalogMusics);
 
             modelBuilder.Entity<Genre>()
-                .Property(f => f.Id)
+                .Property(g => g.Id)
                 .ValueGeneratedOnAdd();
-
+            
+            modelBuilder.Entity<Format>()
+                .Ignore(f => f.Presentations);
+            
             modelBuilder.Entity<Format>()
                 .Property(f => f.Id)
                 .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<ImageCatalog>()
-                .Property(i => i.Id)
-                .ValueGeneratedOnAdd();
-                
-
-            modelBuilder.Entity<Presentation>()
-                .Ignore(p => p.CatalogMusics);
-
             modelBuilder.Entity<Presentation>()
                 .Property(f => f.Id)
                 .ValueGeneratedOnAdd();
+            
+            modelBuilder.Entity<Presentation>()
+                .Ignore(p => p.CatalogMusics);
         }
     }
 }

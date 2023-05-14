@@ -46,7 +46,7 @@ namespace Client.App.Pages
 
         private async void CreateCatalogMusics()
         {
-            var response = await _Http.PostAsJsonAsync<MusicCatalog>("CatalogMusic", NewMusicCatalog);
+            var response = await _Http.PostAsJsonAsync<MusicCatalog>("MusicCatalog", NewMusicCatalog);
             if (response != null) NewMusicCatalog = new();
             NewMusicCatalog = new();
             StateHasChanged();

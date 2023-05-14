@@ -19,12 +19,12 @@ namespace Catalog.API.Controllers
         [HttpGet]
         public IEnumerable<Artist> Get()
         {
-            return _context.artists.ToArray();
+            return _context.Artists.ToArray();
         }
         [HttpPost]
         public Artist Post([FromBody] Artist value)
         {
-            _context.artists.Add(value);
+            _context.Artists.Add(value);
             _context.SaveChanges();
             return value;
         }

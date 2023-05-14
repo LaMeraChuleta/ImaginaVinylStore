@@ -1,10 +1,10 @@
 ﻿@using SharedApp.Models;
 <div class="border border-slate-800">
     <a href="/">
-        <img src="https://imusic.b-cdn.net/images/item/original/532/0887828045532.jpg?arctic-monkeys-2022-the-car-lp&class=scaled" class="w-full h-64 object-cover object-center" alt="">
+        <img src="@MusicCatalog?.Images?.FirstOrDefault()?.Url" class="w-full h-64 object-cover object-center" alt="">
     </a>
     <div>
-        <p>Titulo: @MusicCatalog.Title</p>
+        <p>Titulo: @MusicCatalog?.Title</p>
         <p>Artista: @MusicCatalog?.Artist?.Name</p>
         <p>Genero: @MusicCatalog?.Genre?.Name</p>
         <p>Precio: @MusicCatalog?.Id</p>
@@ -12,5 +12,8 @@
 </div>
 
 @code {
-    [Parameter] public MusicCatalog MusicCatalog { get; set; }
+
+    [Parameter]
+    public MusicCatalog MusicCatalog { get; set; } = new();
+
 }

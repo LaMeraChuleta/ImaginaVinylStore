@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SharedApp.Data;
 
@@ -11,9 +12,11 @@ using SharedApp.Data;
 namespace Catalog.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230513234735_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,6 +185,8 @@ namespace Catalog.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FormatId");
+
                     b.ToTable("Presentations");
                 });
 
@@ -229,6 +234,20 @@ namespace Catalog.API.Migrations
                     b.Navigation("Genre");
 
                     b.Navigation("Presentation");
+                });
+
+            modelBuilder.Entity("SharedApp.Models.Presentation", b =>
+                {
+                    b.HasOne("SharedApp.Models.Format", null)
+                        .WithMany("Presentations")
+                        .HasForeignKey("FormatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SharedApp.Models.Format", b =>
+                {
+                    b.Navigation("Presentations");
                 });
 
             modelBuilder.Entity("SharedApp.Models.MusicCatalog", b =>

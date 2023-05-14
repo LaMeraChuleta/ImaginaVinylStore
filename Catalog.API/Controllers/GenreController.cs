@@ -20,17 +20,17 @@ namespace Catalog.API.Controllers
         [HttpGet]
         public IEnumerable<Genre> Get()
         {
-            return _context.genres.ToArray();
+            return _context.Genres.ToArray();
         }
         [HttpGet("{id}")]
-        public Genre Get(int id)
+        public Genre? Get(int id)
         {
-            return _context.genres.Find(id);
+            return _context.Genres.Find(id);
         }
         [HttpPost]
         public Genre Post([FromBody] Genre value)
         {
-            _context.genres.Add(value);
+            _context.Genres.Add(value);
             _context.SaveChanges();
             return value;
         }

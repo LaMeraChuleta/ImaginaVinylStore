@@ -19,12 +19,12 @@ namespace Catalog.API.Controllers
         [HttpGet]
         public IEnumerable<Presentation> Get()
         {
-            return _context.presentations.ToArray();
+            return _context.Presentations.ToArray();
         }
         [HttpPost]
         public Presentation? Post([FromBody] Presentation value)
         {
-            _context.presentations.Add(value);
+            _context.Presentations.Add(value);
             _context.SaveChanges();
             return value;
         }

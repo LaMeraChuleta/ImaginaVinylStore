@@ -10,11 +10,11 @@ namespace Catalog.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CatalogMusicController : ControllerBase
+    public class MusicCatalogController : ControllerBase
     {
         private readonly AppDbContext _context;
         private readonly BlobContainerClient _blobClient;
-        public CatalogMusicController(AppDbContext context, IConfiguration config)
+        public MusicCatalogController(AppDbContext context, IConfiguration config)
         {
             _context = context;                                    
             _blobClient = new BlobContainerClient(config["BlobConnectionString"], config["BlobContainerName"]);
@@ -23,7 +23,7 @@ namespace Catalog.API.Controllers
         [HttpGet]
         public IEnumerable<MusicCatalog> Get()
         {
-            return _context.catalogMusics
+            return _context.MusicCatalogs
                 .Include(x => x.Artist)
                 .Include(x => x.Genre)
                 .Include(x => x.Presentation)
@@ -31,34 +31,44 @@ namespace Catalog.API.Controllers
                 .Include(x => x.Images)
                 .ToArray();
         }
-        [HttpGet("{id}")]
-        public MusicCatalog Get(int id)
+        
+        [HttpGet("ById")]
+        public ActionResult GetById(int id)
         {
-            return _context.catalogMusics.Find(id);
+            return Ok(_context.MusicCatalogs.Find(id));
         }  
 
         [HttpPost]
         public void Post([FromBody] MusicCatalog value)
         {
-            _context.catalogMusics.Add(value);
+            _context.MusicCatalogs.Add(value);
             _context.SaveChanges();
         }
 
-        [HttpGet("Images/{id}")]
-        public MusicCatalog GetImage(int id)
+        [HttpGet("Images")]
+        public ActionResult GetImage(int id)
         {
-            return _context.catalogMusics.Find(id);
+            return Ok(_context.ImagesCatalog.Find(id));
         }
 
         [HttpPost("Images")]
-        public async Task<ActionResult> PostImage([FromForm] IFormFile file)
+        public async Task<ActionResult> PostImage([FromForm] IFormFile file, int id)
         {
             using (var ms = new MemoryStream())
             {
+                var newImageCatalog = new ImageCatalog
+                {
+                    MusicCatalogId = id,
+                    Name = file.FileName.Split(".")[0] + new Random().NextInt64() + "." + file.FileName.Split(".")[1] 
+                };
+                newImageCatalog.Url = $"https://storeimagina.blob.core.windows.net/img/{newImageCatalog.Name}";
+                
                 await file.CopyToAsync(ms);
                 ms.Seek(0, SeekOrigin.Begin);
-                var result = _blobClient.UploadBlob("test.jpg", ms);
-                return Ok(result);
+                await _blobClient.UploadBlobAsync(newImageCatalog.Name, ms);
+                await _context.ImagesCatalog.AddAsync(newImageCatalog);
+                await _context.SaveChangesAsync();
+                return Ok(newImageCatalog);
             }            
         }
     }

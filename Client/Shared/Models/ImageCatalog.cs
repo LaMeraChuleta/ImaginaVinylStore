@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public string Url { get; set; }
         public MusicCatalog MusicCatalog { get; set; }
+        public int MusicCatalogId { get; set; }
     }
 }
