@@ -1,18 +1,25 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+﻿using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Components;
 using SharedApp.Models;
 using System.Net.Http.Json;
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.Extensions.FileProviders;
+using InvalidOperationException = System.InvalidOperationException;
 
 namespace Client.App.Pages
 {
     public partial class CreateCatalogMusic : ComponentBase
     {
-        [Inject] public HttpClient _Http { get; set; }
-        [Inject] public IHttpClientFactory _HttpFactory { get; set; }
-        [Inject] public NavigationManager _navigationManager { get; set; }
+        [Inject] public HttpClient Http { get; set; }
+        [Inject] public IHttpClientFactory HttpFactory { get; set; }
+        [Inject] public NavigationManager NavigationManager { get; set; }
         
         private MusicCatalog NewMusicCatalog { get; set; } = new();
-        private List<int> PhotoCatalogMusic { get; set; } = new();
+        private List<IBrowserFile> PhotoCatalogMusic { get; set; } = new();
+        private const long MaxFileSize = 1024 * 150 * 3;
+        private const int MaxAllowedFiles = 3;
 
         private List<Artist> Artists { get; set; } = new();
         private Artist NewArtist { get; set; } = new();
@@ -29,58 +36,76 @@ namespace Client.App.Pages
         private List<Presentation> Presentations { get; set; } = new();
         private Presentation NewPresentation { get; set; } = new();
         private bool ShowModalNewPresentation { get; set; }
-
-
-
+        
         public CreateCatalogMusic()
         {
         }
         protected override async Task OnInitializedAsync()
         {
-            _Http = _HttpFactory.CreateClient("CatalogMusic.API");
-            Presentations = await _Http.GetFromJsonAsync<List<Presentation>>("Presentation") ?? new();
-            Formats = await _Http.GetFromJsonAsync<List<Format>>("Format");
-            Artists = await _Http.GetFromJsonAsync<List<Artist>>("Artist");
-            Genres = await _Http.GetFromJsonAsync<List<Genre>>("Genre");
+            Http = HttpFactory.CreateClient("CatalogMusic.API");
+            Presentations = await Http.GetFromJsonAsync<List<Presentation>>(nameof(Presentation)) ?? throw new InvalidOperationException();
+            Artists = await Http.GetFromJsonAsync<List<Artist>>(nameof(Artist)) ?? throw new InvalidOperationException();
+            Formats = await Http.GetFromJsonAsync<List<Format>>(nameof(Format)) ?? throw new InvalidOperationException();
+            Genres = await Http.GetFromJsonAsync<List<Genre>>(nameof(Genre)) ?? throw new InvalidOperationException();
         }
 
         private async void CreateCatalogMusics()
         {
-            var response = await _Http.PostAsJsonAsync<MusicCatalog>("MusicCatalog", NewMusicCatalog);
-            if (response != null) NewMusicCatalog = new();
-            NewMusicCatalog = new();
+            var response = await Http.PostAsJsonAsync<MusicCatalog>(nameof(MusicCatalog), NewMusicCatalog);
+            NewMusicCatalog = await response.Content.ReadFromJsonAsync<MusicCatalog>() ?? throw new InvalidOperationException();
+            foreach (var file in PhotoCatalogMusic)
+            {
+                using var content = new MultipartFormDataContent();
+                var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                content.Add(content: fileContent, name: nameof(file), fileName: file.Name);
+                var result = await Http.PostAsync($"{nameof(MusicCatalog)}/Images?id={NewMusicCatalog?.Id}", content);
+                var image = await result.Content.ReadFromJsonAsync<ImageCatalog>();
+                NewMusicCatalog?.Images?.ToList().Add(image ?? throw new InvalidOperationException());
+            }
+            NewMusicCatalog = new MusicCatalog();
+            PhotoCatalogMusic.Clear();
             StateHasChanged();
         }
         private async void CreateArtist()
         {
-            var response = await _Http.PostAsJsonAsync<Artist>("Artist", NewArtist);
-            if (response != null) Artists.Add(await response.Content.ReadFromJsonAsync<Artist>());
+            var response = await Http.PostAsJsonAsync<Artist>(nameof(Artist), NewArtist);
+            Artists.Add(await response.Content.ReadFromJsonAsync<Artist>() ?? throw new InvalidOperationException());
             NewArtist = new();
             ShowModalNewArtist = false;
             StateHasChanged();
         }
         private async void CreateGenre()
         {
-            var response = await _Http.PostAsJsonAsync<Genre>("Genre", NewGenre);
-            if (response != null) Genres.Add(await response.Content.ReadFromJsonAsync<Genre>());
-            NewGenre = new();
+            var response = await Http.PostAsJsonAsync<Genre>(nameof(Genre), NewGenre);
+            Genres.Add(await response.Content.ReadFromJsonAsync<Genre>() ?? throw new InvalidOperationException());
+            NewGenre = new Genre();
             ShowModalNewGenre = false;
             StateHasChanged();
         }
         private async void CreateFormat()
         {
-            var response = await _Http.PostAsJsonAsync<Format>("Format", NewFormat);
-            if (response != null) Formats.Add(await response.Content.ReadFromJsonAsync<Format>());
-            _navigationManager.NavigateTo("/CreateCatalogMusic", forceLoad: true);
+            var response = await Http.PostAsJsonAsync<Format>(nameof(Format), NewFormat);
+            Formats.Add(await response.Content.ReadFromJsonAsync<Format>() ?? throw new InvalidOperationException());
+            NewFormat = new Format();
+            ShowModalNewFormat = false;
+            StateHasChanged();
         }
 
         private async void CreatePresentation()
         {
-            var response = await _Http.PostAsJsonAsync<Presentation>("Presentation", NewPresentation);
-            if (response != null) Presentations.Add(await response.Content.ReadFromJsonAsync<Presentation>());
-            NewPresentation = new();
+            var response = await Http.PostAsJsonAsync<Presentation>(nameof(Presentation), NewPresentation);
+            Presentations.Add(await response.Content.ReadFromJsonAsync<Presentation>() ?? throw new InvalidOperationException());
+            NewPresentation = new Presentation();
             ShowModalNewPresentation = false;
             StateHasChanged();
+        }
+        private async void SaveImageNew(InputFileChangeEventArgs e)
+        {
+            foreach (var file in e.GetMultipleFiles(MaxAllowedFiles))
+            {
+                PhotoCatalogMusic.Add(file);
+            }
         }
     }
 }

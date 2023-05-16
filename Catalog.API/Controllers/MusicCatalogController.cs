@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
 using SharedApp.Models;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Catalog.API.Controllers
 {
     [Route("api/[controller]")]
@@ -39,10 +37,11 @@ namespace Catalog.API.Controllers
         }  
 
         [HttpPost]
-        public void Post([FromBody] MusicCatalog value)
+        public MusicCatalog Post([FromBody] MusicCatalog value)
         {
             _context.MusicCatalogs.Add(value);
             _context.SaveChanges();
+            return value;
         }
 
         [HttpGet("Images")]
@@ -52,24 +51,24 @@ namespace Catalog.API.Controllers
         }
 
         [HttpPost("Images")]
-        public async Task<ActionResult> PostImage([FromForm] IFormFile file, int id)
+        public async Task<ImageCatalog> PostImage(List<IFormFile> file, int id)
         {
-            using (var ms = new MemoryStream())
+            using var ms = new MemoryStream();
+            var newImageCatalog = new ImageCatalog
             {
-                var newImageCatalog = new ImageCatalog
-                {
-                    MusicCatalogId = id,
-                    Name = file.FileName.Split(".")[0] + new Random().NextInt64() + "." + file.FileName.Split(".")[1] 
-                };
-                newImageCatalog.Url = $"https://storeimagina.blob.core.windows.net/img/{newImageCatalog.Name}";
+                MusicCatalogId = id,
+                Name = file.FirstOrDefault()?.FileName.Split(".")[0] 
+                       + new Random().NextInt64() + "." 
+                       + file.FirstOrDefault()?.FileName.Split(".")[1] 
+            };
+            newImageCatalog.Url = $"https://storeimagina.blob.core.windows.net/img/{newImageCatalog.Name}";
                 
-                await file.CopyToAsync(ms);
-                ms.Seek(0, SeekOrigin.Begin);
-                await _blobClient.UploadBlobAsync(newImageCatalog.Name, ms);
-                await _context.ImagesCatalog.AddAsync(newImageCatalog);
-                await _context.SaveChangesAsync();
-                return Ok(newImageCatalog);
-            }            
+            await file.FirstOrDefault()?.CopyToAsync(ms)!;
+            ms.Seek(0, SeekOrigin.Begin);
+            await _blobClient.UploadBlobAsync(newImageCatalog.Name, ms);
+            await _context.ImagesCatalog.AddAsync(newImageCatalog);
+            await _context.SaveChangesAsync();
+            return newImageCatalog;
         }
     }
 }
