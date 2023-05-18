@@ -18,7 +18,9 @@ namespace Client.Server.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer(@"Server=tcp:imagina.database.windows.net,1433;Initial Catalog=catalog-microservice;Persist Security Info=False;User ID=imagina;Password=Vaca$Loca69;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-            optionsBuilder.UseSqlite("Data Source=Identity.db;");
+            //optionsBuilder.UseSqlite("Data Source=Identity.db;");
+            optionsBuilder.UseSqlServer(
+                "Server=tcp:serverimaginadb.database.windows.net,1433;Initial Catalog=imaginadb;Persist Security Info=False;User ID=rootimaginadb;Password=Vaca$Loca69;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         }
     }
 }

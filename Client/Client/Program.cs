@@ -17,6 +17,7 @@ builder.Services.AddHttpClient("Client.ServerAPI", client =>
 builder.Services.AddHttpClient("CatalogMusic.API", client =>
 {
     client.BaseAddress = new Uri(@"https://localhost:7285/api/");
+    //client.BaseAddress = new Uri(@"https://imaginavinylstore.azurewebsites.net/api/");
 });
 // Supply HttpClient instances that include access tokens when making requests to the server project
 //builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Client.ServerAPI"));
