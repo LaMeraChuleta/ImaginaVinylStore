@@ -18,6 +18,7 @@ namespace Client.App.Pages
         
         private MusicCatalog NewMusicCatalog { get; set; } = new();
         private List<IBrowserFile> PhotoCatalogMusic { get; set; } = new();
+        private List<string> PhotoCatalogMusicBase64 { get; set; } = new();
         private const long MaxFileSize = 1024 * 150 * 3;
         private const int MaxAllowedFiles = 3;
 
@@ -71,7 +72,7 @@ namespace Client.App.Pages
         {
             var response = await Http.PostAsJsonAsync<Artist>(nameof(Artist), NewArtist);
             Artists.Add(await response.Content.ReadFromJsonAsync<Artist>() ?? throw new InvalidOperationException());
-            NewArtist = new();
+            NewArtist = new Artist();
             ShowModalNewArtist = false;
             StateHasChanged();
         }
@@ -105,7 +106,12 @@ namespace Client.App.Pages
             foreach (var file in e.GetMultipleFiles(MaxAllowedFiles))
             {
                 PhotoCatalogMusic.Add(file);
+                var buffer = new byte[file.Size];
+                await file.OpenReadStream().ReadAsync(buffer);
+                var imageDataUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
+                PhotoCatalogMusicBase64.Add(imageDataUrl);
             }
+            StateHasChanged();
         }
     }
 }
