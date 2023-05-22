@@ -1,0 +1,9 @@
+﻿@if (ShowLeftBar)
+{
+    <LeftNavBar></LeftNavBar>
+}
+<NavBar SendOpenLeftBar="@(() => ShowLeftBar =!ShowLeftBar)"></NavBar>
+
+@code {
+    private bool ShowLeftBar { get; set; }
+}

@@ -1,8 +1,11 @@
 using Client.Server.Data;
 using Client.Server.Models;
+using Duende.IdentityServer.Models;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
+using Client = Duende.IdentityServer.Models.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +15,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer("Server=tcp:serverimaginadb.database.windows.net,1433;Initial Catalog=imaginadb;Persist Security Info=False;User ID=rootimaginadb;Password=Vaca$Loca69;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+    })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddDbContext<AppDbContext>(options => 
@@ -20,7 +26,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>
+    {
+        options.Clients.Add(new Duende.IdentityServer.Models.Client()
+        {
+            ClientId = "Client_App",
+            ClientSecrets = { new Secret("Client_App".ToSha256()) },
+            AllowedGrantTypes = GrantTypes.ClientCredentials,
+            AllowedScopes = { "Client.App" }
+        });
+    });
+
+        
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();

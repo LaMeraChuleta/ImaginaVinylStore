@@ -11,18 +11,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("Client",
+    options.AddPolicy("Client.App",
         policy =>
         {
             policy
-                .AllowAnyOrigin()
+                .AllowCredentials()
                 .AllowAnyMethod()
                 .AllowAnyHeader();
         });
 });
 ;
 var app = builder.Build();
-app.UseCors("Client");
+app.UseCors("Client.App");
 
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
