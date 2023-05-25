@@ -1,9 +1,8 @@
 ﻿@page "/CreateCatalogMusic"
 
-<SuperNav></SuperNav>
+<PageTitle>Crear Catalogo</PageTitle>
 
-<div class="mt-7">
-    <div class="w-full md:inline-flex px-2 md:px-10 space-x-3">
+    <div class="w-full md:inline-flex px-2 md:px-10 space-x-3 p-3">
         <div class="md:w-2/3 h-full">
             <div class="container mx-auto">
                 <div class="text-2xl text-center font-semibold my-2.5">
@@ -30,11 +29,11 @@
                     <div class="w-full md:w-1/2 md:p-5 space-y-5">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Título</label>
-                            <input @bind="NewMusicCatalog.Title" type="text" class="w-full rounded border-gray-300" />
+                            <input @bind="NewMusicCatalog.Title" type="text" class="w-full border rounded border-gray-300" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Artista</label>
-                            <select @bind="NewMusicCatalog.ArtistId" class="w-full rounded border-gray-300">
+                            <select @bind="NewMusicCatalog.ArtistId" class="w-full border rounded border-gray-300">
                                 <option value="0">Seleccione una opción</option>
                                 @foreach (var artist in Artists) {
                                     <option value="@artist.Id">@artist.Name</option>
@@ -43,7 +42,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Género</label>
-                            <select @bind="NewMusicCatalog.GenreId" class="w-full rounded border-gray-300">
+                            <select @bind="NewMusicCatalog.GenreId" class="w-full border rounded border-gray-300">
                                 <option value="0">Seleccione una opción</option>
                                 @foreach (var genre in Genres) {
                                     <option value="@genre.Id">@genre.Name</option>
@@ -52,11 +51,11 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Origen</label>
-                            <input @bind="NewMusicCatalog.Country" type="text" class="w-full rounded border-gray-300" />
+                            <input @bind="NewMusicCatalog.Country" type="text" class="w-full border rounded border-gray-300" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Formato</label>
-                            <select @bind="NewMusicCatalog.FormatId" class="w-full rounded border-gray-300">
+                            <select @bind="NewMusicCatalog.FormatId" class="w-full border rounded border-gray-300">
                                 <option value="0">Seleccione una opción</option>
                                 @foreach (var format in Formats) {
                                     <option value="@format.Id">@format.Name</option>
@@ -65,7 +64,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Presentación</label>
-                            <select @bind="NewMusicCatalog.PresentationId" class="w-full rounded border-gray-300">
+                            <select @bind="NewMusicCatalog.PresentationId" class="w-full border rounded border-gray-300">
                                 <option value="0">Seleccione una opción</option>
                                 @foreach (var presentation in Presentations) {
                                     <option value="@presentation.Id">@presentation.Name</option>
@@ -76,27 +75,27 @@
                     <div class="w-full md:w-1/2 md:p-5 space-y-5">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Etiqueta</label>
-                            <input @bind="NewMusicCatalog.Label" type="text" class="w-full rounded border-gray-300" />
+                            <input @bind="NewMusicCatalog.Label" type="text" class="w-full border rounded border-gray-300" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Año</label>
-                            <input @bind="NewMusicCatalog.Year" type="number" class="w-full rounded border-gray-300" />
+                            <input @bind="NewMusicCatalog.Year" type="number" class="w-full border rounded border-gray-300" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Matriz</label>
-                            <input @bind="NewMusicCatalog.Matrix" type="text" class="w-full rounded border-gray-300" />
+                            <input @bind="NewMusicCatalog.Matrix" type="text" class="w-full border rounded border-gray-300" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Estado de portada</label>
-                            <input @bind="NewMusicCatalog.StatusCover" type="number" class="w-full rounded border-gray-300" />
+                            <input @bind="NewMusicCatalog.StatusCover" type="number" class="w-full border rounded border-gray-300" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Estado del disco</label>
-                            <input @bind="NewMusicCatalog.StatusGeneral" type="number" class="w-full rounded border-gray-300" />
+                            <input @bind="NewMusicCatalog.StatusGeneral" type="number" class="w-full border rounded border-gray-300" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Precio</label>
-                            <input @bind="NewMusicCatalog.Price" type="number" class="w-full rounded border-gray-300" />
+                            <input @bind="NewMusicCatalog.Price" type="number" class="w-full border rounded border-gray-300" />
                         </div>
                     </div>
                 </div>
@@ -135,11 +134,11 @@
                 </div>
             </div>
             <div class="block space-y-2 mt-3">
-                <button disabled="@(!PhotoCatalogMusic.Any())" @onclick="() => CreateCatalogMusics()" class="bg-green-300 h-10 w-full border">Agregar</button>
+                <button disabled="@(!PhotoCatalogMusic.Any())" @onclick="() => CreateCatalogMusics()" class="w-full h-10 border rounded-xl font-semibold text-white bg-green-600">Agregar</button>
             </div>
         </div>
     </div>
-</div>
+
 
 @if (ShowModalNewArtist)
 {
@@ -154,12 +153,12 @@
                             <div class="mt-5">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Nombre</label>
-                                    <input @bind="NewArtist.Name" type="text" class="w-full rounded border-gray-300"/>
+                                    <input @bind="NewArtist.Name" type="text" class="w-full border rounded border-gray-300"/>
                                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">País</label>
-                                    <input @bind="NewArtist.Country" type="text" class="w-full rounded border-gray-300"/>
+                                    <input @bind="NewArtist.Country" type="text" class="w-full border rounded border-gray-300"/>
                                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                                 </div>
                             </div>
@@ -188,7 +187,7 @@
                             <div class="mt-5">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Nombre</label>
-                                    <input @bind="NewGenre.Name" type="text" class="w-full rounded border-gray-300"/>
+                                    <input @bind="NewGenre.Name" type="text" class="w-full border rounded border-gray-300"/>
                                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                                 </div>
                             </div>
@@ -217,7 +216,7 @@
                             <div class="mt-5">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Nombre</label>
-                                    <input @bind="NewFormat.Name" type="text" class="w-full rounded border-gray-300"/>
+                                    <input @bind="NewFormat.Name" type="text" class="w-full border rounded border-gray-300"/>
                                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                                 </div>
                             </div>
@@ -247,7 +246,7 @@
                             <div class="mt-5">
                                 <div> 
                                     <label class="block text-sm font-medium text-slate-700">Formato</label>
-                                    <select @bind="NewPresentation.FormatId" class="w-full rounded border">
+                                    <select @bind="NewPresentation.FormatId" class="w-full border rounded border">
                                         <option value="0">Seleccione una opcion</option>
                                         @foreach (var format in Formats)
                                         {
@@ -258,7 +257,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Nombre</label>
-                                    <input @bind="NewPresentation.Name" type="text" class="w-full rounded border-gray-300"/>
+                                    <input @bind="NewPresentation.Name" type="text" class="w-full border rounded border-gray-300"/>
                                     <p class="mt-2 invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid title.</p>
                                 </div>
                             </div>

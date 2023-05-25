@@ -9,7 +9,7 @@
     </button>
   </div>
   <!-- Logo -->
-  <div class="flex-shrink-0 flex items-center justify-center"><a href="/"><img class="h-8 w-auto" src="/static/2.svg" alt="Imagina Vinyl"></a></div>
+  <div @onclick="@(() => SendRedirectPage.InvokeAsync("/"))" class="flex-shrink-0 flex items-center justify-center"><img class="h-8 w-auto" src="/static/2.svg" alt="Imagina Vinyl"></div>
   <!-- Agrupación búsqueda-Logo -->
   <div class="flex items-center">
     <!-- Busqueda -->
@@ -31,4 +31,5 @@
   
   private bool ShowLeftBar { get; set; }
   [Parameter] public EventCallback SendOpenLeftBar { get; set; }
+  [Parameter] public EventCallback<string> SendRedirectPage { get; set; }
 }

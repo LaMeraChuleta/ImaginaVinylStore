@@ -21,12 +21,14 @@
           <a href="CreateCatalogMusic">Libros</a>
         </li>
         <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-          <a href="CreateCatalogMusic">Agregar Catálogo</a>
+          <label @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogMusic"))">Agregar Catálogo</label>
         </li>
       </ul>
     </div>
   </div>
 
 @code {
+
+    [Parameter]  public EventCallback<string> SendRedirectPage { get; set; }
     
 }
