@@ -1,5 +1,5 @@
 ﻿namespace SharedApp.Models
-{ 
+{
     public class ImageCatalog
     {
         public int Id { get; set; }

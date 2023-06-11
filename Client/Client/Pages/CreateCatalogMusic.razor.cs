@@ -15,7 +15,7 @@ namespace Client.App.Pages
         [Inject] public HttpClient Http { get; set; }
         [Inject] public IHttpClientFactory HttpFactory { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
-        
+
         private MusicCatalog NewMusicCatalog { get; set; } = new();
         private List<IBrowserFile> PhotoCatalogMusic { get; set; } = new();
         private List<string> PhotoCatalogMusicBase64 { get; set; } = new();
@@ -37,7 +37,7 @@ namespace Client.App.Pages
         private List<Presentation> Presentations { get; set; } = new();
         private Presentation NewPresentation { get; set; } = new();
         private bool ShowModalNewPresentation { get; set; }
-        
+
         public CreateCatalogMusic()
         {
         }

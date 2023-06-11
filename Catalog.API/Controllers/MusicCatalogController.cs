@@ -14,7 +14,7 @@ namespace Catalog.API.Controllers
         private readonly BlobContainerClient _blobClient;
         public MusicCatalogController(AppDbContext context, IConfiguration config)
         {
-            _context = context;                                    
+            _context = context;
             _blobClient = new BlobContainerClient(config["BlobConnectionString"], config["BlobContainerName"]);
         }
 
@@ -29,12 +29,12 @@ namespace Catalog.API.Controllers
                 .Include(x => x.Images)
                 .ToArray();
         }
-        
+
         [HttpGet("ById")]
         public ActionResult GetById(int id)
         {
             return Ok(_context.MusicCatalogs.Find(id));
-        }  
+        }
 
         [HttpPost]
         public MusicCatalog Post([FromBody] MusicCatalog value)
@@ -57,12 +57,12 @@ namespace Catalog.API.Controllers
             var newImageCatalog = new ImageCatalog
             {
                 MusicCatalogId = id,
-                Name = file.FirstOrDefault()?.FileName.Split(".")[0] 
-                       + new Random().NextInt64() + "." 
-                       + file.FirstOrDefault()?.FileName.Split(".")[1] 
+                Name = file.FirstOrDefault()?.FileName.Split(".")[0]
+                       + new Random().NextInt64() + "."
+                       + file.FirstOrDefault()?.FileName.Split(".")[1]
             };
-            newImageCatalog.Url = $"https://storeimagina.blob.core.windows.net/img/{newImageCatalog.Name}";
-                
+            newImageCatalog.Url = $"https://storageimagina.blob.core.windows.net/img/{newImageCatalog.Name}";
+
             await file.FirstOrDefault()?.CopyToAsync(ms)!;
             ms.Seek(0, SeekOrigin.Begin);
             await _blobClient.UploadBlobAsync(newImageCatalog.Name, ms);

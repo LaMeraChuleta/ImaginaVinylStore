@@ -1,7 +1,7 @@
 ﻿@using SharedApp.Models;
 
 <div class="rounded-lg bg-zinc-100 border shadow-lg border-slate-800 flex-col w-72">
-    <img src="@MusicCatalog.Images?.FirstOrDefault()?.Url" class="w-full rounded-lg h-56 object-cover object-center" alt="">
+    <img src="@(MusicCatalog.Images?.FirstOrDefault()?.Url ?? "https://as1.ftcdn.net/v2/jpg/02/35/30/46/1000_F_235304686_Dabv7XmRksedIMrH4ADfMpN21K1nN67R.jpg")" class="w-full rounded-lg h-56 object-cover object-center" alt="">
     <div class="p-2 sm:h-28 font-bold">
         <span class="inline-block px-2 py-1 leading-none bg-yellow-200 border-yellow-400 text-white rounded-full font-semibold uppercase tracking-wide text-xs">Vinyl</span>
         <p>Titulo: @MusicCatalog?.Title</p>
