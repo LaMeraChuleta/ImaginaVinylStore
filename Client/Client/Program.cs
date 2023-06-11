@@ -13,7 +13,7 @@ builder.Services.AddHttpClient("Client.ServerAPI", client =>
 
 builder.Services.AddHttpClient("CatalogMusic.API", client =>
 {
-    client.BaseAddress = new Uri(@"https://catalogimaginaapi.azurewebsites.net/api/");
+    client.BaseAddress = new Uri(@"https://localhost:7285/api/");
 });
 
 builder.Services.AddApiAuthorization();

@@ -18,7 +18,7 @@ namespace SharedApp.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = "Server=tcp:serverimaginadb.database.windows.net,1433;Initial Catalog=imaginadb;Persist Security Info=False;User ID=rootimaginadb;Password=Vaca$Loca69;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            var connectionString = "Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
             optionsBuilder.UseSqlServer(connectionString);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,14 +27,14 @@ namespace SharedApp.Data
                 .HasOne<Presentation>(s => s.Presentation)
                 .WithMany(g => g.CatalogMusics)
                 .OnDelete(DeleteBehavior.NoAction);
-            
+
             modelBuilder.Entity<ImageCatalog>()
                 .Property(i => i.Id)
                 .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<ImageCatalog>()
                 .Ignore(i => i.MusicCatalog);
-   
+
             modelBuilder.Entity<Artist>()
                 .Ignore(a => a.CatalogMusics);
 
@@ -48,10 +48,10 @@ namespace SharedApp.Data
             modelBuilder.Entity<Genre>()
                 .Property(g => g.Id)
                 .ValueGeneratedOnAdd();
-            
+
             modelBuilder.Entity<Format>()
                 .Ignore(f => f.Presentations);
-            
+
             modelBuilder.Entity<Format>()
                 .Property(f => f.Id)
                 .ValueGeneratedOnAdd();
@@ -59,7 +59,7 @@ namespace SharedApp.Data
             modelBuilder.Entity<Presentation>()
                 .Property(f => f.Id)
                 .ValueGeneratedOnAdd();
-            
+
             modelBuilder.Entity<Presentation>()
                 .Ignore(p => p.CatalogMusics);
         }

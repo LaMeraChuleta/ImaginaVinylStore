@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer("Server=tcp:serverimaginadb.database.windows.net,1433;Initial Catalog=imaginadb;Persist Security Info=False;User ID=rootimaginadb;Password=Vaca$Loca69;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+    options.UseSqlServer("Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -21,8 +21,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseSqlServer("Server=tcp:serverimaginadb.database.windows.net,1433;Initial Catalog=imaginadb;Persist Security Info=False;User ID=rootimaginadb;Password=Vaca$Loca69;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer("Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;"));
 
 
 builder.Services.AddIdentityServer()
@@ -37,7 +37,7 @@ builder.Services.AddIdentityServer()
         });
     });
 
-        
+
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
