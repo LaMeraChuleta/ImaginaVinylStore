@@ -6,6 +6,10 @@
         <h3 class="text-2xl">Filtros</h3>
         <select class="w-52 h-8 rounded-lg" name="" id="">
             <option value="">Genero</option>
+            @foreach (var genre in Genres)
+            {
+                <option value="@genre.Id">@genre.Name</option>
+            }
         </select>
         <select class="w-52 rounded-lg" name="" id="">
             <option value="">Precio</option>
@@ -45,7 +49,7 @@
 
     [Parameter]
     public string TypeFormat { get; set; }
-
+    private List<Genre> Genres { get; set; } = new();
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
 
     public IndexCatalogMusic()
@@ -55,12 +59,14 @@
     protected override async Task OnInitializedAsync()
     {
         Http = HttpFactory.CreateClient("CatalogMusic.API");
-        CatalogMusics = await Http.GetFromJsonAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? throw new InvalidOperationException();
+        Genres = await Http.GetFromJsonAsync<List<Genre>>(nameof(Genre)) ?? throw new InvalidOperationException();
+        await base.OnInitializedAsync();
     }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         TypeFormat = TypeFormat;
+        CatalogMusics = await Http.GetFromJsonAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? throw new InvalidOperationException();
         CatalogMusics = TypeFormat switch
         {
             "Vinyl" => CatalogMusics.Where(x => x.Format?.Name == "Vinyl").ToList(),
@@ -68,6 +74,7 @@
             "Cassette" => CatalogMusics.Where(x => x.Format?.Name == "Cassette").ToList(),
             _ => CatalogMusics
             };
+        
+        await base.OnParametersSetAsync();
     }
-
 }
