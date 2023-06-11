@@ -6,19 +6,19 @@
     <div class="mt-4">
       <ul class="text-gray-600">
         <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-          <a href="CreateCatalogMusic">Vinyl</a>
+          <label @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/Vinyl"))">Vinyl</label>
         </li>
         <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-          <a href="CreateCatalogMusic">Cassette</a>
+          <label @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/Cassette"))">Cassette</label>
         </li>
         <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-          <a href="CreateCatalogMusic">CD</a>
+          <label @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/CD"))">CD</label>
         </li>
         <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-          <a href="CreateCatalogMusic">Accesosrios</a>
+          <label @onclick="@(() => SendRedirectPage.InvokeAsync("/"))">Accesosrios</label>
         </li>
         <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-          <a href="CreateCatalogMusic">Libros</a>
+          <label @onclick="@(() => SendRedirectPage.InvokeAsync("/"))">Libros</label>
         </li>
         <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
           <label @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogMusic"))">Agregar Catálogo</label>
