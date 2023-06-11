@@ -15,10 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer("Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
-    {
-        options.SignIn.RequireConfirmedAccount = true;
-    })
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => { options.SignIn.RequireConfirmedAccount = true; })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -36,7 +33,6 @@ builder.Services.AddIdentityServer()
             AllowedScopes = { "Client.App" }
         });
     });
-
 
 
 builder.Services.AddAuthentication()

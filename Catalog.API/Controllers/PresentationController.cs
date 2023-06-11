@@ -4,30 +4,30 @@ using SharedApp.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Catalog.API.Controllers
+namespace Catalog.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class PresentationController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PresentationController : ControllerBase
+    private readonly AppDbContext _context;
+
+    public PresentationController(AppDbContext context)
     {
-        private readonly AppDbContext _context;
-        public PresentationController(AppDbContext context)
-        {
-            _context = context;
-        }
+        _context = context;
+    }
 
-        [HttpGet]
-        public IEnumerable<Presentation> Get()
-        {
-            return _context.Presentations.ToArray();
-        }
-        [HttpPost]
-        public Presentation? Post([FromBody] Presentation value)
-        {
-            _context.Presentations.Add(value);
-            _context.SaveChanges();
-            return value;
-        }
+    [HttpGet]
+    public IEnumerable<Presentation> Get()
+    {
+        return _context.Presentations.ToArray();
+    }
 
+    [HttpPost]
+    public Presentation? Post([FromBody] Presentation value)
+    {
+        _context.Presentations.Add(value);
+        _context.SaveChanges();
+        return value;
     }
 }

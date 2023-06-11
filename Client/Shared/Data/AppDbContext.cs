@@ -1,67 +1,69 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharedApp.Models;
 
-namespace SharedApp.Data
+namespace SharedApp.Data;
+
+public class AppDbContext : DbContext
 {
-    public class AppDbContext : DbContext
-    {
-        public DbSet<MusicCatalog> MusicCatalogs { get; set; }
-        public DbSet<Artist> Artists { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<Format> Formats { get; set; }
-        public DbSet<ImageCatalog> ImagesCatalog { get; set; }
-        public DbSet<Presentation> Presentations { get; set; }
+    public DbSet<MusicCatalog> MusicCatalogs { get; set; }
+    public DbSet<Artist> Artists { get; set; }
+    public DbSet<Genre> Genres { get; set; }
+    public DbSet<Format> Formats { get; set; }
+    public DbSet<ImageCatalog> ImagesCatalog { get; set; }
+    public DbSet<Presentation> Presentations { get; set; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options)
+    public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
-        {
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var connectionString = "Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
-            optionsBuilder.UseSqlServer(connectionString);
-        }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<MusicCatalog>()
-                .HasOne<Presentation>(s => s.Presentation)
-                .WithMany(g => g.CatalogMusics)
-                .OnDelete(DeleteBehavior.NoAction);
+    {
+    }
 
-            modelBuilder.Entity<ImageCatalog>()
-                .Property(i => i.Id)
-                .ValueGeneratedOnAdd();
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        var connectionString =
+            "Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
+        optionsBuilder.UseSqlServer(connectionString);
+    }
 
-            modelBuilder.Entity<ImageCatalog>()
-                .Ignore(i => i.MusicCatalog);
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<MusicCatalog>()
+            .HasOne<Presentation>(s => s.Presentation)
+            .WithMany(g => g.CatalogMusics)
+            .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Artist>()
-                .Ignore(a => a.CatalogMusics);
+        modelBuilder.Entity<ImageCatalog>()
+            .Property(i => i.Id)
+            .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Artist>()
-                .Property(a => a.Id)
-                .ValueGeneratedOnAdd();
+        modelBuilder.Entity<ImageCatalog>()
+            .Ignore(i => i.MusicCatalog);
 
-            modelBuilder.Entity<Genre>()
-                .Ignore(g => g.CatalogMusics);
+        modelBuilder.Entity<Artist>()
+            .Ignore(a => a.CatalogMusics);
 
-            modelBuilder.Entity<Genre>()
-                .Property(g => g.Id)
-                .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Artist>()
+            .Property(a => a.Id)
+            .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Format>()
-                .Ignore(f => f.Presentations);
+        modelBuilder.Entity<Genre>()
+            .Ignore(g => g.CatalogMusics);
 
-            modelBuilder.Entity<Format>()
-                .Property(f => f.Id)
-                .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Genre>()
+            .Property(g => g.Id)
+            .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Presentation>()
-                .Property(f => f.Id)
-                .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Format>()
+            .Ignore(f => f.Presentations);
 
-            modelBuilder.Entity<Presentation>()
-                .Ignore(p => p.CatalogMusics);
-        }
+        modelBuilder.Entity<Format>()
+            .Property(f => f.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Presentation>()
+            .Property(f => f.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Presentation>()
+            .Ignore(p => p.CatalogMusics);
     }
 }

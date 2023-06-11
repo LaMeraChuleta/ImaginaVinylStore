@@ -5,7 +5,9 @@
   "Routes": [
     {
       "UpstreamPathTemplate": "/gateway/test",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
       "DownstreamPathTemplate": "/CatalogMusic",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

@@ -3,14 +3,14 @@
 <div class="rounded-lg bg-zinc-100 border shadow-lg border-slate-800 flex-col w-72">
     <img src="@(MusicCatalog.Images?.FirstOrDefault()?.Url ?? "https://as1.ftcdn.net/v2/jpg/02/35/30/46/1000_F_235304686_Dabv7XmRksedIMrH4ADfMpN21K1nN67R.jpg")" class="w-full rounded-lg h-56 object-cover object-center" alt="">
     <div class="p-2 sm:h-28 font-bold">
-        <span class="@BGTYPEFORMAT inline-block font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs)">@MusicCatalog.Format?.Name</span>
-        <p>Titulo: @MusicCatalog?.Title</p>
-        <p>Artista: @MusicCatalog?.Artist?.Name</p>
-        <p>Genero: @MusicCatalog?.Genre?.Name</p>
+        <span class="@BgTypeFormat inline-block font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs)">@MusicCatalog.Format?.Name</span>
+        <p>Titulo: @MusicCatalog.Title</p>
+        <p>Artista: @MusicCatalog.Artist?.Name</p>
+        <p>Genero: @MusicCatalog.Genre?.Name</p>
     </div>
     <hr class="my-2">
     <div class="text-lg sm:h-10 pt-2 p-2 font-bold">
-        <p>Precio: @MusicCatalog?.Price</p>
+        <p>Precio: @MusicCatalog.Price</p>
     </div>
     <hr class="my-2">
     <div class="p-2 pt-1 sm:h-10 flex items-center text-sm text-gray-600">
@@ -38,17 +38,17 @@
 
     [Parameter]
     public MusicCatalog MusicCatalog { get; set; } = new();
-    
-    private string BGTYPEFORMAT { get; set; }
+
+    private string BgTypeFormat { get; set; } = "bg-grey-400";
 
     protected override void OnParametersSet()
     {
-        BGTYPEFORMAT = MusicCatalog.Format?.Name switch
+        BgTypeFormat = MusicCatalog.Format?.Name switch
         {
             "Vinyl" => "bg-red-400",
             "CD" => "bg-blue-400",
             "Cassette" => "bg-orange-400",
-            _ => "bg-grey-400",
+            _ => "bg-grey-400"
             };
     }
 
