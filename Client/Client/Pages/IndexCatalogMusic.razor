@@ -1,0 +1,64 @@
+﻿@page "/IndexCatalogMusic/{TypeFormat}"
+
+<div class="w-full px-10">
+    <h3 class="text-4xl my-5">@TypeFormat</h3>                
+    <div class="flex my-5 space-x-16">    
+        <h3 class="text-2xl">Filtros</h3>
+        <select class="w-52 h-8 rounded-lg" name="" id="">            
+            <option value="">Genero</option>
+        </select>
+        <select class="w-52 rounded-lg" name="" id="">
+            <option value="">Precio</option>
+        </select>
+        <select class="w-52 rounded-lg" name="" id="">
+            <option value="">Ordenar por</option>
+        </select>                
+    </div>     
+
+    <div>
+        @if (CatalogMusics.Any())
+        {
+            <div class="my-3">
+                <p class="pl-5 text-2xl font-bold">Rock Psicodelico</p>
+                <hr class="border-gray-300 my-2" />
+                <div class="flex justify-center p-2 md:p-5">
+                    <div class="grid grid-cols-1 gap-y-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 md:gap-x-10">
+                        @foreach (var item in CatalogMusics)
+                        {
+                            <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div> 
+</div>
+
+@code {
+    
+    [Inject] public HttpClient Http { get; set; }
+    [Inject] public IHttpClientFactory HttpFactory { get; set; }
+    [Parameter] public string TypeFormat { get; set; }
+    private List<MusicCatalog> CatalogMusics { get; set; } = new();
+    
+    public IndexCatalogMusic() { }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Http = HttpFactory.CreateClient("CatalogMusic.API");
+        CatalogMusics = await Http.GetFromJsonAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? throw new InvalidOperationException();
+    }
+
+    protected override void OnParametersSet()
+    {
+        TypeFormat = TypeFormat;
+        CatalogMusics = TypeFormat switch
+        {
+            "Vinyl" => CatalogMusics.Where(x => x.Format?.Name == "Vinyl").ToList(),
+            "CD" => CatalogMusics.Where(x => x.Format?.Name == "CD").ToList(),
+            "Cassette" => CatalogMusics.Where(x => x.Format?.Name == "Cassette").ToList(),
+            _ => CatalogMusics
+            };
+    }
+}
