@@ -1,4 +1,5 @@
 using Client.App;
+using Client.App.Shared;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -13,4 +14,8 @@ builder.Services.AddHttpClient("CatalogMusic.API",
     client => { client.BaseAddress = new Uri(@"https://localhost:7285/api/"); });
 
 builder.Services.AddApiAuthorization();
+
+builder.Services.AddScoped<AlertMessage>();
+builder.Services.AddTransient<MainLayout>();
+
 await builder.Build().RunAsync();

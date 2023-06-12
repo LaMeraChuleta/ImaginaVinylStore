@@ -1,0 +1,62 @@
+﻿
+    <div class="absolute top-0 right-0 mt-32 mr-4 rounded-md p-4 w-72 border @(Type == TypeAlert.Success ? "border-green-500" : "border-red-500")">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 @(Type == TypeAlert.Success ? "border-green-500" : "border-red-500")" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    @if (Type == TypeAlert.Error)
+                    {
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1.5-5.009c0-.867.659-1.491 1.491-1.491.85 0 1.509.624 1.509 1.491 0 .867-.659 1.509-1.509 1.509-.832 0-1.491-.642-1.491-1.509zM11.172 6a.5.5 0 0 0-.499.522l.306 7a.5.5 0 0 0 .5.478h1.043a.5.5 0 0 0 .5-.478l.305-7a.5.5 0 0 0-.5-.522h-1.655z" fill="#000000"/>
+                    }
+                    @if (Type == TypeAlert.Success)
+                    {
+                        <path fill="#000000" d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm-55.808 536.384-99.52-99.584a38.4 38.4 0 1 0-54.336 54.336l126.72 126.72a38.272 38.272 0 0 0 54.336 0l262.4-262.464a38.4 38.4 0 1 0-54.272-54.336L456.192 600.384z"/>
+                    }
+                </svg>
+            </div>
+            <div class="ml-3">
+                <h3 class="text-sm font-medium @(Type == TypeAlert.Success ? "border-green-800" : "border-red-800")">
+                    @Title
+                </h3>
+                <div class="mt-2 text-sm @(Type == TypeAlert.Success ? "border-green-700" : "border-red-700")">
+                    <p>@Message</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Message { get; set; } = string.Empty;
+
+    [Parameter]
+    public TypeAlert Type { get; set; }
+
+    [Parameter]
+    public bool IsVisible { get; set; }
+
+    public void Show(string title, string message, TypeAlert type)
+    {
+        Title = title;
+        Message = message;
+        Type = type;
+        IsVisible = true;
+    //Task.Delay(10000).ContinueWith(_ => Close());
+    }
+
+    private void Close()
+    {
+        IsVisible = false;
+        StateHasChanged();
+    }
+
+    public enum TypeAlert
+    {
+        Success,
+        Error,
+    }
+}

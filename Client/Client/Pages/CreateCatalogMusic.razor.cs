@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components;
 using SharedApp.Models;
 using System.Net.Http.Json;
 using System.Reflection.Metadata;
+using System.Text.Json;
+using Client.App.Shared;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.FileProviders;
@@ -15,7 +17,9 @@ public partial class CreateCatalogMusic : ComponentBase
     [Inject] public HttpClient Http { get; set; }
     [Inject] public IHttpClientFactory HttpFactory { get; set; }
     [Inject] public NavigationManager NavigationManager { get; set; }
-
+    [Inject] public AlertMessage AlertMessage { get; set; }
+    
+    
     private MusicCatalog NewMusicCatalog { get; set; } = new();
     private List<IBrowserFile> PhotoCatalogMusic { get; set; } = new();
     private List<string> PhotoCatalogMusicBase64 { get; set; } = new();
@@ -56,32 +60,64 @@ public partial class CreateCatalogMusic : ComponentBase
 
     private async void CreateCatalogMusics()
     {
-        var response = await Http.PostAsJsonAsync<MusicCatalog>(nameof(MusicCatalog), NewMusicCatalog);
-        NewMusicCatalog = await response.Content.ReadFromJsonAsync<MusicCatalog>() ??
-                          throw new InvalidOperationException();
-        foreach (var file in PhotoCatalogMusic)
+        try
         {
-            using var content = new MultipartFormDataContent();
-            var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
-            fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-            content.Add(fileContent, nameof(file), file.Name);
-            var result = await Http.PostAsync($"{nameof(MusicCatalog)}/Images?id={NewMusicCatalog?.Id}", content);
-            var image = await result.Content.ReadFromJsonAsync<ImageCatalog>();
-            NewMusicCatalog?.Images?.ToList().Add(image ?? throw new InvalidOperationException());
-        }
+            var response = await Http.PostAsJsonAsync<MusicCatalog>(nameof(MusicCatalog), NewMusicCatalog);
+            NewMusicCatalog = await response.Content.ReadFromJsonAsync<MusicCatalog>() ?? new MusicCatalog();
 
-        NewMusicCatalog = new MusicCatalog();
-        PhotoCatalogMusic.Clear();
-        StateHasChanged();
+            foreach (var file in PhotoCatalogMusic)
+            {
+                using var content = new MultipartFormDataContent();
+                var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                content.Add(fileContent, nameof(file), file.Name);
+                var result = await Http.PostAsync($"{nameof(MusicCatalog)}/Images?id={NewMusicCatalog?.Id}", content);
+                var image = await result.Content.ReadFromJsonAsync<ImageCatalog>();
+                NewMusicCatalog?.Images?.ToList().Add(image ?? new ImageCatalog());
+            }
+
+            AlertMessage.Show("Éxito", $"Se creó el nuevo {NewMusicCatalog?.Format?.Name} de {NewMusicCatalog?.Artist?.Name} - {NewMusicCatalog?.Title}", AlertMessage.TypeAlert.Success);
+            NewMusicCatalog = new MusicCatalog();
+            PhotoCatalogMusic.Clear();
+            StateHasChanged();
+        }
+        catch (HttpRequestException ex)
+        {
+            AlertMessage.Show("Error de solicitud", ex.Message, AlertMessage.TypeAlert.Error);
+        }
+        catch (JsonException ex)
+        {
+            AlertMessage.Show("Error de deserialización", ex.Message, AlertMessage.TypeAlert.Error);
+        }
+        catch (Exception ex)
+        {
+            AlertMessage.Show("Error", ex.Message, AlertMessage.TypeAlert.Error);
+        }
     }
 
     private async void CreateArtist()
     {
-        var response = await Http.PostAsJsonAsync<Artist>(nameof(Artist), NewArtist);
-        Artists.Add(await response.Content.ReadFromJsonAsync<Artist>() ?? throw new InvalidOperationException());
-        NewArtist = new Artist();
-        ShowModalNewArtist = false;
-        StateHasChanged();
+        try
+        {
+            var response = await Http.PostAsJsonAsync<Artist>(nameof(Artist), NewArtist);
+            Artists.Add(await response.Content.ReadFromJsonAsync<Artist>() ?? throw new InvalidOperationException());
+            ShowModalNewArtist = false;
+            AlertMessage.Show("Exito", $"Se creo el nuevo artista {Artists.LastOrDefault()?.Name}", AlertMessage.TypeAlert.Success);
+            NewArtist = new Artist();
+            StateHasChanged();
+        }
+        catch (HttpRequestException ex)
+        {
+            AlertMessage.Show("Error de solicitud", ex.Message, AlertMessage.TypeAlert.Error);
+        }
+        catch (JsonException ex)
+        {
+            AlertMessage.Show("Error de deserialización", ex.Message, AlertMessage.TypeAlert.Error);
+        }
+        catch (Exception ex)
+        {
+            AlertMessage.Show("Error", ex.Message, AlertMessage.TypeAlert.Error);
+        }
     }
 
     private async void CreateGenre()
@@ -93,6 +129,10 @@ public partial class CreateCatalogMusic : ComponentBase
         StateHasChanged();
     }
 
+    private async void Test()
+    {
+        AlertMessage.Show("Exito", "test", AlertMessage.TypeAlert.Success);
+    }
     private async void CreateFormat()
     {
         var response = await Http.PostAsJsonAsync<Format>(nameof(Format), NewFormat);
@@ -116,13 +156,12 @@ public partial class CreateCatalogMusic : ComponentBase
     {
         foreach (var file in e.GetMultipleFiles(MaxAllowedFiles))
         {
-            PhotoCatalogMusic.Add(file);
             var buffer = new byte[file.Size];
             await file.OpenReadStream().ReadAsync(buffer);
             var imageDataUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
+            PhotoCatalogMusic.Add(file);
             PhotoCatalogMusicBase64.Add(imageDataUrl);
         }
-
         StateHasChanged();
     }
 }
