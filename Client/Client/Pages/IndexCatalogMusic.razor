@@ -42,13 +42,13 @@
 @code {
 
     [Inject]
-    public HttpClient Http { get; set; }
+    public HttpClient? Http { get; set; }
 
     [Inject]
-    public IHttpClientFactory HttpFactory { get; set; }
+    public IHttpClientFactory? HttpFactory { get; set; }
 
     [Parameter]
-    public string TypeFormat { get; set; }
+    public string? TypeFormat { get; set; }
     private List<Genre> Genres { get; set; } = new();
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
 
@@ -58,15 +58,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Http = HttpFactory.CreateClient("CatalogMusic.API");
-        Genres = await Http.GetFromJsonAsync<List<Genre>>(nameof(Genre)) ?? throw new InvalidOperationException();
+        Http = HttpFactory?.CreateClient("CatalogMusic.API");
+        if (Http != null) Genres = await Http.GetFromJsonAsync<List<Genre>>(nameof(Genre)) ?? throw new InvalidOperationException();
         await base.OnInitializedAsync();
     }
 
     protected override async Task OnParametersSetAsync()
     {
         TypeFormat = TypeFormat;
-        CatalogMusics = await Http.GetFromJsonAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? throw new InvalidOperationException();
+        if (Http != null) CatalogMusics = await Http.GetFromJsonAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? throw new InvalidOperationException();
         CatalogMusics = TypeFormat switch
         {
             "Vinyl" => CatalogMusics.Where(x => x.Format?.Name == "Vinyl").ToList(),

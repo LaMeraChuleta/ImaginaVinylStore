@@ -13,7 +13,9 @@ namespace Catalog.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20230513234735_init")]
+#pragma warning disable CS8981
     partial class init
+#pragma warning restore CS8981
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,239 +28,230 @@ namespace Catalog.API.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("SharedApp.Models.Artist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Country")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Artists");
-                });
+                b.ToTable("Artists");
+            });
 
             modelBuilder.Entity("SharedApp.Models.Format", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Formats");
-                });
+                b.ToTable("Formats");
+            });
 
             modelBuilder.Entity("SharedApp.Models.Genre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Genres");
-                });
-
-            modelBuilder.Entity("SharedApp.Models.ImageCatalog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MusicCatalogId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MusicCatalogId");
-
-                    b.ToTable("ImagesCatalog");
-                });
-
-            modelBuilder.Entity("SharedApp.Models.MusicCatalog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ArtistId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("FormatId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Matrix")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PresentationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusCover")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusGeneral")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArtistId");
-
-                    b.HasIndex("FormatId");
-
-                    b.HasIndex("GenreId");
-
-                    b.HasIndex("PresentationId");
-
-                    b.ToTable("MusicCatalogs");
-                });
-
-            modelBuilder.Entity("SharedApp.Models.Presentation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("FormatId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FormatId");
-
-                    b.ToTable("Presentations");
-                });
+                b.ToTable("Genres");
+            });
 
             modelBuilder.Entity("SharedApp.Models.ImageCatalog", b =>
-                {
-                    b.HasOne("SharedApp.Models.MusicCatalog", "MusicCatalog")
-                        .WithMany("Images")
-                        .HasForeignKey("MusicCatalogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    b.Navigation("MusicCatalog");
-                });
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-            modelBuilder.Entity("SharedApp.Models.MusicCatalog", b =>
-                {
-                    b.HasOne("SharedApp.Models.Artist", "Artist")
-                        .WithMany()
-                        .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<int>("MusicCatalogId")
+                    .HasColumnType("int");
 
-                    b.HasOne("SharedApp.Models.Format", "Format")
-                        .WithMany()
-                        .HasForeignKey("FormatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasOne("SharedApp.Models.Genre", "Genre")
-                        .WithMany()
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<string>("Url")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasOne("SharedApp.Models.Presentation", "Presentation")
-                        .WithMany("CatalogMusics")
-                        .HasForeignKey("PresentationId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                b.HasKey("Id");
 
-                    b.Navigation("Artist");
+                b.HasIndex("MusicCatalogId");
 
-                    b.Navigation("Format");
-
-                    b.Navigation("Genre");
-
-                    b.Navigation("Presentation");
-                });
-
-            modelBuilder.Entity("SharedApp.Models.Presentation", b =>
-                {
-                    b.HasOne("SharedApp.Models.Format", null)
-                        .WithMany("Presentations")
-                        .HasForeignKey("FormatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SharedApp.Models.Format", b =>
-                {
-                    b.Navigation("Presentations");
-                });
+                b.ToTable("ImagesCatalog");
+            });
 
             modelBuilder.Entity("SharedApp.Models.MusicCatalog", b =>
-                {
-                    b.Navigation("Images");
-                });
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                b.Property<int>("ArtistId")
+                    .HasColumnType("int");
+
+                b.Property<string>("Country")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<DateTime>("CreateAt")
+                    .HasColumnType("datetime2");
+
+                b.Property<int>("FormatId")
+                    .HasColumnType("int");
+
+                b.Property<int>("GenreId")
+                    .HasColumnType("int");
+
+                b.Property<string>("Label")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Matrix")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<int>("PresentationId")
+                    .HasColumnType("int");
+
+                b.Property<int>("Price")
+                    .HasColumnType("int");
+
+                b.Property<int>("StatusCover")
+                    .HasColumnType("int");
+
+                b.Property<int>("StatusGeneral")
+                    .HasColumnType("int");
+
+                b.Property<string>("Title")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<int>("Year")
+                    .HasColumnType("int");
+
+                b.HasKey("Id");
+
+                b.HasIndex("ArtistId");
+
+                b.HasIndex("FormatId");
+
+                b.HasIndex("GenreId");
+
+                b.HasIndex("PresentationId");
+
+                b.ToTable("MusicCatalogs");
+            });
 
             modelBuilder.Entity("SharedApp.Models.Presentation", b =>
-                {
-                    b.Navigation("CatalogMusics");
-                });
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                b.Property<int>("FormatId")
+                    .HasColumnType("int");
+
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("FormatId");
+
+                b.ToTable("Presentations");
+            });
+
+            modelBuilder.Entity("SharedApp.Models.ImageCatalog", b =>
+            {
+                b.HasOne("SharedApp.Models.MusicCatalog", "MusicCatalog")
+                    .WithMany("Images")
+                    .HasForeignKey("MusicCatalogId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("MusicCatalog");
+            });
+
+            modelBuilder.Entity("SharedApp.Models.MusicCatalog", b =>
+            {
+                b.HasOne("SharedApp.Models.Artist", "Artist")
+                    .WithMany()
+                    .HasForeignKey("ArtistId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("SharedApp.Models.Format", "Format")
+                    .WithMany()
+                    .HasForeignKey("FormatId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("SharedApp.Models.Genre", "Genre")
+                    .WithMany()
+                    .HasForeignKey("GenreId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("SharedApp.Models.Presentation", "Presentation")
+                    .WithMany("CatalogMusics")
+                    .HasForeignKey("PresentationId")
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+                b.Navigation("Artist");
+
+                b.Navigation("Format");
+
+                b.Navigation("Genre");
+
+                b.Navigation("Presentation");
+            });
+
+            modelBuilder.Entity("SharedApp.Models.Presentation", b =>
+            {
+                b.HasOne("SharedApp.Models.Format", null)
+                    .WithMany("Presentations")
+                    .HasForeignKey("FormatId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("SharedApp.Models.Format", b => { b.Navigation("Presentations"); });
+
+            modelBuilder.Entity("SharedApp.Models.MusicCatalog", b => { b.Navigation("Images"); });
+
+            modelBuilder.Entity("SharedApp.Models.Presentation", b => { b.Navigation("CatalogMusics"); });
 #pragma warning restore 612, 618
         }
     }
