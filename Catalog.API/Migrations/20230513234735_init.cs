@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,7 +7,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Catalog.API.Migrations
 {
     /// <inheritdoc />
+#pragma warning disable CS8981
     public partial class init : Migration
+#pragma warning restore CS8981
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
