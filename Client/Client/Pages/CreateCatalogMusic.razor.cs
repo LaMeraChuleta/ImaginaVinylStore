@@ -17,7 +17,7 @@ public partial class CreateCatalogMusic : ComponentBase
     [Inject] public HttpClient Http { get; set; }
     [Inject] public IHttpClientFactory HttpFactory { get; set; }
     [Inject] public NavigationManager NavigationManager { get; set; }
-    [Inject] public AlertMessage AlertMessage { get; set; }
+    public AlertMessage AlertMessage { get; set; } = new();
     
     
     private MusicCatalog NewMusicCatalog { get; set; } = new();
