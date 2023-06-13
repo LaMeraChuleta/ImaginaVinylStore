@@ -1,6 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using SharedApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
 
 namespace Catalog.API.Controllers;
@@ -21,7 +22,9 @@ public class ArtistController : ControllerBase
     [HttpGet]
     public IEnumerable<Artist> Get()
     {
-        return _context.Artists.ToArray();
+        return _context.Artists
+            .Include(x => x.Image)
+            .ToArray();
     }
 
     [HttpPost]
