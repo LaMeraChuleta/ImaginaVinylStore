@@ -76,6 +76,33 @@ namespace Catalog.API.Migrations
                     b.ToTable("Genres");
                 });
 
+            modelBuilder.Entity("SharedApp.Models.ImageArtist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ArtistId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArtistId")
+                        .IsUnique();
+
+                    b.ToTable("ImageArtists");
+                });
+
             modelBuilder.Entity("SharedApp.Models.ImageCatalog", b =>
                 {
                     b.Property<int>("Id")
@@ -185,15 +212,22 @@ namespace Catalog.API.Migrations
                     b.ToTable("Presentations");
                 });
 
+            modelBuilder.Entity("SharedApp.Models.ImageArtist", b =>
+                {
+                    b.HasOne("SharedApp.Models.Artist", null)
+                        .WithOne("Image")
+                        .HasForeignKey("SharedApp.Models.ImageArtist", "ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SharedApp.Models.ImageCatalog", b =>
                 {
-                    b.HasOne("SharedApp.Models.MusicCatalog", "MusicCatalog")
+                    b.HasOne("SharedApp.Models.MusicCatalog", null)
                         .WithMany("Images")
                         .HasForeignKey("MusicCatalogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MusicCatalog");
                 });
 
             modelBuilder.Entity("SharedApp.Models.MusicCatalog", b =>
@@ -217,9 +251,9 @@ namespace Catalog.API.Migrations
                         .IsRequired();
 
                     b.HasOne("SharedApp.Models.Presentation", "Presentation")
-                        .WithMany("CatalogMusics")
+                        .WithMany()
                         .HasForeignKey("PresentationId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Artist");
@@ -231,14 +265,14 @@ namespace Catalog.API.Migrations
                     b.Navigation("Presentation");
                 });
 
+            modelBuilder.Entity("SharedApp.Models.Artist", b =>
+                {
+                    b.Navigation("Image");
+                });
+
             modelBuilder.Entity("SharedApp.Models.MusicCatalog", b =>
                 {
                     b.Navigation("Images");
-                });
-
-            modelBuilder.Entity("SharedApp.Models.Presentation", b =>
-                {
-                    b.Navigation("CatalogMusics");
                 });
 #pragma warning restore 612, 618
         }
