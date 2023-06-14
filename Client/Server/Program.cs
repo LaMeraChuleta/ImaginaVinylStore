@@ -1,3 +1,4 @@
+using Client.App.Shared;
 using Client.Server.Data;
 using Client.Server.Models;
 using Duende.IdentityServer.Models;

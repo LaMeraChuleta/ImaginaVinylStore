@@ -1,4 +1,6 @@
+using Blazored.Toast;
 using Client.App;
+using Client.App.Shared;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -12,5 +14,7 @@ builder.Services.AddHttpClient("Client.ServerAPI",
 builder.Services.AddHttpClient("CatalogMusic.API",
     client => { client.BaseAddress = new Uri(@"https://localhost:7285/api/"); });
 
+builder.Services.AddBlazoredToast();
 builder.Services.AddApiAuthorization();
+
 await builder.Build().RunAsync();
