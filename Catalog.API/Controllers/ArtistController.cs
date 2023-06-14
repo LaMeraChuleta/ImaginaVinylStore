@@ -34,7 +34,7 @@ public class ArtistController : ControllerBase
         _context.SaveChanges();
         return value;
     }
-    
+
     [HttpGet("Images")]
     public ActionResult GetImage(int id)
     {
