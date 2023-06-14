@@ -1,7 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazored.Toast.Configuration
+@inherits LayoutComponentBase
 
 <div>
     <SuperNav></SuperNav>
+    <BlazoredToasts Position="ToastPosition.BottomRight" />
     <main>
         @Body
     </main>
