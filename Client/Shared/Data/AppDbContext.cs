@@ -10,6 +10,7 @@ public class AppDbContext : DbContext
     public DbSet<Genre> Genres { get; set; }
     public DbSet<Format> Formats { get; set; }
     public DbSet<ImageCatalog> ImagesCatalog { get; set; }
+    public DbSet<ImageArtist> ImageArtists { get; set; }
     public DbSet<Presentation> Presentations { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -19,8 +20,7 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var connectionString =
-            "Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
+        const string connectionString = "Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
         optionsBuilder.UseSqlServer(connectionString);
     }
 
@@ -37,6 +37,9 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<ImageCatalog>()
             .Ignore(i => i.MusicCatalog);
+
+        modelBuilder.Entity<ImageArtist>()
+            .Ignore(i => i.Artist);
 
         modelBuilder.Entity<Artist>()
             .Ignore(a => a.CatalogMusics);

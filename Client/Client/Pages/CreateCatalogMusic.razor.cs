@@ -17,8 +17,11 @@ public partial class CreateCatalogMusic : ComponentBase
     [Inject] public NavigationManager NavigationManager { get; set; }
 
     private MusicCatalog NewMusicCatalog { get; set; } = new();
-    private List<IBrowserFile> PhotoCatalogMusic { get; set; } = new();
-    private List<string> PhotoCatalogMusicBase64 { get; set; } = new();
+    private List<IBrowserFile> PhotoMusicCatalog { get; set; } = new();
+    private List<IBrowserFile> PhotoArtist { get; set; } = new();
+    private List<string> PhotoMusicCatalogBase64 { get; set; } = new();
+    private List<string> PhotoArtistsBase64 { get; set; } = new();
+    
     private const long MaxFileSize = 1024 * 150 * 3;
     private const int MaxAllowedFiles = 3;
 
@@ -45,13 +48,15 @@ public partial class CreateCatalogMusic : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         Http = HttpFactory.CreateClient("CatalogMusic.API");
-        Presentations = await Http.GetFromJsonAsync<List<Presentation>>(nameof(Presentation)) ??
-                        throw new InvalidOperationException();
+        
         Artists = await Http.GetFromJsonAsync<List<Artist>>(nameof(Artist)) ??
                   throw new InvalidOperationException();
         Formats = await Http.GetFromJsonAsync<List<Format>>(nameof(Format)) ??
                   throw new InvalidOperationException();
-        Genres = await Http.GetFromJsonAsync<List<Genre>>(nameof(Genre)) ?? throw new InvalidOperationException();
+        Genres = await Http.GetFromJsonAsync<List<Genre>>(nameof(Genre)) ?? 
+                 throw new InvalidOperationException();
+        Presentations = await Http.GetFromJsonAsync<List<Presentation>>(nameof(Presentation)) ??
+                        throw new InvalidOperationException();
     }
 
     private async void CreateCatalogMusics()
@@ -59,7 +64,7 @@ public partial class CreateCatalogMusic : ComponentBase
         var response = await Http.PostAsJsonAsync<MusicCatalog>(nameof(MusicCatalog), NewMusicCatalog);
         NewMusicCatalog = await response.Content.ReadFromJsonAsync<MusicCatalog>() ??
                           throw new InvalidOperationException();
-        foreach (var file in PhotoCatalogMusic)
+        foreach (var file in PhotoMusicCatalog)
         {
             using var content = new MultipartFormDataContent();
             var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
@@ -71,14 +76,26 @@ public partial class CreateCatalogMusic : ComponentBase
         }
 
         NewMusicCatalog = new MusicCatalog();
-        PhotoCatalogMusic.Clear();
+        PhotoMusicCatalog.Clear();
         StateHasChanged();
     }
 
     private async void CreateArtist()
     {
         var response = await Http.PostAsJsonAsync<Artist>(nameof(Artist), NewArtist);
-        Artists.Add(await response.Content.ReadFromJsonAsync<Artist>() ?? throw new InvalidOperationException());
+        NewArtist = await response.Content.ReadFromJsonAsync<Artist>() ?? throw new InvalidOperationException();
+        Artists.Add(NewArtist);
+        
+        foreach (var file in PhotoArtist)
+        {
+            using var content = new MultipartFormDataContent();
+            var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+            content.Add(fileContent, nameof(file), file.Name);
+            var result = await Http.PostAsync($"{nameof(Artist)}/Images?id={NewArtist?.Id}", content);
+            var image = await result.Content.ReadFromJsonAsync<ImageArtist>();
+        }
+        
         NewArtist = new Artist();
         ShowModalNewArtist = false;
         StateHasChanged();
@@ -111,18 +128,30 @@ public partial class CreateCatalogMusic : ComponentBase
         ShowModalNewPresentation = false;
         StateHasChanged();
     }
-
-    private async void SaveImageNew(InputFileChangeEventArgs e)
+    
+    private async void SaveImageArtistNew(InputFileChangeEventArgs e)
     {
         foreach (var file in e.GetMultipleFiles(MaxAllowedFiles))
         {
-            PhotoCatalogMusic.Add(file);
             var buffer = new byte[file.Size];
-            await file.OpenReadStream().ReadAsync(buffer);
+            var readAsync = await file.OpenReadStream().ReadAsync(buffer);
             var imageDataUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
-            PhotoCatalogMusicBase64.Add(imageDataUrl);
+            PhotoArtist.Add(file);
+            PhotoArtistsBase64.Add(imageDataUrl);
         }
+        StateHasChanged();
+    }
 
+    private async void SaveImageMusicCatalogNew(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles(MaxAllowedFiles))
+        {
+            var buffer = new byte[file.Size];
+            var readAsync = await file.OpenReadStream().ReadAsync(buffer);
+            var imageDataUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
+            PhotoMusicCatalog.Add(file);
+            PhotoMusicCatalogBase64.Add(imageDataUrl);
+        }
         StateHasChanged();
     }
 }
