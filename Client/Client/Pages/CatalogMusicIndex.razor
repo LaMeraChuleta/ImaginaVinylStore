@@ -49,6 +49,7 @@
 
     [Parameter]
     public string? TypeFormat { get; set; }
+
     private List<Genre> Genres { get; set; } = new();
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
 
@@ -74,7 +75,8 @@
             "Cassette" => CatalogMusics.Where(x => x.Format?.Name == "Cassette").ToList(),
             _ => CatalogMusics
             };
-        
+
         await base.OnParametersSetAsync();
     }
+
 }

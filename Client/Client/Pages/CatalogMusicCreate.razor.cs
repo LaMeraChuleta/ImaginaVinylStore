@@ -68,7 +68,8 @@ public partial class CatalogMusicCreate : ComponentBase
         try
         {
             var response = await Http.PostAsJsonAsync<MusicCatalog>(nameof(MusicCatalog), NewMusicCatalog);
-            NewMusicCatalog = await response.Content.ReadFromJsonAsync<MusicCatalog>() ?? throw new InvalidOperationException();
+            NewMusicCatalog = await response.Content.ReadFromJsonAsync<MusicCatalog>() ??
+                              throw new InvalidOperationException();
             foreach (var file in PhotoMusicCatalog)
             {
                 using var content = new MultipartFormDataContent();
@@ -80,7 +81,8 @@ public partial class CatalogMusicCreate : ComponentBase
                 NewMusicCatalog?.Images?.ToList().Add(image ?? throw new InvalidOperationException());
             }
 
-            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewMusicCatalog.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
+            ToastService.ShowToast(ToastLevel.Success,
+                $"Exito se creo {NewMusicCatalog.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
             NewMusicCatalog = new MusicCatalog();
             PhotoMusicCatalog.Clear();
             StateHasChanged();
@@ -161,7 +163,8 @@ public partial class CatalogMusicCreate : ComponentBase
         try
         {
             var response = await Http.PostAsJsonAsync<Presentation>(nameof(Presentation), NewPresentation);
-            NewPresentation = await response.Content.ReadFromJsonAsync<Presentation>() ?? throw new InvalidOperationException();
+            NewPresentation = await response.Content.ReadFromJsonAsync<Presentation>() ??
+                              throw new InvalidOperationException();
             Presentations.Add(NewPresentation);
             ToastService.ShowToast(ToastLevel.Success, $"Exito se creo la presentacion {NewPresentation?.Name}");
             NewPresentation = new Presentation();

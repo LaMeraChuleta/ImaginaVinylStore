@@ -2,7 +2,7 @@
 @inject NavigationManager NavigationManager
 
 <div class="rounded-lg bg-zinc-100 border shadow-lg border-slate-800 flex-col w-72">
-     <img @onclick="@(() => NavigationManager.NavigateTo($"CatalogMusicDetail/{MusicCatalog.Id}"))" src="@(MusicCatalog.Images?.FirstOrDefault()?.Url ?? "https://as1.ftcdn.net/v2/jpg/02/35/30/46/1000_F_235304686_Dabv7XmRksedIMrH4ADfMpN21K1nN67R.jpg")" class="w-full rounded-lg h-56 object-cover object-center" alt="">
+    <img @onclick="@(() => NavigationManager.NavigateTo($"CatalogMusicDetail/{MusicCatalog.Id}"))" src="@(MusicCatalog.Images?.FirstOrDefault()?.Url ?? "https://as1.ftcdn.net/v2/jpg/02/35/30/46/1000_F_235304686_Dabv7XmRksedIMrH4ADfMpN21K1nN67R.jpg")" class="w-full rounded-lg h-56 object-cover object-center" alt="">
     <div class="p-2 sm:h-28 font-bold">
         <span class="@BgTypeFormat inline-block font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs)">@MusicCatalog.Format?.Name</span>
         <p>Titulo: @MusicCatalog.Title</p>
