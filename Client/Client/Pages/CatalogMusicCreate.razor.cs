@@ -13,7 +13,7 @@ using InvalidOperationException = System.InvalidOperationException;
 
 namespace Client.App.Pages;
 
-public partial class CreateCatalogMusic : ComponentBase
+public partial class CatalogMusicCreate : ComponentBase
 {
     [Inject] public HttpClient Http { get; set; }
     [Inject] public IHttpClientFactory HttpFactory { get; set; }
@@ -45,7 +45,7 @@ public partial class CreateCatalogMusic : ComponentBase
     private Presentation NewPresentation { get; set; } = new();
     private bool ShowModalNewPresentation { get; set; }
 
-    public CreateCatalogMusic()
+    public CatalogMusicCreate()
     {
     }
 
