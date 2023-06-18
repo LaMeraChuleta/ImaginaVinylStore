@@ -1,8 +1,8 @@
-﻿<NavBar SendOpenLeftBar="@(() => ShowLeftBar = !ShowLeftBar)" SendRedirectPage="RedirectByPathUrl"></NavBar>
-@if (ShowLeftBar)
+﻿@if (ShowLeftBar)
 {
     <LeftNavBar SendRedirectPage="RedirectByPathUrl"></LeftNavBar>
 }
+<NavBar SendOpenLeftBar="@(() => ShowLeftBar = !ShowLeftBar)" SendRedirectPage="RedirectByPathUrl"></NavBar>
 
 @code {
 
