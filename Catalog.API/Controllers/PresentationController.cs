@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SharedApp.Data;
 using SharedApp.Models;
 
@@ -23,7 +24,7 @@ public class PresentationController : ControllerBase
         return _context.Presentations.ToArray();
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public Presentation? Post([FromBody] Presentation value)
     {
         _context.Presentations.Add(value);

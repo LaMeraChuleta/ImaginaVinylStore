@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
@@ -37,7 +38,7 @@ public class MusicCatalogController : ControllerBase
         return Ok(_context.MusicCatalogs.Find(id));
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public MusicCatalog Post([FromBody] MusicCatalog value)
     {
         _context.MusicCatalogs.Add(value);
@@ -51,7 +52,7 @@ public class MusicCatalogController : ControllerBase
         return Ok(_context.ImagesCatalog.Find(id));
     }
 
-    [HttpPost("Images")]
+    [HttpPost("Images"), Authorize]
     public async Task<ImageCatalog> PostImage(List<IFormFile> file, int id)
     {
         using var ms = new MemoryStream();

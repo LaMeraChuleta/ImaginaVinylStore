@@ -1,9 +1,7 @@
-﻿using SharedApp.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+using SharedApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Catalog.API.Controllers;
 
@@ -24,7 +22,7 @@ public class FormatController : ControllerBase
         return _context.Formats.ToArray();
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public Format Post([FromBody] Format value)
     {
         _context.Formats.Add(value);
