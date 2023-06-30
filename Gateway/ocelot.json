@@ -6,9 +6,13 @@
     {
       "UpstreamPathTemplate": "/gateway/test",
       "UpstreamHttpMethod": [
-        "Get"
+        "Post"
       ],
-      "DownstreamPathTemplate": "/CatalogMusic",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Artist",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
