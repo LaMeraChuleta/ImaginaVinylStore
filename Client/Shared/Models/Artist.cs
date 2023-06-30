@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace SharedApp.Models;
+﻿namespace SharedApp.Models;
 
 public class Artist
 {
