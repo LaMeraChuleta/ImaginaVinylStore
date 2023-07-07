@@ -10,12 +10,12 @@ namespace Client.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class RoleController : ControllerBase
+public class RolController : ControllerBase
 {
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public RoleController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+    public RolController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
     {
         _roleManager = roleManager;
         _userManager = userManager;
@@ -23,21 +23,16 @@ public class RoleController : ControllerBase
     
     [HttpGet]
     [Authorize]
-    public IEnumerable<IdentityRole> Get()
+    public IEnumerable<string> Get()
     {
-        return _roleManager.Roles.ToArray();
+        return _roleManager.Roles.Select(x => x.Name).ToArray();
     }
 
     [HttpPost]
     [Authorize]
-    public async Task<IdentityRole?> Post(string roleName)
+    public async Task<bool> Post(string roleName)
     {
-        if ((await _roleManager.CreateAsync(new IdentityRole(roleName))).Succeeded)
-        {
-            return await _roleManager.FindByNameAsync(roleName);
-        }
-
-        return null;
+        return (await _roleManager.CreateAsync(new IdentityRole(roleName))).Succeeded;
     }
 
     [HttpPost("AddRolUser")]

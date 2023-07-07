@@ -23,10 +23,4 @@
         <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Reference Include="Microsoft.Extensions.Identity.Stores">
-        <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\6.0.18\Microsoft.Extensions.Identity.Stores.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
 </Project>
