@@ -1,0 +1,38 @@
+﻿@page "/RoleManager"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@attribute [Authorize]
+<PageTitle>Roles</PageTitle>
+
+<div class="w-full px-10 inline-flex my-5">
+    <div class="md:w-2/3 h-full">
+        <div class="text-2xl text-center font-semibold my-2.5">
+            <h1>Administrar roles</h1>
+        </div>
+        <ul>
+        @foreach (var rol in Roles)
+        {
+            <li>@rol</li>
+        }
+        </ul>
+    </div>
+</div>
+
+@code {
+    [Inject] 
+    public HttpClient Http { get; set; }
+    [Inject] 
+    public IHttpClientFactory HttpFactory { get; set; }
+    private List<IdentityRole> Roles { get; set; } = new();
+    
+    public RoleManager()
+    {
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Http = HttpFactory.CreateClient("CatalogMusic.API");
+        Roles = await Http.GetFromJsonAsync<List<IdentityRole>>("Role") ?? throw new InvalidOperationException();
+        await base.OnInitializedAsync();
+    }
+}
