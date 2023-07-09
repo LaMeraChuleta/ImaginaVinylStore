@@ -10,12 +10,13 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddHttpClient("Client.ServerAPI",
-    client => { client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress); });
+    client => { client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress + "api/"); });
 
 builder.Services.AddHttpClient("CatalogMusic.API",
     client => { client.BaseAddress = new Uri(@"https://localhost:7285/api/"); });
 
 builder.Services.AddBlazoredToast();
 builder.Services.AddApiAuthorization();
+
 
 await builder.Build().RunAsync();

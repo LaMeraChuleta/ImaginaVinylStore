@@ -1,3 +1,4 @@
+using System.Text;
 using Client.App.Shared;
 using Client.Server.Data;
 using Client.Server.Models;
@@ -5,9 +6,11 @@ using Duende.IdentityServer.Models;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SharedApp.Data;
-using Client = Duende.IdentityServer.Models.Client;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,11 +41,24 @@ builder.Services.AddIdentityServer()
     });
 
 
-builder.Services.AddAuthentication()
-    .AddIdentityServerJwt();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "Client.App", // El emisor del token
+            ValidAudience = "Client.Server", // El destinatario del token
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret_key")) // Clave pública del proveedor de autenticación
+        };
+    });
+    //.AddIdentityServerJwt();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -51,6 +67,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
     app.UseWebAssemblyDebugging();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {

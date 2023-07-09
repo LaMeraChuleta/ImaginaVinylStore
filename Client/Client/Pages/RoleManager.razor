@@ -1,5 +1,7 @@
 ﻿@page "/RoleManager"
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Net.Http.Headers
 @attribute [Authorize]
 <PageTitle>Roles</PageTitle>
 
@@ -18,19 +20,28 @@
 </div>
 
 @code {
-    [Inject] 
-    public HttpClient Http { get; set; }
-    [Inject] 
-    public IHttpClientFactory HttpFactory { get; set; }
+    [Inject] public HttpClient Http { get; set; }
+    [Inject] public IHttpClientFactory HttpFactory { get; set; }
+    [Inject] public IAccessTokenProvider TokenProvider { get; set; }
     private List<string> Roles { get; set; } = new();
-    
+
     public RoleManager()
     {
+
     }
 
     protected override async Task OnInitializedAsync()
     {
-        Http = HttpFactory.CreateClient("CatalogMusic.API");
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        var token = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var accessToken))
+        {
+            token = accessToken.Value;
+        }
+        
+        Http = HttpFactory.CreateClient("Client.ServerAPI");
+        //Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         Roles = await Http.GetFromJsonAsync<List<string>>("Rol") ?? throw new InvalidOperationException();
         await base.OnInitializedAsync();
     }

@@ -25,6 +25,8 @@ public class RolController : ControllerBase
     [Authorize]
     public IEnumerable<string> Get()
     {
+
+        var r = _roleManager.Roles.ToArray();
         return _roleManager.Roles.Select(x => x.Name).ToArray();
     }
 
