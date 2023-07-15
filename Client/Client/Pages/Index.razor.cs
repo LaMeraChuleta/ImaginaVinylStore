@@ -12,7 +12,6 @@ public partial class Index : ComponentBase
     [Inject] public HttpClient Http { get; set; }
     [Inject] public IHttpClientFactory HttpFactory { get; set; }
     [Inject] public IAccessTokenProvider TokenProvider { get; set; }
-    
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
     private List<Artist> Artists { get; set; } = new();
 

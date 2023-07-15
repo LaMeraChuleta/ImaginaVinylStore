@@ -90,7 +90,9 @@ app.UseAuthorization();
 
 
 app.MapRazorPages();
-app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapFallbackToFile("index.html");
 
 app.Run();
