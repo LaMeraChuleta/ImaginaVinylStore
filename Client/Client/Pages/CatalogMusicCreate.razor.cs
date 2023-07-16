@@ -19,7 +19,6 @@ public partial class CatalogMusicCreate : ComponentBase
     [Inject] public IHttpClientFactory HttpFactory { get; set; }
     [Inject] public NavigationManager NavigationManager { get; set; }
     [Inject] public IToastService ToastService { get; set; }
-
     private MusicCatalog NewMusicCatalog { get; set; } = new();
     private List<IBrowserFile> PhotoMusicCatalog { get; set; } = new();
     private List<IBrowserFile> PhotoArtist { get; set; } = new();
