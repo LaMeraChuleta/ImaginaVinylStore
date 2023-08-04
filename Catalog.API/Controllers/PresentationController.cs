@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SharedApp.Data;
 using SharedApp.Models;
 
@@ -26,6 +27,8 @@ public class PresentationController : ControllerBase
     [Authorize]
     public Presentation? Post([FromBody] Presentation value)
     {
+        if (!ModelState.IsValid) return null;
+        
         _context.Presentations.Add(value);
         _context.SaveChanges();
         return value;

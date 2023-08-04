@@ -42,9 +42,12 @@ public class MusicCatalogController : ControllerBase
     [Authorize]
     public MusicCatalog Post([FromBody] MusicCatalog value)
     {
+        if (ModelState.IsValid) return null;
+        
         _context.MusicCatalogs.Add(value);
         _context.SaveChanges();
         return value;
+
     }
 
     [HttpGet("Images")]

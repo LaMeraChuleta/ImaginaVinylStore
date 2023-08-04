@@ -26,6 +26,8 @@ public class FormatController : ControllerBase
     [Authorize]
     public Format Post([FromBody] Format value)
     {
+        if (!ModelState.IsValid) return null;
+        
         _context.Formats.Add(value);
         _context.SaveChanges();
         return value;

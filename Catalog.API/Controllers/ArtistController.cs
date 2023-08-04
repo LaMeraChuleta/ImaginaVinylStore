@@ -32,9 +32,12 @@ public class ArtistController : ControllerBase
     [Authorize]
     public Artist Post([FromBody] Artist value)
     {
+        if (!ModelState.IsValid) return null;
+        
         _context.Artists.Add(value);
         _context.SaveChanges();
         return value;
+
     }
 
     [HttpGet("Images")]
