@@ -1,8 +1,6 @@
 using System.Text;
 using Client.Server.Data;
 using Client.Server.Models;
-using Duende.IdentityServer.Models;
-using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
