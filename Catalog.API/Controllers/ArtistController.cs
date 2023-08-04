@@ -1,9 +1,9 @@
 ﻿using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authorization;
-using SharedApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
+using SharedApp.Models;
 
 namespace Catalog.API.Controllers;
 
@@ -11,8 +11,8 @@ namespace Catalog.API.Controllers;
 [ApiController]
 public class ArtistController : ControllerBase
 {
-    private readonly AppDbContext _context;
     private readonly BlobContainerClient _blobClient;
+    private readonly AppDbContext _context;
 
     public ArtistController(AppDbContext context, IConfiguration config)
     {
@@ -33,11 +33,10 @@ public class ArtistController : ControllerBase
     public Artist Post([FromBody] Artist value)
     {
         if (!ModelState.IsValid) return null;
-        
+
         _context.Artists.Add(value);
         _context.SaveChanges();
         return value;
-
     }
 
     [HttpGet("Images")]

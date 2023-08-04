@@ -1,54 +1,49 @@
 ﻿using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Components;
-using SharedApp.Models;
 using System.Net.Http.Json;
 using Blazored.Toast.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using InvalidOperationException = System.InvalidOperationException;
+using SharedApp.Models;
 
 namespace Client.App.Pages;
 
 public partial class CatalogMusicCreate : ComponentBase
 {
+    private const long MaxFileSize = 1024 * 150 * 3;
+    private const int MaxAllowedFiles = 3;
+    private EditContext _editContextArtist;
+    private EditContext _editContextFormat;
+    private EditContext _editContextGenre;
+    private EditContext _editContextMusicCatalog;
+    private EditContext _editContextPresentation;
+
     [Inject] public HttpClient Http { get; set; }
     [Inject] public IHttpClientFactory HttpFactory { get; set; }
     [Inject] public NavigationManager NavigationManager { get; set; }
     [Inject] public IAccessTokenProvider TokenProvider { get; set; }
     [Inject] public IToastService ToastService { get; set; }
     private MusicCatalog NewMusicCatalog { get; set; } = new();
-    private EditContext _editContextMusicCatalog;
-    private List<IBrowserFile> PhotoMusicCatalog { get; set; } = new();
-    private List<IBrowserFile> PhotoArtist { get; set; } = new();
-    private List<string> PhotoMusicCatalogBase64 { get; set; } = new();
-    private List<string> PhotoArtistsBase64 { get; set; } = new();
-
-    private const long MaxFileSize = 1024 * 150 * 3;
-    private const int MaxAllowedFiles = 3;
+    private List<IBrowserFile> PhotoMusicCatalog { get; } = new();
+    private List<IBrowserFile> PhotoArtist { get; } = new();
+    private List<string> PhotoMusicCatalogBase64 { get; } = new();
+    private List<string> PhotoArtistsBase64 { get; } = new();
 
     private List<Artist> Artists { get; set; } = new();
     private Artist NewArtist { get; set; } = new();
-    private EditContext _editContextArtist;
     private bool ShowModalNewArtist { get; set; }
 
     private List<Genre> Genres { get; set; } = new();
     private Genre NewGenre { get; set; } = new();
-    private EditContext _editContextGenre;
     private bool ShowModalNewGenre { get; set; }
 
     private List<Format> Formats { get; set; } = new();
     private Format NewFormat { get; set; } = new();
-    private EditContext _editContextFormat;
     private bool ShowModalNewFormat { get; set; }
 
     private List<Presentation> Presentations { get; set; } = new();
     private Presentation NewPresentation { get; set; } = new();
-    private EditContext _editContextPresentation;
     private bool ShowModalNewPresentation { get; set; }
-
-    public CatalogMusicCreate()
-    {
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -81,7 +76,7 @@ public partial class CatalogMusicCreate : ComponentBase
         try
         {
             if (_editContextMusicCatalog.Validate()) return;
-            var response = await Http.PostAsJsonAsync<MusicCatalog>(nameof(MusicCatalog), NewMusicCatalog);
+            var response = await Http.PostAsJsonAsync(nameof(MusicCatalog), NewMusicCatalog);
             NewMusicCatalog = await response.Content.ReadFromJsonAsync<MusicCatalog>() ??
                               throw new InvalidOperationException();
             foreach (var file in PhotoMusicCatalog)
@@ -105,7 +100,6 @@ public partial class CatalogMusicCreate : ComponentBase
         {
             ToastService.ShowToast(ToastLevel.Error, exception.Message);
         }
-        
     }
 
     private async void CreateArtist()
@@ -113,7 +107,7 @@ public partial class CatalogMusicCreate : ComponentBase
         try
         {
             if (_editContextArtist.Validate()) return;
-            var response = await Http.PostAsJsonAsync<Artist>(nameof(Artist), NewArtist);
+            var response = await Http.PostAsJsonAsync(nameof(Artist), NewArtist);
             NewArtist = await response.Content.ReadFromJsonAsync<Artist>() ?? throw new InvalidOperationException();
             Artists.Add(NewArtist);
 
@@ -143,7 +137,7 @@ public partial class CatalogMusicCreate : ComponentBase
         try
         {
             if (_editContextGenre.Validate()) return;
-            var response = await Http.PostAsJsonAsync<Genre>(nameof(Genre), NewGenre);
+            var response = await Http.PostAsJsonAsync(nameof(Genre), NewGenre);
             NewGenre = await response.Content.ReadFromJsonAsync<Genre>() ?? throw new InvalidOperationException();
             Genres.Add(NewGenre);
             ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el genero {NewGenre?.Name}");
@@ -162,7 +156,7 @@ public partial class CatalogMusicCreate : ComponentBase
         try
         {
             if (_editContextFormat.Validate()) return;
-            var response = await Http.PostAsJsonAsync<Format>(nameof(Format), NewFormat);
+            var response = await Http.PostAsJsonAsync(nameof(Format), NewFormat);
             NewFormat = await response.Content.ReadFromJsonAsync<Format>() ?? throw new InvalidOperationException();
             Formats.Add(NewFormat);
             ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el formato {NewFormat?.Name}");
@@ -181,7 +175,7 @@ public partial class CatalogMusicCreate : ComponentBase
         try
         {
             if (_editContextPresentation.Validate()) return;
-            var response = await Http.PostAsJsonAsync<Presentation>(nameof(Presentation), NewPresentation);
+            var response = await Http.PostAsJsonAsync(nameof(Presentation), NewPresentation);
             NewPresentation = await response.Content.ReadFromJsonAsync<Presentation>() ??
                               throw new InvalidOperationException();
             Presentations.Add(NewPresentation);

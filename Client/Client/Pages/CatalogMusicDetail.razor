@@ -41,7 +41,7 @@
             <hr class="border-gray-300 my-2"/>
             <div class="flex justify-center p-2 md:p-5">
                 <div class="grid grid-cols-1 gap-y-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 md:gap-x-10">
-                    @foreach (var item in CatalogMusics)
+                    @foreach (var item in CatalogMusics!)
                     {
                         <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
                     }

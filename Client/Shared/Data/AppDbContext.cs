@@ -5,6 +5,11 @@ namespace SharedApp.Data;
 
 public class AppDbContext : DbContext
 {
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
+    {
+    }
+
     public DbSet<MusicCatalog> MusicCatalogs { get; set; }
     public DbSet<Artist> Artists { get; set; }
     public DbSet<Genre> Genres { get; set; }
@@ -12,11 +17,6 @@ public class AppDbContext : DbContext
     public DbSet<ImageCatalog> ImagesCatalog { get; set; }
     public DbSet<ImageArtist> ImageArtists { get; set; }
     public DbSet<Presentation> Presentations { get; set; }
-
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options)
-    {
-    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

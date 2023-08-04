@@ -53,10 +53,6 @@
     private List<Genre> Genres { get; set; } = new();
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
 
-    public CatalogMusicIndex()
-    {
-    }
-
     protected override async Task OnInitializedAsync()
     {
         Http = HttpFactory?.CreateClient("CatalogMusic.API");

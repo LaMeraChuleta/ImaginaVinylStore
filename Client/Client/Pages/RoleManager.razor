@@ -1,7 +1,6 @@
 ﻿@page "/RoleManager"
-@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using System.Net.Http.Headers
+@using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 <PageTitle>Roles</PageTitle>
 
@@ -31,10 +30,6 @@
     public IAccessTokenProvider TokenProvider { get; set; }
 
     private List<string> Roles { get; set; } = new();
-
-    public RoleManager()
-    {
-    }
 
     protected override async Task OnInitializedAsync()
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using SharedApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using SharedApp.Data;
+using SharedApp.Models;
 
 namespace Catalog.API.Controllers;
 
@@ -27,7 +27,7 @@ public class FormatController : ControllerBase
     public Format Post([FromBody] Format value)
     {
         if (!ModelState.IsValid) return null;
-        
+
         _context.Formats.Add(value);
         _context.SaveChanges();
         return value;

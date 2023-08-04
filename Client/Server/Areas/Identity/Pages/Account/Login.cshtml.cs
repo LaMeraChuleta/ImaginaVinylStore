@@ -11,8 +11,8 @@ namespace Client.Server.Areas.Identity.Pages.Account;
 
 public class LoginModel : PageModel
 {
-    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ILogger<LoginModel> _logger;
+    private readonly SignInManager<ApplicationUser> _signInManager;
 
     public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
     {
@@ -27,17 +27,6 @@ public class LoginModel : PageModel
     public string ReturnUrl { get; set; }
 
     [TempData] public string ErrorMessage { get; set; }
-
-    public class InputModel
-    {
-        [Required] [EmailAddress] public string Email { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-
-        [Display(Name = "Remember me?")] public bool RememberMe { get; set; }
-    }
 
     public async Task OnGetAsync(string returnUrl = null)
     {
@@ -73,21 +62,30 @@ public class LoginModel : PageModel
 
             if (result.RequiresTwoFactor)
                 return RedirectToPage("./LoginWith2fa",
-                    new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    new { ReturnUrl = returnUrl, Input.RememberMe });
 
             if (result.IsLockedOut)
             {
                 _logger.LogWarning("User account locked out.");
                 return RedirectToPage("./Lockout");
             }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                return Page();
-            }
+
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            return Page();
         }
 
         // If we got this far, something failed, redisplay form
         return Page();
+    }
+
+    public class InputModel
+    {
+        [Required] [EmailAddress] public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Display(Name = "Remember me?")] public bool RememberMe { get; set; }
     }
 }

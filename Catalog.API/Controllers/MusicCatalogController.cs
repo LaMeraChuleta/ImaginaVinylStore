@@ -11,8 +11,8 @@ namespace Catalog.API.Controllers;
 [ApiController]
 public class MusicCatalogController : ControllerBase
 {
-    private readonly AppDbContext _context;
     private readonly BlobContainerClient _blobClient;
+    private readonly AppDbContext _context;
 
     public MusicCatalogController(AppDbContext context, IConfiguration config)
     {
@@ -43,11 +43,10 @@ public class MusicCatalogController : ControllerBase
     public MusicCatalog Post([FromBody] MusicCatalog value)
     {
         if (ModelState.IsValid) return null;
-        
+
         _context.MusicCatalogs.Add(value);
         _context.SaveChanges();
         return value;
-
     }
 
     [HttpGet("Images")]

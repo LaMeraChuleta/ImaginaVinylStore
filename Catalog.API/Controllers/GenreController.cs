@@ -33,7 +33,7 @@ public class GenreController : ControllerBase
     public Genre Post([FromBody] Genre value)
     {
         if (!ModelState.IsValid) return null;
-        
+
         _context.Genres.Add(value);
         _context.SaveChanges();
         return value;

@@ -9,7 +9,7 @@ public static class IdentityConfig
     {
         return new[]
         {
-            new Duende.IdentityServer.Models.Client()
+            new Duende.IdentityServer.Models.Client
             {
                 ClientId = "Client_App",
                 ClientSecrets = { new Secret("Client_App".ToSha256()) },

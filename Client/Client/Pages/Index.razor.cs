@@ -15,10 +15,6 @@ public partial class Index : ComponentBase
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
     private List<Artist> Artists { get; set; } = new();
 
-    public Index()
-    {
-    }
-
     protected override async Task OnInitializedAsync()
     {
         var accessTokenResult = await TokenProvider.RequestAccessToken();
