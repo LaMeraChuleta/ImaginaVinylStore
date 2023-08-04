@@ -43,16 +43,14 @@ public class RolController : Controller
             if (!await _roleManager.RoleExistsAsync(rolName))
             {
                 var result = await _roleManager.CreateAsync(new IdentityRole(rolName));
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, rolName);
-                }
+                if (result.Succeeded) await _userManager.AddToRoleAsync(user, rolName);
             }
             else
             {
                 await _userManager.AddToRoleAsync(user, rolName);
             }
         }
+
         ModelRol.IsOpenAddRolToUser = false;
         return View("Index", ModelRol);
     }

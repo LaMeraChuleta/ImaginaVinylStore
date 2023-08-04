@@ -7,6 +7,7 @@ using System.Text.Json;
 using Blazored.Toast.Services;
 using Client.App.Shared;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.FileProviders;
 using InvalidOperationException = System.InvalidOperationException;
@@ -18,6 +19,7 @@ public partial class CatalogMusicCreate : ComponentBase
     [Inject] public HttpClient Http { get; set; }
     [Inject] public IHttpClientFactory HttpFactory { get; set; }
     [Inject] public NavigationManager NavigationManager { get; set; }
+    [Inject] public IAccessTokenProvider TokenProvider { get; set; }
     [Inject] public IToastService ToastService { get; set; }
     private MusicCatalog NewMusicCatalog { get; set; } = new();
     private List<IBrowserFile> PhotoMusicCatalog { get; set; } = new();
@@ -50,7 +52,16 @@ public partial class CatalogMusicCreate : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        var token = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var accessToken))
+        {
+            token = accessToken.Value;
+        }
+        
         Http = HttpFactory.CreateClient("CatalogMusic.API");
+        Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         Artists = await Http.GetFromJsonAsync<List<Artist>>(nameof(Artist)) ??
                   throw new InvalidOperationException();
