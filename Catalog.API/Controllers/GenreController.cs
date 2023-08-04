@@ -28,7 +28,8 @@ public class GenreController : ControllerBase
         return _context.Genres.Find(id);
     }
 
-    [HttpPost, Authorize]
+    [HttpPost]
+    [Authorize]
     public Genre Post([FromBody] Genre value)
     {
         _context.Genres.Add(value);

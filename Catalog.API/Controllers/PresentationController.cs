@@ -22,7 +22,8 @@ public class PresentationController : ControllerBase
         return _context.Presentations.ToArray();
     }
 
-    [HttpPost, Authorize]
+    [HttpPost]
+    [Authorize]
     public Presentation? Post([FromBody] Presentation value)
     {
         _context.Presentations.Add(value);

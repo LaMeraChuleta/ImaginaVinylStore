@@ -22,7 +22,8 @@ public class FormatController : ControllerBase
         return _context.Formats.ToArray();
     }
 
-    [HttpPost, Authorize]
+    [HttpPost]
+    [Authorize]
     public Format Post([FromBody] Format value)
     {
         _context.Formats.Add(value);

@@ -11,23 +11,29 @@
             <h1>Administrar roles</h1>
         </div>
         <ul>
-        @foreach (var rol in Roles)
-        {
-            <li>@rol</li>
-        }
+            @foreach (var rol in Roles)
+            {
+                <li>@rol</li>
+            }
         </ul>
     </div>
 </div>
 
 @code {
-    [Inject] public HttpClient Http { get; set; }
-    [Inject] public IHttpClientFactory HttpFactory { get; set; }
-    [Inject] public IAccessTokenProvider TokenProvider { get; set; }
+
+    [Inject]
+    public HttpClient Http { get; set; }
+
+    [Inject]
+    public IHttpClientFactory HttpFactory { get; set; }
+
+    [Inject]
+    public IAccessTokenProvider TokenProvider { get; set; }
+
     private List<string> Roles { get; set; } = new();
 
     public RoleManager()
     {
-
     }
 
     protected override async Task OnInitializedAsync()
@@ -39,10 +45,11 @@
         {
             token = accessToken.Value;
         }
-        
+
         Http = HttpFactory.CreateClient("Client.ServerAPI");
-        //Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    //Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         Roles = await Http.GetFromJsonAsync<List<string>>("Rol") ?? throw new InvalidOperationException();
         await base.OnInitializedAsync();
     }
+
 }

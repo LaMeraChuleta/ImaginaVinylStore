@@ -28,7 +28,8 @@ public class ArtistController : ControllerBase
             .ToArray();
     }
 
-    [HttpPost, Authorize]
+    [HttpPost]
+    [Authorize]
     public Artist Post([FromBody] Artist value)
     {
         _context.Artists.Add(value);
@@ -42,7 +43,8 @@ public class ArtistController : ControllerBase
         return Ok(_context.ImagesCatalog.Find(id));
     }
 
-    [HttpPost("Images"), Authorize]
+    [HttpPost("Images")]
+    [Authorize]
     public async Task<ImageArtist> PostImage(List<IFormFile> file, int id)
     {
         using var ms = new MemoryStream();

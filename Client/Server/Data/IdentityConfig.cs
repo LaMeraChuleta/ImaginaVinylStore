@@ -4,7 +4,7 @@ using IdentityModel;
 namespace Client.Server.Data;
 
 public static class IdentityConfig
-{ 
+{
     public static IEnumerable<Duende.IdentityServer.Models.Client> GetClients()
     {
         return new[]
@@ -17,5 +17,5 @@ public static class IdentityConfig
                 AllowedScopes = { "Client.App" }
             }
         }.ToArray();
-    } 
+    }
 }

@@ -7,7 +7,6 @@ namespace Client.Server.Controllers;
 
 public class RolController : Controller
 {
-    
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<ApplicationUser> _userManager;
 
@@ -25,6 +24,7 @@ public class RolController : Controller
             Users = _userManager.Users.ToList()
         };
     }
+
     // GET
     [HttpGet]
     public IActionResult Index(string id = "", bool isOpenModal = false)
@@ -54,7 +54,7 @@ public class RolController : Controller
         ModelRol.IsOpenAddRolToUser = false;
         return View("Index", ModelRol);
     }
-    
+
     public class RolModel
     {
         public string Id { get; set; }
@@ -62,10 +62,12 @@ public class RolController : Controller
         public bool IsOpenAddRolToUser { get; set; }
         public List<ApplicationUser> Users { get; set; }
         private UserManager<ApplicationUser> UserManager { get; }
+
         public RolModel(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
         }
+
         public async Task<List<string>> GetRolesAsync(ApplicationUser user)
         {
             var roles = await UserManager.GetRolesAsync(user);

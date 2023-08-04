@@ -55,11 +55,8 @@ public partial class CatalogMusicCreate : ComponentBase
         var accessTokenResult = await TokenProvider.RequestAccessToken();
         var token = string.Empty;
 
-        if (accessTokenResult.TryGetToken(out var accessToken))
-        {
-            token = accessToken.Value;
-        }
-        
+        if (accessTokenResult.TryGetToken(out var accessToken)) token = accessToken.Value;
+
         Http = HttpFactory.CreateClient("CatalogMusic.API");
         Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
