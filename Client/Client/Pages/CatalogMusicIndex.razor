@@ -1,6 +1,5 @@
 ﻿@page "/IndexCatalogMusic/{TypeFormat}"
 @using Client.App.Interfaces
-@using System.Net
 
 <div class="w-full px-10">
     <h3 class="text-4xl my-5">@TypeFormat</h3>
@@ -43,8 +42,12 @@
 
 @code {
 
-    [Parameter] public string? TypeFormat { get; set; }
-    [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
+    [Parameter]
+    public string? TypeFormat { get; set; }
+
+    [Inject]
+    public IHttpClientHelper HttpClientHelper { get; set; }
+
     private List<Genre> Genres { get; set; } = new();
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
 
@@ -63,4 +66,5 @@
 
         await base.OnParametersSetAsync();
     }
+
 }

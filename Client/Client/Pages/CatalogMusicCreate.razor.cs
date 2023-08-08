@@ -20,7 +20,7 @@ public partial class CatalogMusicCreate : ComponentBase
     [Inject] public NavigationManager NavigationManager { get; set; }
     [Inject] public IToastService ToastService { get; set; }
     [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
-    
+
     private MusicCatalog NewMusicCatalog { get; set; } = new();
     private List<IBrowserFile> PhotoMusicCatalog { get; } = new();
     private List<IBrowserFile> PhotoArtist { get; } = new();
@@ -98,7 +98,7 @@ public partial class CatalogMusicCreate : ComponentBase
 
             NewArtist = await HttpClientHelper.Post(nameof(Artist), NewArtist);
             Artists.Add(NewArtist);
-            
+
             foreach (var file in PhotoArtist)
             {
                 using var content = new MultipartFormDataContent();
