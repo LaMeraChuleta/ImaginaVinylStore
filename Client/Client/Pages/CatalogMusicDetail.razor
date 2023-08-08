@@ -76,6 +76,7 @@
 
     [Inject]
     public IHttpClientHelper HttpClientHelper { get; set; }
+    [Inject] public IToastService ToastService { get; set; }
 
     [Parameter]
     public int IdMusicCatalog { get; set; }
@@ -85,9 +86,16 @@
 
     protected override async Task OnInitializedAsync()
     {
-        CatalogMusics = await HttpClientHelper.Get<MusicCatalog>(nameof(MusicCatalog));
-        MusicCatalog = CatalogMusics.FirstOrDefault(x => x.Id == IdMusicCatalog) ?? new MusicCatalog();
+        try
+        {
+            CatalogMusics = await HttpClientHelper.Get<MusicCatalog>(nameof(MusicCatalog));
+            MusicCatalog = CatalogMusics.FirstOrDefault(x => x.Id == IdMusicCatalog) ?? new MusicCatalog();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         await base.OnInitializedAsync();
     }
-
 }

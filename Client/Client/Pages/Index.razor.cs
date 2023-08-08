@@ -1,4 +1,5 @@
-﻿using Client.App.Interfaces;
+﻿using Blazored.Toast.Services;
+using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
 using SharedApp.Models;
 
@@ -9,10 +10,18 @@ public partial class Index : ComponentBase
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
     private List<Artist> Artists { get; set; } = new();
     [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
+    [Inject] public IToastService ToastService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Artists = await HttpClientHelper.Get<Artist>(nameof(Artist));
-        CatalogMusics = await HttpClientHelper.Get<MusicCatalog>(nameof(MusicCatalog));
+        try
+        {
+            Artists = await HttpClientHelper.Get<Artist>(nameof(Artist));
+            CatalogMusics = await HttpClientHelper.Get<MusicCatalog>(nameof(MusicCatalog));
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowToast(ToastLevel.Error, ex.Message);
+        }
     }
 }
