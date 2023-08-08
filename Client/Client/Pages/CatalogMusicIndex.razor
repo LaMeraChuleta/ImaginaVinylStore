@@ -42,13 +42,18 @@
 
 @code {
 
-    [Parameter] public string? TypeFormat { get; set; }
-    [Inject]public IHttpClientHelper HttpClientHelper { get; set; }
-    [Inject] public IToastService ToastService { get; set; }
+    [Parameter]
+    public string? TypeFormat { get; set; }
+
+    [Inject]
+    public IHttpClientHelper HttpClientHelper { get; set; }
+
+    [Inject]
+    public IToastService ToastService { get; set; }
 
     private List<Genre> Genres { get; set; } = new();
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
-    
+
 
     protected override async Task OnParametersSetAsync()
     {

@@ -76,7 +76,9 @@
 
     [Inject]
     public IHttpClientHelper HttpClientHelper { get; set; }
-    [Inject] public IToastService ToastService { get; set; }
+
+    [Inject]
+    public IToastService ToastService { get; set; }
 
     [Parameter]
     public int IdMusicCatalog { get; set; }
@@ -98,4 +100,5 @@
         }
         await base.OnInitializedAsync();
     }
+
 }

@@ -5,8 +5,8 @@ namespace Catalog.API.Middlewares;
 
 public class GlobalExceptionMiddleware
 {
-    private readonly RequestDelegate _next;
     private readonly ILogger<GlobalExceptionMiddleware> _logger;
+    private readonly RequestDelegate _next;
 
     public GlobalExceptionMiddleware(ILogger<GlobalExceptionMiddleware> logger, RequestDelegate next)
     {

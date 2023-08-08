@@ -12,6 +12,7 @@ public class HttpClientHelper : IHttpClientHelper
 {
     private readonly HttpClient _httpClient;
     private readonly IAccessTokenProvider _tokenProvider;
+
     public HttpClientHelper(IHttpClientFactory httpClientFactory, IAccessTokenProvider tokenProvider)
     {
         _httpClient = httpClientFactory!.CreateClient("CatalogMusic.API");
@@ -32,7 +33,6 @@ public class HttpClientHelper : IHttpClientHelper
     {
         var response = await _httpClient.GetAsync(pathEndPoint);
         return await ParseResponseAsync<List<T>>(response);
-        
     }
 
     public async Task<T> Post<T>(string pathEndPoint, T data)
@@ -57,7 +57,7 @@ public class HttpClientHelper : IHttpClientHelper
     {
         if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
             return (await httpResponseMessage.Content.ReadFromJsonAsync<T>())!;
-        
+
         var problemDetail = await httpResponseMessage.Content.ReadFromJsonAsync<ProblemDetails>();
         throw new Exception(problemDetail!.Title);
     }
