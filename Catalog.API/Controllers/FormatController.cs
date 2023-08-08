@@ -17,19 +17,19 @@ public class FormatController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Format> Get()
+    public IResult Get()
     {
-        return _context.Formats.ToArray();
+        return Results.Ok(_context.Formats.ToArray());
     }
 
     [HttpPost]
     [Authorize]
-    public Format Post([FromBody] Format value)
+    public IResult Post([FromBody] Format value)
     {
-        if (!ModelState.IsValid) return null;
+        if (!ModelState.IsValid) return Results.BadRequest();
 
         _context.Formats.Add(value);
         _context.SaveChanges();
-        return value;
+        return Results.Ok(value);
     }
 }

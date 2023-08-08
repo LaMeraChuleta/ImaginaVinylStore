@@ -17,25 +17,25 @@ public class GenreController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Genre> Get()
+    public IResult Get()
     {
-        return _context.Genres.ToArray();
+        return Results.Ok(_context.Genres.ToArray());
     }
 
     [HttpGet("{id}")]
-    public Genre? Get(int id)
+    public IResult Get(int id)
     {
-        return _context.Genres.Find(id);
+        return Results.Ok(_context.Genres.Find(id));
     }
 
     [HttpPost]
     [Authorize]
-    public Genre Post([FromBody] Genre value)
+    public IResult Post([FromBody] Genre value)
     {
-        if (!ModelState.IsValid) return null;
+        if (!ModelState.IsValid) return Results.BadRequest();
 
         _context.Genres.Add(value);
         _context.SaveChanges();
-        return value;
+        return Results.Ok(value);
     }
 }

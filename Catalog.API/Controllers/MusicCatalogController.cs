@@ -21,43 +21,43 @@ public class MusicCatalogController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<MusicCatalog> Get()
+    public IResult Get()
     {
-        return _context.MusicCatalogs
+        return Results.Ok(_context.MusicCatalogs
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
             .Include(x => x.Format)
             .Include(x => x.Images)
-            .ToArray();
+            .ToArray());
     }
 
     [HttpGet("ById")]
-    public ActionResult GetById(int id)
+    public IResult GetById(int id)
     {
-        return Ok(_context.MusicCatalogs.Find(id));
+        return Results.Ok(_context.MusicCatalogs.Find(id));
     }
 
     [HttpPost]
     [Authorize]
-    public MusicCatalog Post([FromBody] MusicCatalog value)
+    public IResult Post([FromBody] MusicCatalog value)
     {
-        if (ModelState.IsValid) return null;
+        if (!ModelState.IsValid) return Results.BadRequest();
 
         _context.MusicCatalogs.Add(value);
         _context.SaveChanges();
-        return value;
+        return Results.Ok(value);
     }
 
     [HttpGet("Images")]
-    public ActionResult GetImage(int id)
+    public IResult GetImage(int id)
     {
-        return Ok(_context.ImagesCatalog.Find(id));
+        return Results.Ok(_context.ImagesCatalog.Find(id));
     }
 
     [HttpPost("Images")]
     [Authorize]
-    public async Task<ImageCatalog> PostImage(List<IFormFile> file, int id)
+    public async Task<IResult> PostImage(List<IFormFile> file, int id)
     {
         using var ms = new MemoryStream();
         var newImageCatalog = new ImageCatalog
@@ -74,6 +74,6 @@ public class MusicCatalogController : ControllerBase
         await _blobClient.UploadBlobAsync(newImageCatalog.Name, ms);
         await _context.ImagesCatalog.AddAsync(newImageCatalog);
         await _context.SaveChangesAsync();
-        return newImageCatalog;
+        return Results.Ok(newImageCatalog);
     }
 }

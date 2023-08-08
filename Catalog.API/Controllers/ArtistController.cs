@@ -21,33 +21,33 @@ public class ArtistController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Artist> Get()
+    public IResult Get()
     {
-        return _context.Artists
+        return Results.Ok(_context.Artists
             .Include(x => x.Image)
-            .ToArray();
+            .ToArray());
     }
 
     [HttpPost]
     [Authorize]
-    public Artist Post([FromBody] Artist value)
+    public IResult Post([FromBody] Artist value)
     {
-        if (!ModelState.IsValid) return null;
+        if (!ModelState.IsValid) return Results.BadRequest();
 
         _context.Artists.Add(value);
         _context.SaveChanges();
-        return value;
+        return Results.Ok(value);
     }
 
     [HttpGet("Images")]
-    public ActionResult GetImage(int id)
+    public IResult GetImage(int id)
     {
-        return Ok(_context.ImagesCatalog.Find(id));
+        return Results.Ok(_context.ImagesCatalog.Find(id));
     }
 
     [HttpPost("Images")]
     [Authorize]
-    public async Task<ImageArtist> PostImage(List<IFormFile> file, int id)
+    public async Task<IResult> PostImage(List<IFormFile> file, int id)
     {
         using var ms = new MemoryStream();
         var newImageArtist = new ImageArtist
@@ -64,6 +64,6 @@ public class ArtistController : ControllerBase
         await _blobClient.UploadBlobAsync(newImageArtist.Name, ms);
         await _context.ImageArtists.AddAsync(newImageArtist);
         await _context.SaveChangesAsync();
-        return newImageArtist;
+        return Results.Ok(newImageArtist);
     }
 }

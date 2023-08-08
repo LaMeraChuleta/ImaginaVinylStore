@@ -17,19 +17,19 @@ public class PresentationController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Presentation> Get()
+    public IResult Get()
     {
-        return _context.Presentations.ToArray();
+        return Results.Ok(_context.Presentations.ToArray());
     }
 
     [HttpPost]
     [Authorize]
-    public Presentation? Post([FromBody] Presentation value)
+    public IResult Post([FromBody] Presentation value)
     {
-        if (!ModelState.IsValid) return null;
+        if (!ModelState.IsValid) return Results.BadRequest();
 
         _context.Presentations.Add(value);
         _context.SaveChanges();
-        return value;
+        return Results.Ok(value);
     }
 }
