@@ -1,4 +1,6 @@
 ﻿@page "/IndexCatalogMusic/{TypeFormat}"
+@using Client.App.Interfaces
+@using System.Net
 
 <div class="w-full px-10">
     <h3 class="text-4xl my-5">@TypeFormat</h3>
@@ -41,29 +43,16 @@
 
 @code {
 
-    [Inject]
-    public HttpClient? Http { get; set; }
-
-    [Inject]
-    public IHttpClientFactory? HttpFactory { get; set; }
-
-    [Parameter]
-    public string? TypeFormat { get; set; }
-
+    [Parameter] public string? TypeFormat { get; set; }
+    [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
     private List<Genre> Genres { get; set; } = new();
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        Http = HttpFactory?.CreateClient("CatalogMusic.API");
-        if (Http != null) Genres = await Http.GetFromJsonAsync<List<Genre>>(nameof(Genre)) ?? throw new InvalidOperationException();
-        await base.OnInitializedAsync();
-    }
 
     protected override async Task OnParametersSetAsync()
     {
         TypeFormat = TypeFormat;
-        if (Http != null) CatalogMusics = await Http.GetFromJsonAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? throw new InvalidOperationException();
+        Genres = await HttpClientHelper.Get<Genre>(nameof(Genre));
+        CatalogMusics = await HttpClientHelper.Get<MusicCatalog>(nameof(MusicCatalog));
         CatalogMusics = TypeFormat switch
         {
             "Vinyl" => CatalogMusics.Where(x => x.Format?.Name == "Vinyl").ToList(),
@@ -74,5 +63,4 @@
 
         await base.OnParametersSetAsync();
     }
-
 }

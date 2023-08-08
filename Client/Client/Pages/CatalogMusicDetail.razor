@@ -1,4 +1,5 @@
 ﻿@page "/CatalogMusicDetail/{IdMusicCatalog:int}"
+@using Client.App.Interfaces
 
 @if (MusicCatalog != null)
 {
@@ -72,13 +73,8 @@
 }
 
 @code {
-
-    [Inject]
-    public HttpClient? Http { get; set; }
-
-    [Inject]
-    public IHttpClientFactory? HttpFactory { get; set; }
-
+    
+    [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
     [Parameter]
     public int IdMusicCatalog { get; set; }
 
@@ -87,12 +83,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Http = HttpFactory?.CreateClient("CatalogMusic.API");
-        if (Http != null)
-        {
-            CatalogMusics = await Http.GetFromJsonAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? throw new InvalidOperationException();
-            MusicCatalog = CatalogMusics.FirstOrDefault(x => x.Id == IdMusicCatalog) ?? new MusicCatalog();
-        }
+        CatalogMusics = await HttpClientHelper.Get<MusicCatalog>(nameof(MusicCatalog));
+        MusicCatalog = CatalogMusics.FirstOrDefault(x => x.Id == IdMusicCatalog) ?? new MusicCatalog();
         await base.OnInitializedAsync();
     }
 
