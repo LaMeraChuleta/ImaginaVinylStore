@@ -1,5 +1,7 @@
 using Blazored.Toast;
 using Client.App;
+using Client.App.Interfaces;
+using Client.App.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -15,6 +17,6 @@ builder.Services.AddHttpClient("CatalogMusic.API",
 
 builder.Services.AddBlazoredToast();
 builder.Services.AddApiAuthorization();
-
+builder.Services.AddScoped<IHttpClientHelper, HttpClientHelper>();
 
 await builder.Build().RunAsync();
