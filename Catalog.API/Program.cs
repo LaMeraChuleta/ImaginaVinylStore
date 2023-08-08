@@ -1,3 +1,4 @@
+using Catalog.API.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SharedApp.Data;
@@ -38,6 +39,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 //}
 
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
