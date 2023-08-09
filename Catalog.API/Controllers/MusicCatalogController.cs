@@ -35,7 +35,39 @@ public class MusicCatalogController : ControllerBase
     [HttpGet("ById")]
     public IResult GetById(int id)
     {
-        return Results.Ok(_context.MusicCatalogs.Find(id));
+        return Results.Ok(_context.MusicCatalogs
+            .Include(x => x.Artist)
+            .Include(x => x.Genre)
+            .Include(x => x.Presentation)
+            .Include(x => x.Format)
+            .Include(x => x.Images)
+            .First(x => x.Id == id));
+    }
+
+    [HttpGet("ForFilter")]
+    public IResult GetByFilter(int? idGenre, int? idArtist, int? idFormat, int? idPresentation)
+    {
+        var data = _context.MusicCatalogs
+            .Include(x => x.Artist)
+            .Include(x => x.Genre)
+            .Include(x => x.Presentation)
+            .Include(x => x.Format)
+            .Include(x => x.Images)
+            .Where(x =>                      
+                (idGenre == null || x.Genre!.Id == idGenre) &&
+                (idArtist == null || x.Artist!.Id == idArtist) &&
+                (idPresentation == null || x.Presentation!.Id == idPresentation) &&
+                (idFormat == null || x.Format!.Id == idFormat)
+            )
+            .ToArray();
+        
+        return Results.Ok(data);
+    }
+
+    [HttpGet("ForSearch")]
+    public IResult GetForSearchBar(string wordSearch)
+    {
+        return Results.Ok(_context.MusicCatalogs.ToArray());
     }
 
     [HttpPost]
