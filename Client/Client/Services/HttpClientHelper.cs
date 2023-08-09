@@ -29,10 +29,16 @@ public class HttpClientHelper : IHttpClientHelper
                 new AuthenticationHeaderValue("Bearer", accessToken.Value);
     }
 
-    public async Task<List<T>> Get<T>(string pathEndPoint)
+    public async Task<T> Get<T>(string pathEndPoint)
     {
         var response = await _httpClient.GetAsync(pathEndPoint);
-        return await ParseResponseAsync<List<T>>(response);
+        return await ParseResponseAsync<T>(response);
+    }
+    public async Task<T> Get<T>(string pathEndPoint, Dictionary<string, string> parameters)
+    {
+        pathEndPoint = BuildUrlWithQueryParams(pathEndPoint, parameters);
+        var response = await _httpClient.GetAsync(pathEndPoint);
+        return await ParseResponseAsync<T>(response);
     }
 
     public async Task<T> Post<T>(string pathEndPoint, T data)
@@ -40,25 +46,27 @@ public class HttpClientHelper : IHttpClientHelper
         var response = await _httpClient.PostAsJsonAsync(pathEndPoint, data);
         return await ParseResponseAsync<T>(response);
     }
-
-    public async Task<ImageArtist> PostImageArtist(string pathEndPoint, MultipartFormDataContent data)
+    
+    public async Task<T> Post<T>(string pathEndPoint, MultipartFormDataContent data)
     {
-        var result = await _httpClient.PostAsync(pathEndPoint, data);
-        return await ParseResponseAsync<ImageArtist>(result);
+        var response = await _httpClient.PostAsync(pathEndPoint, data);
+        return await ParseResponseAsync<T>(response);
     }
 
-    public async Task<ImageCatalog> PostImageCatalog(string pathEndPoint, MultipartFormDataContent data)
-    {
-        var result = await _httpClient.PostAsync(pathEndPoint, data);
-        return await ParseResponseAsync<ImageCatalog>(result);
-    }
-
-    private async Task<T> ParseResponseAsync<T>(HttpResponseMessage httpResponseMessage)
+    private static async Task<T> ParseResponseAsync<T>(HttpResponseMessage httpResponseMessage)
     {
         if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
             return (await httpResponseMessage.Content.ReadFromJsonAsync<T>())!;
 
         var problemDetail = await httpResponseMessage.Content.ReadFromJsonAsync<ProblemDetails>();
         throw new Exception(problemDetail!.Title);
+    }
+    
+    private static string BuildUrlWithQueryParams(string url, Dictionary<string, string> queryParams)
+    {
+        if (queryParams.Count == 0) return url;
+        
+        var queryString = string.Join("&", queryParams.Select(x => $"{x.Key}={WebUtility.UrlEncode(x.Value)}"));
+        return $"{url}?{queryString}";
     }
 }
