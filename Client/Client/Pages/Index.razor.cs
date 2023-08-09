@@ -16,8 +16,8 @@ public partial class Index : ComponentBase
     {
         try
         {
-            Artists = await HttpClientHelper.Get<Artist>(nameof(Artist));
-            CatalogMusics = await HttpClientHelper.Get<MusicCatalog>(nameof(MusicCatalog));
+            Artists = await HttpClientHelper.Get<List<Artist>>(nameof(Artist));
+            CatalogMusics = await HttpClientHelper.Get<List<MusicCatalog>>(nameof(MusicCatalog));
         }
         catch (Exception ex)
         {

@@ -1,7 +1,7 @@
 ﻿@page "/CatalogMusicDetail/{IdMusicCatalog:int}"
 @using Client.App.Interfaces
 
-@if (MusicCatalog != null)
+@if (MusicCatalog is not null)
 {
     <div class="w-full px-10">
         <div class="flex flex-col md:flex-row">
@@ -70,35 +70,4 @@
             </div>
         </div>
     </div>
-}
-
-@code {
-
-    [Inject]
-    public IHttpClientHelper HttpClientHelper { get; set; }
-
-    [Inject]
-    public IToastService ToastService { get; set; }
-
-    [Parameter]
-    public int IdMusicCatalog { get; set; }
-
-    private MusicCatalog? MusicCatalog { get; set; }
-    private List<MusicCatalog>? CatalogMusics { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            CatalogMusics = await HttpClientHelper.Get<MusicCatalog>(nameof(MusicCatalog));
-            MusicCatalog = CatalogMusics.FirstOrDefault(x => x.Id == IdMusicCatalog) ?? new MusicCatalog();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-        await base.OnInitializedAsync();
-    }
-
 }

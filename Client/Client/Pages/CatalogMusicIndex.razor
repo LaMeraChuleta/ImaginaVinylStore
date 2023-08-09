@@ -1,5 +1,4 @@
 ﻿@page "/IndexCatalogMusic/{TypeFormat}"
-@using Client.App.Interfaces
 
 <div class="w-full px-10">
     <h3 class="text-4xl my-5">@TypeFormat</h3>
@@ -36,45 +35,5 @@
                 </div>
             </div>
         }
-
     </div>
 </div>
-
-@code {
-
-    [Parameter]
-    public string? TypeFormat { get; set; }
-
-    [Inject]
-    public IHttpClientHelper HttpClientHelper { get; set; }
-
-    [Inject]
-    public IToastService ToastService { get; set; }
-
-    private List<Genre> Genres { get; set; } = new();
-    private List<MusicCatalog> CatalogMusics { get; set; } = new();
-
-
-    protected override async Task OnParametersSetAsync()
-    {
-        try
-        {
-            TypeFormat = TypeFormat;
-            Genres = await HttpClientHelper.Get<Genre>(nameof(Genre));
-            CatalogMusics = await HttpClientHelper.Get<MusicCatalog>(nameof(MusicCatalog));
-            CatalogMusics = TypeFormat switch
-            {
-                "Vinyl" => CatalogMusics.Where(x => x.Format?.Name == "Vinyl").ToList(),
-                "CD" => CatalogMusics.Where(x => x.Format?.Name == "CD").ToList(),
-                "Cassette" => CatalogMusics.Where(x => x.Format?.Name == "Cassette").ToList(),
-                _ => CatalogMusics
-                };
-        }
-        catch (Exception ex)
-        {
-            ToastService.ShowToast(ToastLevel.Error, ex.Message);
-        }
-        await base.OnParametersSetAsync();
-    }
-
-}

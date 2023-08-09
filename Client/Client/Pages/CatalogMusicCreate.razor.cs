@@ -46,16 +46,16 @@ public partial class CatalogMusicCreate : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         _editContextArtist = new EditContext(NewArtist);
-        Artists = await HttpClientHelper.Get<Artist>(nameof(Artist));
+        Artists = await HttpClientHelper.Get<List<Artist>>(nameof(Artist));
 
         _editContextFormat = new EditContext(NewFormat);
-        Formats = await HttpClientHelper.Get<Format>(nameof(Format));
+        Formats = await HttpClientHelper.Get<List<Format>>(nameof(Format));
 
         _editContextGenre = new EditContext(NewGenre);
-        Genres = await HttpClientHelper.Get<Genre>(nameof(Genre));
+        Genres = await HttpClientHelper.Get<List<Genre>>(nameof(Genre));
 
         _editContextPresentation = new EditContext(NewPresentation);
-        Presentations = await HttpClientHelper.Get<Presentation>(nameof(Presentation));
+        Presentations = await HttpClientHelper.Get<List<Presentation>>(nameof(Presentation));
 
         _editContextMusicCatalog = new EditContext(NewMusicCatalog);
     }
@@ -73,8 +73,7 @@ public partial class CatalogMusicCreate : ComponentBase
                 var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
                 fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
                 content.Add(fileContent, nameof(file), file.Name);
-                var image = await HttpClientHelper.PostImageCatalog(
-                    $"{nameof(MusicCatalog)}/Images?id={NewMusicCatalog?.Id}", content);
+                var image = await HttpClientHelper.Post<ImageCatalog>($"{nameof(MusicCatalog)}/Images?id={NewMusicCatalog?.Id}", content);
                 NewMusicCatalog?.Images?.ToList().Add(image);
             }
 
@@ -105,7 +104,7 @@ public partial class CatalogMusicCreate : ComponentBase
                 var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
                 fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
                 content.Add(fileContent, nameof(file), file.Name);
-                await HttpClientHelper.PostImageArtist($"{nameof(Artist)}/Images?id={NewArtist?.Id}", content);
+                await HttpClientHelper.Post<ImageArtist>($"{nameof(Artist)}/Images?id={NewArtist?.Id}", content);
             }
 
             ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el artista {NewArtist?.Name}");
