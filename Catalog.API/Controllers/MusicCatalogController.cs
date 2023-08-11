@@ -28,7 +28,7 @@ public class MusicCatalogController : ControllerBase
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
             .Include(x => x.Format)
-            .Include(x => x.Images)
+            .Include(x => x.Images)            
             .ToArray());
     }
 
@@ -45,7 +45,7 @@ public class MusicCatalogController : ControllerBase
     }
 
     [HttpGet("ForFilter")]
-    public IResult GetByFilter(int? idGenre, int? idArtist, int? idFormat, int? idPresentation)
+    public IResult GetByFilter(string? title, int? idGenre, int? idArtist, int? idFormat, int? idPresentation)
     {
         var data = _context.MusicCatalogs
             .Include(x => x.Artist)
@@ -53,7 +53,8 @@ public class MusicCatalogController : ControllerBase
             .Include(x => x.Presentation)
             .Include(x => x.Format)
             .Include(x => x.Images)
-            .Where(x =>                      
+            .Where(x =>
+                (title == null || x.Title.Contains(title)) &&
                 (idGenre == null || x.Genre!.Id == idGenre) &&
                 (idArtist == null || x.Artist!.Id == idArtist) &&
                 (idPresentation == null || x.Presentation!.Id == idPresentation) &&
