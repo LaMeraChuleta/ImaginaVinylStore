@@ -14,7 +14,7 @@ public class HttpClientHelper : IHttpClientHelper
 
     public HttpClientHelper(IHttpClientFactory httpClientFactory, IAccessTokenProvider tokenProvider)
     {
-        _httpClient = httpClientFactory!.CreateClient("CatalogMusic.API");
+        _httpClient = httpClientFactory.CreateClient("CatalogMusic.API");
         _tokenProvider = tokenProvider;
 
         ConfigureAuthorizationHeaderAsync();

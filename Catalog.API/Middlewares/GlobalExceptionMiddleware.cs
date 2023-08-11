@@ -20,14 +20,14 @@ public class GlobalExceptionMiddleware
         {
             await _next(httpContext);
         }
-        catch (DbUpdateException ex)
+        catch (DbUpdateException)
         {
             await Results.Problem(
                     title: "Ocurrio un error al actualizar el registro en la base de datos",
                     statusCode: StatusCodes.Status500InternalServerError)
                 .ExecuteAsync(httpContext);
         }
-        catch (SqlException ex)
+        catch (SqlException)
         {
             await Results.Problem(
                     title: "Ocurrio un error en la base de datos",
