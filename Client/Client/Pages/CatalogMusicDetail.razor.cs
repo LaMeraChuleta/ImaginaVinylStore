@@ -20,13 +20,14 @@ public partial class CatalogMusicDetail : ComponentBase
         {
             CatalogMusics = await HttpClientHelper.Get<List<MusicCatalog>>(nameof(MusicCatalog));
 
-            var parameters = new Dictionary<string, string>() { { "id", IdMusicCatalog.ToString() } };
+            var parameters = new Dictionary<string, string> { { "id", IdMusicCatalog.ToString() } };
             MusicCatalog = await HttpClientHelper.Get<MusicCatalog>($"{nameof(MusicCatalog)}/ById", parameters);
         }
         catch (Exception ex)
         {
             ToastService.ShowToast(ToastLevel.Error, ex.Message);
         }
+
         await base.OnInitializedAsync();
     }
 }

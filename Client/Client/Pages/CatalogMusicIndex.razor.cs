@@ -16,7 +16,7 @@ public partial class CatalogMusicIndex : ComponentBase
     private List<Format> Formats { get; set; } = new();
     private List<Presentation> Presentations { get; set; } = new();
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
-    private FilterForCatalogMusic Filter { get; set; } = new();
+    private FilterForCatalogMusic Filter { get; } = new();
 
 
     protected override async Task OnParametersSetAsync()
@@ -30,13 +30,15 @@ public partial class CatalogMusicIndex : ComponentBase
 
             Filter.IdFormat = Formats.Find(x => x.Name == TypeFormat)!.Id;
             var parameter = Filter.ParseToDictionary();
-            CatalogMusics = await HttpClientHelper.Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForFilter", parameter);
+            CatalogMusics =
+                await HttpClientHelper.Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForFilter", parameter);
             Presentations = Presentations.Where(x => x.FormatId == Filter.IdFormat).ToList();
         }
         catch (Exception ex)
         {
             ToastService.ShowToast(ToastLevel.Error, ex.Message);
         }
+
         await base.OnParametersSetAsync();
     }
 
@@ -45,7 +47,8 @@ public partial class CatalogMusicIndex : ComponentBase
         try
         {
             var parameter = Filter.ParseToDictionary();
-            CatalogMusics = await HttpClientHelper.Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForFilter", parameter);
+            CatalogMusics =
+                await HttpClientHelper.Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForFilter", parameter);
             StateHasChanged();
         }
         catch (Exception e)
@@ -66,28 +69,13 @@ public partial class CatalogMusicIndex : ComponentBase
         internal Dictionary<string, string> ParseToDictionary()
         {
             var parameter = new Dictionary<string, string>();
-            
-            if (!string.IsNullOrEmpty(Title))
-            {
-                parameter.Add("title", Title);
-            }
-            if (IdArtist != 0)
-            {
-                parameter.Add("idArtist", IdArtist.ToString());
-            }
-            if (IdGenre != 0)
-            {
-                parameter.Add("idGenre", IdGenre.ToString());
-            }
-            if (IdFormat != 0)
-            {
-                parameter.Add("idFormat", IdFormat.ToString());
-            }
-            if (IdPresentation != 0)
-            {
-                parameter.Add("idPresentation", IdPresentation.ToString());
-            }
-            
+
+            if (!string.IsNullOrEmpty(Title)) parameter.Add("title", Title);
+            if (IdArtist != 0) parameter.Add("idArtist", IdArtist.ToString());
+            if (IdGenre != 0) parameter.Add("idGenre", IdGenre.ToString());
+            if (IdFormat != 0) parameter.Add("idFormat", IdFormat.ToString());
+            if (IdPresentation != 0) parameter.Add("idPresentation", IdPresentation.ToString());
+
             return parameter;
         }
     }

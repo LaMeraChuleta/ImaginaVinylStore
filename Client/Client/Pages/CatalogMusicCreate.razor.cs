@@ -73,7 +73,8 @@ public partial class CatalogMusicCreate : ComponentBase
                 var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
                 fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
                 content.Add(fileContent, nameof(file), file.Name);
-                var image = await HttpClientHelper.Post<ImageCatalog>($"{nameof(MusicCatalog)}/Images?id={NewMusicCatalog?.Id}", content);
+                var image = await HttpClientHelper.Post<ImageCatalog>(
+                    $"{nameof(MusicCatalog)}/Images?id={NewMusicCatalog?.Id}", content);
                 NewMusicCatalog?.Images?.ToList().Add(image);
             }
 

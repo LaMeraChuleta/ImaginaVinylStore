@@ -5,13 +5,13 @@
     <div class="flex my-5 space-x-16">
         <h3 class="text-2xl">Filtros</h3>
         <input @bind="Filter.Title" type="text" class="w-52 h-8 rounded-lg"/>
-           <select @bind="Filter.IdArtist" class="w-52 h-8 rounded-lg" name="" id="">
-                    <option value="">Artista</option>
-                    @foreach (var artist in Artists)
-                    {
-                        <option value="@artist.Id">@artist.Name</option>
-                    }
-                </select>
+        <select @bind="Filter.IdArtist" class="w-52 h-8 rounded-lg" name="" id="">
+            <option value="">Artista</option>
+            @foreach (var artist in Artists)
+            {
+                <option value="@artist.Id">@artist.Name</option>
+            }
+        </select>
         <select @bind="@Filter.IdGenre" class="w-52 h-8 rounded-lg" name="" id="">
             <option value="">Genero</option>
             @foreach (var genre in Genres)
@@ -19,7 +19,7 @@
                 <option value="@genre.Id">@genre.Name</option>
             }
         </select>
-       <select @bind="Filter.IdPresentation" class="w-52 h-8 rounded-lg" name="" id="">
+        <select @bind="Filter.IdPresentation" class="w-52 h-8 rounded-lg" name="" id="">
             <option value="">Presentacion</option>
             @foreach (var presentation in Presentations)
             {
