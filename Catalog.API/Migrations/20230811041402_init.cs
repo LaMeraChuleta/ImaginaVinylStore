@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -7,9 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Catalog.API.Migrations
 {
     /// <inheritdoc />
-#pragma warning disable CS8981
     public partial class init : Migration
-#pragma warning restore CS8981
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,12 +31,16 @@ namespace Catalog.API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Formats", x => x.Id);
                 });
+
+            migrationBuilder.Sql("INSERT INTO Formats (Name) VALUES ('Vinyl')");
+            migrationBuilder.Sql("INSERT INTO Formats (Name) VALUES ('Cassette')");
+            migrationBuilder.Sql("INSERT INTO Formats (Name) VALUES ('CD')");
 
             migrationBuilder.CreateTable(
                 name: "Genres",
@@ -54,22 +55,49 @@ namespace Catalog.API.Migrations
                     table.PrimaryKey("PK_Genres", x => x.Id);
                 });
 
+            migrationBuilder.Sql("INSERT INTO Genres (Name) VALUES ('Rock')");
+            migrationBuilder.Sql("INSERT INTO Genres (Name) VALUES ('Rock/Psicodelico')");
+            migrationBuilder.Sql("INSERT INTO Genres (Name) VALUES ('Jazz')");
+            migrationBuilder.Sql("INSERT INTO Genres (Name) VALUES ('Blues')");
+            migrationBuilder.Sql("INSERT INTO Genres (Name) VALUES ('Pop')");
+
             migrationBuilder.CreateTable(
                 name: "Presentations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FormatId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Presentations", x => x.Id);
+                });
+
+            migrationBuilder.Sql("INSERT INTO Presentations (Name, FormatId) VALUES ('12', 1)");
+            migrationBuilder.Sql("INSERT INTO Presentations (Name, FormatId) VALUES ('12 Gatefold 2LP', 1)");
+            migrationBuilder.Sql("INSERT INTO Presentations (Name, FormatId) VALUES ('7', 1)");
+            migrationBuilder.Sql("INSERT INTO Presentations (Name, FormatId) VALUES ('Metal', 2)");
+            migrationBuilder.Sql("INSERT INTO Presentations (Name, FormatId) VALUES ('CD Doble', 3)");    
+
+            migrationBuilder.CreateTable(
+                name: "ImageArtists",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ArtistId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ImageArtists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Presentations_Formats_FormatId",
-                        column: x => x.FormatId,
-                        principalTable: "Formats",
+                        name: "FK_ImageArtists_Artists_ArtistId",
+                        column: x => x.ArtistId,
+                        principalTable: "Artists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -119,7 +147,8 @@ namespace Catalog.API.Migrations
                         name: "FK_MusicCatalogs_Presentations_PresentationId",
                         column: x => x.PresentationId,
                         principalTable: "Presentations",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,6 +171,12 @@ namespace Catalog.API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ImageArtists_ArtistId",
+                table: "ImageArtists",
+                column: "ArtistId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ImagesCatalog_MusicCatalogId",
@@ -167,16 +202,14 @@ namespace Catalog.API.Migrations
                 name: "IX_MusicCatalogs_PresentationId",
                 table: "MusicCatalogs",
                 column: "PresentationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Presentations_FormatId",
-                table: "Presentations",
-                column: "FormatId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ImageArtists");
+
             migrationBuilder.DropTable(
                 name: "ImagesCatalog");
 
@@ -187,13 +220,13 @@ namespace Catalog.API.Migrations
                 name: "Artists");
 
             migrationBuilder.DropTable(
+                name: "Formats");
+
+            migrationBuilder.DropTable(
                 name: "Genres");
 
             migrationBuilder.DropTable(
                 name: "Presentations");
-
-            migrationBuilder.DropTable(
-                name: "Formats");
         }
     }
 }

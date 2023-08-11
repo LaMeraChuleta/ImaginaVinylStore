@@ -20,11 +20,9 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        const string connectionString =
-            "Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
-        optionsBuilder.UseSqlServer(connectionString);
+        const string connectionString ="Server=localhost,1433;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
+        optionsBuilder.UseSqlServer(connectionString, builder => builder.EnableRetryOnFailure());
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<MusicCatalog>()
