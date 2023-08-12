@@ -1,0 +1,15 @@
+﻿<div class=" inline-flex mt-10">
+    <img class="w-24 h-24" src="@MusicCatalogs.Images!.First().Url" alt="Imagen del disco">
+    <div class="ml-5">
+        <p>@MusicCatalogs.Title</p>
+        <p>@MusicCatalogs.Artist!.Name</p>
+        <p>Formato: @MusicCatalogs.Format!.Name</p>
+    </div>            
+</div>
+
+
+@code
+{
+    [Parameter]
+    public MusicCatalog MusicCatalogs { get; set; } = new();
+}
