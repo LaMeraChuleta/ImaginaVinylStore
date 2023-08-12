@@ -2,19 +2,12 @@
 {
     <LeftNavBar SendRedirectPage="RedirectByPathUrl"></LeftNavBar>
 }
-<NavBar SendOpenLeftBar="@(() => ShowLeftBar = !ShowLeftBar)" SendRedirectPage="RedirectByPathUrl"></NavBar>
 
-@code {
-
-    [Inject]
-    private NavigationManager? NavigationManager { get; set; }
-
-    private bool ShowLeftBar { get; set; }
-
-    private void RedirectByPathUrl(string path)
-    {
-        ShowLeftBar = false;
-        NavigationManager?.NavigateTo(path);
-    }
-
+@if (ShowSearList)
+{
+    <SearchNavBarList ></SearchNavBarList>
 }
+<NavBar SendOpenLeftBar="@(() => ShowLeftBar = !ShowLeftBar)"
+        SendOpenSearchList="@(() => ShowSearList = !ShowSearList)"
+        SendRedirectPage="RedirectByPathUrl">
+</NavBar>
