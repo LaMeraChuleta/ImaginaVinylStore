@@ -66,9 +66,16 @@ public class MusicCatalogController : ControllerBase
     }
 
     [HttpGet("ForSearch")]
-    public IResult GetForSearchBar(string wordSearch)
+    public IResult GetForSearchBar(string querySearch)
     {
-        return Results.Ok(_context.MusicCatalogs.ToArray());
+        return Results.Ok(_context.MusicCatalogs
+            .Include(x => x.Artist)
+            .Include(x => x.Genre)
+            .Include(x => x.Presentation)
+            .Include(x => x.Format)
+            .Include(x => x.Images)
+            .Where(x => x.Title == querySearch)
+            .ToArray());
     }
 
     [HttpPost]
