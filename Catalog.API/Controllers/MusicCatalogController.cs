@@ -74,7 +74,7 @@ public class MusicCatalogController : ControllerBase
             .Include(x => x.Presentation)
             .Include(x => x.Format)
             .Include(x => x.Images)
-            .Where(x => x.Title == querySearch)
+            .Where(x => x.Title.Contains(querySearch))
             .ToArray());
     }
 
