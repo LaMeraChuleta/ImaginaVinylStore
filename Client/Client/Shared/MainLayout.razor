@@ -1,10 +1,11 @@
 ﻿@using Blazored.Toast.Configuration
 @inherits LayoutComponentBase
 
-<div>
+<body class="flex flex-col min-h-screen">
     <SuperNav></SuperNav>
     <BlazoredToasts Position="ToastPosition.BottomRight"/>
-    <main>
+    <main class="flex-grow">
         @Body
     </main>
-</div>
+    <Footer></Footer>
+</body>
