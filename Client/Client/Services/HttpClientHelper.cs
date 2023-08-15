@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using SharedApp;
+using SharedApp.Validation;
 
 namespace Client.App.Services;
 
