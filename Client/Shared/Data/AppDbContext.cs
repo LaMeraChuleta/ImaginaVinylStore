@@ -5,6 +5,11 @@ namespace SharedApp.Data;
 
 public class AppDbContext : DbContext
 {
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
+    {
+    }
+
     public DbSet<MusicCatalog> MusicCatalogs { get; set; }
     public DbSet<Artist> Artists { get; set; }
     public DbSet<Genre> Genres { get; set; }
@@ -13,16 +18,11 @@ public class AppDbContext : DbContext
     public DbSet<ImageArtist> ImageArtists { get; set; }
     public DbSet<Presentation> Presentations { get; set; }
 
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options)
-    {
-    }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         const string connectionString =
-            "Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
-        optionsBuilder.UseSqlServer(connectionString);
+            "Server=localhost,1433;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
+        optionsBuilder.UseSqlServer(connectionString, builder => builder.EnableRetryOnFailure());
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

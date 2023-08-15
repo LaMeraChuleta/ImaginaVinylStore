@@ -1,46 +1,43 @@
-using Client.App.Shared;
+using System.Text;
 using Client.Server.Data;
 using Client.Server.Models;
-using Duende.IdentityServer.Models;
-using IdentityModel;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SharedApp.Data;
-using Client = Duende.IdentityServer.Models.Client;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer("Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;"));
+    options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => { options.SignIn.RequireConfirmedAccount = true; })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer("Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;"));
-
-
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>
+    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        options.Clients.Add(new Duende.IdentityServer.Models.Client()
+        options.TokenValidationParameters = new TokenValidationParameters
         {
-            ClientId = "Client_App",
-            ClientSecrets = { new Secret("Client_App".ToSha256()) },
-            AllowedGrantTypes = GrantTypes.ClientCredentials,
-            AllowedScopes = { "Client.App" }
-        });
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "Client.App",
+            ValidAudience = "Client.Server",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret_key"))
+        };
     });
-
-
-builder.Services.AddAuthentication()
-    .AddIdentityServerJwt();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -49,6 +46,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
     app.UseWebAssemblyDebugging();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
@@ -68,9 +67,10 @@ app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.MapRazorPages();
-app.MapControllers();
+app.MapControllerRoute(
+    "default",
+    "{controller=Home}/{action=Index}/{id?}");
 app.MapFallbackToFile("index.html");
 
 app.Run();

@@ -1,32 +1,38 @@
-﻿<div class="flex flex-col items-center h-screen bg-gray-100 shadow-lg fixed z-50 top w-64 pt-5">
-  <div class="p-4">
-    <img alt="Imagen del usuario" src="https://imusic.b-cdn.net/images/item/original/532/0887828045532.jpg?arctic-monkeys-2022-the-car-lp&class=scaled" class="w-16 h-16 rounded-full"/>
-  </div>
-  <LoginDisplay></LoginDisplay>
-  <div class="mt-4">
-    <ul class="text-gray-600">
-      <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/Vinyl"))">Vinyl</button>
-      </li>
-      <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/Cassette"))">Cassette</button>
-      </li>
-      <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/CD"))">CD</button>
-      </li>
-      <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/"))">Accesorios</button>
-      </li>
-      <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/"))">Libros</button>
-      </li>
-      <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogMusic"))">Agregar Catálogo</button>
-      </li>
-    </ul>
-  </div>
+<div class="flex flex-col items-center h-screen bg-gray-100 shadow-lg fixed z-50 top w-64 pt-5">
+    <div class="p-4">
+        <img alt="Imagen del usuario" src="https://imusic.b-cdn.net/images/item/original/532/0887828045532.jpg?arctic-monkeys-2022-the-car-lp&class=scaled" class="w-16 h-16 rounded-full"/>
+    </div>
+    <LoginDisplay></LoginDisplay>
+    <div class="mt-4">
+        <ul class="text-gray-600">
+            <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                <button @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/Vinyl"))">Vinyl</button>
+            </li>
+            <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                <button @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/Cassette"))">Cassette</button>
+            </li>
+            <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                <button @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/CD"))">CD</button>
+            </li>
+            <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                <button @onclick="@(() => SendRedirectPage.InvokeAsync("/"))">Accesosrios</button>
+            </li>
+            <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                <button @onclick="@(() => SendRedirectPage.InvokeAsync("/"))">Libros</button>
+            </li>
+            <AuthorizeView>
+                <Authorized>
+                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                        <a href="Rol">Administrar Roles</a>
+                    </li>
+                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogMusic"))">Agregar Catálogo</button>
+                    </li>
+                </Authorized>
+            </AuthorizeView>
+        </ul>
+    </div>
 </div>
-
 
 @code {
 

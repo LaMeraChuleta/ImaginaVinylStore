@@ -12,8 +12,8 @@ using SharedApp.Data;
 namespace Catalog.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230513234847_init2")]
-    partial class init2
+    [Migration("20230811041402_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,7 @@ namespace Catalog.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -77,6 +78,33 @@ namespace Catalog.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genres");
+                });
+
+            modelBuilder.Entity("SharedApp.Models.ImageArtist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ArtistId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArtistId")
+                        .IsUnique();
+
+                    b.ToTable("ImageArtists");
                 });
 
             modelBuilder.Entity("SharedApp.Models.ImageCatalog", b =>
@@ -181,24 +209,30 @@ namespace Catalog.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FormatId");
-
                     b.ToTable("Presentations");
+                });
+
+            modelBuilder.Entity("SharedApp.Models.ImageArtist", b =>
+                {
+                    b.HasOne("SharedApp.Models.Artist", null)
+                        .WithOne("Image")
+                        .HasForeignKey("SharedApp.Models.ImageArtist", "ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SharedApp.Models.ImageCatalog", b =>
                 {
-                    b.HasOne("SharedApp.Models.MusicCatalog", "MusicCatalog")
+                    b.HasOne("SharedApp.Models.MusicCatalog", null)
                         .WithMany("Images")
                         .HasForeignKey("MusicCatalogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MusicCatalog");
                 });
 
             modelBuilder.Entity("SharedApp.Models.MusicCatalog", b =>
@@ -222,9 +256,9 @@ namespace Catalog.API.Migrations
                         .IsRequired();
 
                     b.HasOne("SharedApp.Models.Presentation", "Presentation")
-                        .WithMany("CatalogMusics")
+                        .WithMany()
                         .HasForeignKey("PresentationId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Artist");
@@ -236,28 +270,14 @@ namespace Catalog.API.Migrations
                     b.Navigation("Presentation");
                 });
 
-            modelBuilder.Entity("SharedApp.Models.Presentation", b =>
+            modelBuilder.Entity("SharedApp.Models.Artist", b =>
                 {
-                    b.HasOne("SharedApp.Models.Format", null)
-                        .WithMany("Presentations")
-                        .HasForeignKey("FormatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SharedApp.Models.Format", b =>
-                {
-                    b.Navigation("Presentations");
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("SharedApp.Models.MusicCatalog", b =>
                 {
                     b.Navigation("Images");
-                });
-
-            modelBuilder.Entity("SharedApp.Models.Presentation", b =>
-                {
-                    b.Navigation("CatalogMusics");
                 });
 #pragma warning restore 612, 618
         }

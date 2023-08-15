@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
@@ -10,8 +11,8 @@ namespace Catalog.API.Controllers;
 [ApiController]
 public class MusicCatalogController : ControllerBase
 {
-    private readonly AppDbContext _context;
     private readonly BlobContainerClient _blobClient;
+    private readonly AppDbContext _context;
 
     public MusicCatalogController(AppDbContext context, IConfiguration config)
     {
@@ -20,39 +21,83 @@ public class MusicCatalogController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<MusicCatalog> Get()
+    public IResult Get()
     {
-        return _context.MusicCatalogs
+        return Results.Ok(_context.MusicCatalogs
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
             .Include(x => x.Format)
             .Include(x => x.Images)
-            .ToArray();
+            .ToArray());
     }
 
     [HttpGet("ById")]
-    public ActionResult GetById(int id)
+    public IResult GetById(int id)
     {
-        return Ok(_context.MusicCatalogs.Find(id));
+        return Results.Ok(_context.MusicCatalogs
+            .Include(x => x.Artist)
+            .Include(x => x.Genre)
+            .Include(x => x.Presentation)
+            .Include(x => x.Format)
+            .Include(x => x.Images)
+            .First(x => x.Id == id));
+    }
+
+    [HttpGet("ForFilter")]
+    public IResult GetByFilter(string? title, int? idGenre, int? idArtist, int? idFormat, int? idPresentation)
+    {
+        var data = _context.MusicCatalogs
+            .Include(x => x.Artist)
+            .Include(x => x.Genre)
+            .Include(x => x.Presentation)
+            .Include(x => x.Format)
+            .Include(x => x.Images)
+            .Where(x =>
+                (title == null || x.Title.Contains(title)) &&
+                (idGenre == null || x.Genre!.Id == idGenre) &&
+                (idArtist == null || x.Artist!.Id == idArtist) &&
+                (idPresentation == null || x.Presentation!.Id == idPresentation) &&
+                (idFormat == null || x.Format!.Id == idFormat)
+            )
+            .ToArray();
+
+        return Results.Ok(data);
+    }
+
+    [HttpGet("ForSearch")]
+    public IResult GetForSearchBar(string querySearch)
+    {
+        return Results.Ok(_context.MusicCatalogs
+            .Include(x => x.Artist)
+            .Include(x => x.Genre)
+            .Include(x => x.Presentation)
+            .Include(x => x.Format)
+            .Include(x => x.Images)
+            .Where(x => x.Title.Contains(querySearch))
+            .ToArray());
     }
 
     [HttpPost]
-    public MusicCatalog Post([FromBody] MusicCatalog value)
+    [Authorize]
+    public IResult Post([FromBody] MusicCatalog value)
     {
+        if (!ModelState.IsValid) return Results.BadRequest();
+
         _context.MusicCatalogs.Add(value);
         _context.SaveChanges();
-        return value;
+        return Results.Ok(value);
     }
 
     [HttpGet("Images")]
-    public ActionResult GetImage(int id)
+    public IResult GetImage(int id)
     {
-        return Ok(_context.ImagesCatalog.Find(id));
+        return Results.Ok(_context.ImagesCatalog.Find(id));
     }
 
     [HttpPost("Images")]
-    public async Task<ImageCatalog> PostImage(List<IFormFile> file, int id)
+    [Authorize]
+    public async Task<IResult> PostImage(List<IFormFile> file, int id)
     {
         using var ms = new MemoryStream();
         var newImageCatalog = new ImageCatalog
@@ -69,6 +114,6 @@ public class MusicCatalogController : ControllerBase
         await _blobClient.UploadBlobAsync(newImageCatalog.Name, ms);
         await _context.ImagesCatalog.AddAsync(newImageCatalog);
         await _context.SaveChangesAsync();
-        return newImageCatalog;
+        return Results.Ok(newImageCatalog);
     }
 }

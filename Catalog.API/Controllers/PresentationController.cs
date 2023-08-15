@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SharedApp.Data;
 using SharedApp.Models;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Catalog.API.Controllers;
 
@@ -18,16 +17,19 @@ public class PresentationController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Presentation> Get()
+    public IResult Get()
     {
-        return _context.Presentations.ToArray();
+        return Results.Ok(_context.Presentations.ToArray());
     }
 
     [HttpPost]
-    public Presentation? Post([FromBody] Presentation value)
+    [Authorize]
+    public IResult Post([FromBody] Presentation value)
     {
+        if (!ModelState.IsValid) return Results.BadRequest();
+
         _context.Presentations.Add(value);
         _context.SaveChanges();
-        return value;
+        return Results.Ok(value);
     }
 }

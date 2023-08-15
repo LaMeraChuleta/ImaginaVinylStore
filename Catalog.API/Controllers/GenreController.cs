@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SharedApp.Data;
 using SharedApp.Models;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Catalog.API.Controllers;
 
@@ -19,22 +17,25 @@ public class GenreController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Genre> Get()
+    public IResult Get()
     {
-        return _context.Genres.ToArray();
+        return Results.Ok(_context.Genres.ToArray());
     }
 
     [HttpGet("{id}")]
-    public Genre? Get(int id)
+    public IResult Get(int id)
     {
-        return _context.Genres.Find(id);
+        return Results.Ok(_context.Genres.Find(id));
     }
 
     [HttpPost]
-    public Genre Post([FromBody] Genre value)
+    [Authorize]
+    public IResult Post([FromBody] Genre value)
     {
+        if (!ModelState.IsValid) return Results.BadRequest();
+
         _context.Genres.Add(value);
         _context.SaveChanges();
-        return value;
+        return Results.Ok(value);
     }
 }
