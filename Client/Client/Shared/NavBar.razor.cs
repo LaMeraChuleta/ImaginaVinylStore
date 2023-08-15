@@ -23,7 +23,7 @@ public partial class NavBar : ComponentBase
     }
     private void SearchCatalog(ChangeEventArgs e)
     {
-        if(string.IsNullOrEmpty(e.Value!.ToString()))
+        if(!string.IsNullOrEmpty(e.Value!.ToString()))
             OnSearchCatalog?.Invoke(e.Value.ToString()!);
     }
 }

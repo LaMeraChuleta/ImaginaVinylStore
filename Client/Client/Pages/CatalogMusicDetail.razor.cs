@@ -19,7 +19,6 @@ public partial class CatalogMusicDetail : ComponentBase
         try
         {
             CatalogMusics = await HttpClientHelper.Get<List<MusicCatalog>>(nameof(MusicCatalog));
-
             var parameters = new Dictionary<string, string> { { "id", IdMusicCatalog.ToString() } };
             MusicCatalog = await HttpClientHelper.Get<MusicCatalog>($"{nameof(MusicCatalog)}/ById", parameters);
         }
