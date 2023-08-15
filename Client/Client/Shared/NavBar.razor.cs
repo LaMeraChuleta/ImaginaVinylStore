@@ -21,9 +21,10 @@ public partial class NavBar : ComponentBase
         ShowSearchInput = !ShowSearchInput;
         SendOpenSearchList.InvokeAsync(ShowSearchInput);
     }
+
     private void SearchCatalog(ChangeEventArgs e)
     {
-        if(!string.IsNullOrEmpty(e.Value!.ToString()))
+        if (!string.IsNullOrEmpty(e.Value!.ToString()))
             OnSearchCatalog?.Invoke(e.Value.ToString()!);
     }
 }

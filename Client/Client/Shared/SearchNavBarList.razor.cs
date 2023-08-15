@@ -20,10 +20,10 @@ public partial class SearchNavBarList : ComponentBase, IDisposable
         NavBar.OnSearchCatalog += HandleSearchCatalog;
         base.OnInitialized();
     }
-    
+
     private async void HandleSearchCatalog(string query)
     {
-        var parameters = new Dictionary<string, string>() { { "querySearch", query } };
+        var parameters = new Dictionary<string, string> { { "querySearch", query } };
         MusicCatalogs = await HttpClientHelper.Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForSearch", parameters);
         StateHasChanged();
     }
