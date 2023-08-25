@@ -10,18 +10,18 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<MusicCatalog> MusicCatalogs { get; set; }
-    public DbSet<Artist> Artists { get; set; }
-    public DbSet<Genre> Genres { get; set; }
-    public DbSet<Format> Formats { get; set; }
-    public DbSet<ImageCatalog> ImagesCatalog { get; set; }
-    public DbSet<ImageArtist> ImageArtists { get; set; }
-    public DbSet<Presentation> Presentations { get; set; }
+    public DbSet<MusicCatalog> MusicCatalog { get; set; }
+    public DbSet<Artist> Artist { get; set; }
+    public DbSet<Genre> Genre { get; set; }
+    public DbSet<Format> Format { get; set; }
+    public DbSet<ImageCatalog> ImageCatalog { get; set; }
+    public DbSet<ImageArtist> ImageArtist { get; set; }
+    public DbSet<Presentation> Presentation { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         const string connectionString =
-            "Server=localhost,1433;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
+            "Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
         optionsBuilder.UseSqlServer(connectionString, builder => builder.EnableRetryOnFailure());
     }
 
