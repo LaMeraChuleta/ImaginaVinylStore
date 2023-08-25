@@ -23,7 +23,7 @@ public class MusicCatalogController : ControllerBase
     [HttpGet]
     public IResult Get()
     {
-        return Results.Ok(_context.MusicCatalogs
+        return Results.Ok(_context.MusicCatalog
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
@@ -35,7 +35,7 @@ public class MusicCatalogController : ControllerBase
     [HttpGet("ById")]
     public IResult GetById(int id)
     {
-        return Results.Ok(_context.MusicCatalogs
+        return Results.Ok(_context.MusicCatalog
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
@@ -47,7 +47,7 @@ public class MusicCatalogController : ControllerBase
     [HttpGet("ForFilter")]
     public IResult GetByFilter(string? title, int? idGenre, int? idArtist, int? idFormat, int? idPresentation)
     {
-        var data = _context.MusicCatalogs
+        var data = _context.MusicCatalog
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
@@ -68,7 +68,7 @@ public class MusicCatalogController : ControllerBase
     [HttpGet("ForSearch")]
     public IResult GetForSearchBar(string querySearch)
     {
-        return Results.Ok(_context.MusicCatalogs
+        return Results.Ok(_context.MusicCatalog
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
@@ -84,7 +84,7 @@ public class MusicCatalogController : ControllerBase
     {
         if (!ModelState.IsValid) return Results.BadRequest();
 
-        _context.MusicCatalogs.Add(value);
+        _context.MusicCatalog.Add(value);
         _context.SaveChanges();
         return Results.Ok(value);
     }
@@ -92,7 +92,7 @@ public class MusicCatalogController : ControllerBase
     [HttpGet("Images")]
     public IResult GetImage(int id)
     {
-        return Results.Ok(_context.ImagesCatalog.Find(id));
+        return Results.Ok(_context.ImageCatalog.Find(id));
     }
 
     [HttpPost("Images")]
@@ -112,7 +112,7 @@ public class MusicCatalogController : ControllerBase
         await file.FirstOrDefault()?.CopyToAsync(ms)!;
         ms.Seek(0, SeekOrigin.Begin);
         await _blobClient.UploadBlobAsync(newImageCatalog.Name, ms);
-        await _context.ImagesCatalog.AddAsync(newImageCatalog);
+        await _context.ImageCatalog.AddAsync(newImageCatalog);
         await _context.SaveChangesAsync();
         return Results.Ok(newImageCatalog);
     }

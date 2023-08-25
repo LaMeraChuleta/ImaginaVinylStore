@@ -19,7 +19,7 @@ public class FormatController : ControllerBase
     [HttpGet]
     public IResult Get()
     {
-        return Results.Ok(_context.Formats.ToArray());
+        return Results.Ok(_context.Format.ToArray());
     }
 
     [HttpPost]
@@ -28,7 +28,7 @@ public class FormatController : ControllerBase
     {
         if (!ModelState.IsValid) return Results.BadRequest();
 
-        _context.Formats.Add(value);
+        _context.Format.Add(value);
         _context.SaveChanges();
         return Results.Ok(value);
     }
