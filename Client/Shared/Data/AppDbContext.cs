@@ -30,6 +30,43 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<MusicCatalog>()
             .HasOne<Presentation>(s => s.Presentation)
             .WithMany(g => g.CatalogMusics)
+            .HasForeignKey(s => s.PresentationId)
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        modelBuilder.Entity<MusicCatalog>()
+            .HasOne<Genre>(s => s.Genre)
+            .WithMany(g => g.CatalogMusics)
+            .HasForeignKey(s => s.GenreId)
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        modelBuilder.Entity<MusicCatalog>()
+            .HasOne<Artist>(s => s.Artist)
+            .WithMany(g => g.CatalogMusics)
+            .HasForeignKey(s => s.ArtistId)
+            .OnDelete(DeleteBehavior.NoAction);    
+        
+        modelBuilder.Entity<ShopCart>()
+            .HasOne(x => x.CatalogMusic)
+            .WithMany()
+            .HasForeignKey(item => item.MusicCatalogId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<Presentation>()
+            .HasOne(p => p.Format)
+            .WithMany(f => f.Presentations)
+            .HasForeignKey(p => p.FormatId)
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        modelBuilder.Entity<Format>()
+            .HasMany(f => f.Presentations) 
+            .WithOne(p => p.Format)
+            .HasForeignKey(p => p.FormatId)
+            .OnDelete(DeleteBehavior.NoAction); 
+        
+        modelBuilder.Entity<Presentation>()
+            .HasMany(p => p.CatalogMusics) // Una Presentation tiene muchos MusicCatalogs
+            .WithOne(m => m.Presentation)  // Un MusicCatalog pertenece a una Presentation
+            .HasForeignKey(m => m.PresentationId)
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<ImageCatalog>()
