@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Blazored.Toast;
 using Client.App;
 using Client.App.Interfaces;
@@ -16,6 +17,7 @@ builder.Services.AddHttpClient("CatalogMusic.API",
     client => { client.BaseAddress = new Uri(@"https://localhost:7285/api/"); });
 
 builder.Services.AddBlazoredToast();
+builder.Services.AddBlazoredLocalStorageAsSingleton();
 builder.Services.AddApiAuthorization();
 builder.Services.AddScoped<IHttpClientHelper, HttpClientHelper>();
 
