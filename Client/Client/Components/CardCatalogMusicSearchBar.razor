@@ -1,10 +1,7 @@
 ﻿@using Client.App.Interfaces
-@using Blazored.LocalStorage
 @inject NavigationManager NavigationManager
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject ILocalStorageService LocalStorage
-@inject IHttpClientHelper HttpClientHelper;
 @inject IToastService ToastService
+@inject IShopCartService ShopCartsService
 
 <div class=" inline-flex mt-10">
     <img class="w-24 h-24" src="@(MusicCatalogs.Images!.FirstOrDefault()?.Url ?? "https://as1.ftcdn.net/v2/jpg/02/35/30/46/1000_F_235304686_Dabv7XmRksedIMrH4ADfMpN21K1nN67R.jpg")" alt="Imagen del disco">
@@ -33,33 +30,14 @@
                 UnitPrice = 300
             };
 
-            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            if (authenticationState.User.Identity is { IsAuthenticated: true })
+            var isItemCreate = await ShopCartsService.SetShopCartItem(item, MusicCatalogs);
+            if (isItemCreate)
             {
-                var fullShopCart = await HttpClientHelper.Get<List<ShopCart>>(nameof(ShopCart));
-                if (fullShopCart.Exists(x => x.MusicCatalogId == item.MusicCatalogId))
-                {
-                    ToastService.ShowWarning($"Ya existe este articulo en el carrito. {MusicCatalogs.Title}{MusicCatalogs.Artist?.Name}");
-                }
-                else
-                {
-                    await HttpClientHelper.Post(nameof(ShopCart), item);
-                    ToastService.ShowSuccess($"Se guardo este articulo en el carrito. {MusicCatalogs.Title}{MusicCatalogs.Artist?.Name}");
-                }
+                ToastService.ShowSuccess($"Se guardo este articulo en el carrito. { MusicCatalogs.Title }-{ MusicCatalogs.Artist?.Name }");
             }
             else
             {
-                var shopCartItems = await LocalStorage.GetItemAsync<List<ShopCart>>(nameof(ShopCart)) ?? new();
-                if (shopCartItems.Exists(x => x.MusicCatalogId == MusicCatalogs.Id))
-                {
-                    ToastService.ShowWarning($"Ya existe este articulo en el carrito. {MusicCatalogs.Title}{MusicCatalogs.Artist?.Name}");
-                }
-                else
-                {
-                    shopCartItems.Add(item);
-                    await LocalStorage.SetItemAsync(nameof(ShopCart), shopCartItems);
-                    ToastService.ShowSuccess($"Se guardo este articulo en el carrito. {MusicCatalogs.Title}{MusicCatalogs.Artist?.Name}");
-                }
+                ToastService.ShowWarning($"Ya existe este articulo en el carrito. { MusicCatalogs.Title }-{ MusicCatalogs.Artist?.Name }");
             }
         }
         catch (Exception exception)
