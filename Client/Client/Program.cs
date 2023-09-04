@@ -19,6 +19,8 @@ builder.Services.AddHttpClient("CatalogMusic.API",
 builder.Services.AddBlazoredToast();
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 builder.Services.AddApiAuthorization();
+
 builder.Services.AddScoped<IHttpClientHelper, HttpClientHelper>();
+builder.Services.AddScoped<IShopCartService, ShopCartService>();
 
 await builder.Build().RunAsync();
