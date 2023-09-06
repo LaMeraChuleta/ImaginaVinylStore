@@ -22,7 +22,8 @@ public class ShopCartController : ControllerBase
     [HttpGet]
     public IResult Get()
     {
-        return Results.Ok(_context.ShopCart.ToArray());
+        var id = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        return Results.Ok(_context.ShopCart.Where(x => x.ApplicationUserId == id).ToArray());
     }
 
     [HttpPost]
@@ -30,9 +31,8 @@ public class ShopCartController : ControllerBase
     public IResult Post([FromBody] ShopCart value)
     {
         if (!ModelState.IsValid) return Results.BadRequest();
-
-        var id = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-        value.ApplicationUserId = id;
+        
+        value.ApplicationUserId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         _context.ShopCart.Add(value);
         _context.SaveChanges();
         return Results.Ok(value);
