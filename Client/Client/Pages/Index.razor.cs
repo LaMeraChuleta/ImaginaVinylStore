@@ -7,7 +7,7 @@ namespace Client.App.Pages;
 
 public partial class Index : ComponentBase
 {
-    private IEnumerable<MusicCatalog> CatalogMusics { get; set; }
+    private IEnumerable<MusicCatalog> CatalogMusics { get; set; } = Enumerable.Empty<MusicCatalog>();
     private IEnumerable<Artist> Artists { get; set; }
     [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
     [Inject] public IToastService ToastService { get; set; }
