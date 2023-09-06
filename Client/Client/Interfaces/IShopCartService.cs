@@ -4,7 +4,8 @@ namespace Client.App.Interfaces
 {
     public interface IShopCartService
     {
-        Task GetShopCart(int? id = null);
+        Task<List<ShopCart>> GetShopCart();
+        Task<int> GetShopCartCount();
         Task<bool> SetShopCartItem(ShopCart shopCart, MusicCatalog musicCatalog);
     }
 }
