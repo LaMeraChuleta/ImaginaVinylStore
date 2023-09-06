@@ -22,5 +22,6 @@ builder.Services.AddApiAuthorization();
 
 builder.Services.AddScoped<IHttpClientHelper, HttpClientHelper>();
 builder.Services.AddScoped<IShopCartService, ShopCartService>();
+builder.Services.AddScoped<IShopCartNotificationService, ShopCartNotificationService>();
 
 await builder.Build().RunAsync();
