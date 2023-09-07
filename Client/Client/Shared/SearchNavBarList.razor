@@ -6,8 +6,12 @@
             <CardCatalogMusicSearchBar MusicCatalogs="item"></CardCatalogMusicSearchBar>
         }
     }
-    else
+    else if (isSearching)
     {
         <p class="mt-10">Buscando...</p>
+    }
+    else
+    {
+        <p class="mt-10">Sin resultados</p>
     }
 </div>

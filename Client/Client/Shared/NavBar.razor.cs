@@ -42,6 +42,7 @@ public partial class NavBar : ComponentBase, IDisposable
     private void ChangeShowSearch()
     {
         ShowSearchInput = !ShowSearchInput;
+        if(!ShowSearchInput) QuerySearch = string.Empty;
         SendOpenSearchList.InvokeAsync(ShowSearchInput);
     }
 
@@ -54,6 +55,10 @@ public partial class NavBar : ComponentBase, IDisposable
     private void SearchCatalog(ChangeEventArgs e)
     {
         if (!string.IsNullOrEmpty(e.Value!.ToString()))
-            OnSearchCatalog.Invoke(e.Value.ToString()!);
+        {
+            var querySearch = e.Value!.ToString()!;
+            if (querySearch.Length == 1) querySearch = string.Empty;
+            OnSearchCatalog.Invoke(querySearch);
+        }                                   
     }
 }
