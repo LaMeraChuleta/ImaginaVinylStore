@@ -1,4 +1,4 @@
-﻿namespace SharedApp;
+﻿namespace SharedApp.Validation;
 
 public class ProblemDetails
 {

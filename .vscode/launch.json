@@ -41,5 +41,11 @@
             "request": "launch",
             "cwd": "${workspaceFolder}/Client/Server"
         }
+    ],
+    "compounds": [
+        {
+            "name": "API.Catalog/Client.Server",
+            "configurations": ["Catalog API", "Server Client"]
+        }
     ]
 }

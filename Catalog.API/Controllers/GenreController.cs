@@ -19,13 +19,13 @@ public class GenreController : ControllerBase
     [HttpGet]
     public IResult Get()
     {
-        return Results.Ok(_context.Genres.ToArray());
+        return Results.Ok(_context.Genre.ToArray());
     }
 
     [HttpGet("{id}")]
     public IResult Get(int id)
     {
-        return Results.Ok(_context.Genres.Find(id));
+        return Results.Ok(_context.Genre.Find(id));
     }
 
     [HttpPost]
@@ -34,7 +34,7 @@ public class GenreController : ControllerBase
     {
         if (!ModelState.IsValid) return Results.BadRequest();
 
-        _context.Genres.Add(value);
+        _context.Genre.Add(value);
         _context.SaveChanges();
         return Results.Ok(value);
     }

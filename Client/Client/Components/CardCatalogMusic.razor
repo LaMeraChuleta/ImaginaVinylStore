@@ -1,44 +1,25 @@
-﻿@inject NavigationManager NavigationManager
+﻿@using Client.App.Interfaces
+@inject NavigationManager NavigationManager
+@inject IToastService ToastService
+@inject IShopCartService ShopCartsService
 
-<div class="rounded-lg bg-zinc-100 border shadow-lg border-slate-800 flex-col w-72">
-    <img @onclick="@(() => NavigationManager.NavigateTo($"CatalogMusicDetail/{MusicCatalog.Id}"))" src="@(MusicCatalog.Images?.FirstOrDefault()?.Url ?? "https://as1.ftcdn.net/v2/jpg/02/35/30/46/1000_F_235304686_Dabv7XmRksedIMrH4ADfMpN21K1nN67R.jpg")" class="w-full rounded-lg h-56 object-cover object-center" alt="">
-    <div class="p-2 sm:h-28 font-bold">
-        <span class="@BgTypeFormat inline-block font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs)">@MusicCatalog.Format?.Name</span>
-        <p>Titulo: @MusicCatalog.Title</p>
-        <p>Artista: @MusicCatalog.Artist?.Name</p>
+<div class="rounded-lg bg-gray-300 text-gray-900 shadow-lg flex-col w-64">
+    <img @onclick="@(() => NavigationManager.NavigateTo($"CatalogMusicDetail/{MusicCatalog.Id}"))" src="@(MusicCatalog.Images?.FirstOrDefault()?.Url ?? "https://udiscover.mx/cdn/shop/files/big-OR_SIGNEDVINYL-version2.png?v=1691079605")" class=" w-64 rounded-lg h-56 border object-cover object-center" alt="">
+    <div class="p-2 text-sm pt-4 sm:h-28 font-bold">
+        <span class="@BgTypeFormat inline-block mb-2 font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs">@MusicCatalog.Format?.Name</span>
+        <p>@MusicCatalog.Title - @MusicCatalog.Artist?.Name</p>
         <p>Genero: @MusicCatalog.Genre?.Name</p>
     </div>
-    <hr class="my-2">
-    <div class="text-lg sm:h-10 pt-2 p-2 font-bold">
-        <p>Precio: @MusicCatalog.Price</p>
+    <div class="text-md sm:h-10 p-2">
+        <p>Precio: @MusicCatalog.Price.ToString("#,##0.00") MXN</p>
     </div>
-    <hr class="my-2">
-    <div class="p-2 pt-1 sm:h-10 flex items-center text-sm text-gray-600">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current text-yellow-500">
-            <path d="M8.128 19.825a1.586 1.586 0 0 1-1.643-.117 1.543 1.543 0 0 1-.53-.662 1.515 1.515 0 0 1-.096-.837l.736-4.247-3.13-3a1.514 1.514 0 0 1-.39-1.569c.09-.271.254-.513.475-.698.22-.185.49-.306.776-.35L8.66 7.73l1.925-3.862c.128-.26.328-.48.577-.633a1.584 1.584 0 0 1 1.662 0c.25.153.45.373.577.633l1.925 3.847 4.334.615c.29.042.562.162.785.348.224.186.39.43.48.704a1.514 1.514 0 0 1-.404 1.58l-3.13 3 .736 4.247c.047.282.014.572-.096.837-.111.265-.294.494-.53.662a1.582 1.582 0 0 1-1.643.117l-3.865-2-3.865 2z"></path>
-        </svg>
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current text-yellow-500">
-            <path d="M8.128 19.825a1.586 1.586 0 0 1-1.643-.117 1.543 1.543 0 0 1-.53-.662 1.515 1.515 0 0 1-.096-.837l.736-4.247-3.13-3a1.514 1.514 0 0 1-.39-1.569c.09-.271.254-.513.475-.698.22-.185.49-.306.776-.35L8.66 7.73l1.925-3.862c.128-.26.328-.48.577-.633a1.584 1.584 0 0 1 1.662 0c.25.153.45.373.577.633l1.925 3.847 4.334.615c.29.042.562.162.785.348.224.186.39.43.48.704a1.514 1.514 0 0 1-.404 1.58l-3.13 3 .736 4.247c.047.282.014.572-.096.837-.111.265-.294.494-.53.662a1.582 1.582 0 0 1-1.643.117l-3.865-2-3.865 2z"></path>
-        </svg>
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current text-yellow-500">
-            <path d="M8.128 19.825a1.586 1.586 0 0 1-1.643-.117 1.543 1.543 0 0 1-.53-.662 1.515 1.515 0 0 1-.096-.837l.736-4.247-3.13-3a1.514 1.514 0 0 1-.39-1.569c.09-.271.254-.513.475-.698.22-.185.49-.306.776-.35L8.66 7.73l1.925-3.862c.128-.26.328-.48.577-.633a1.584 1.584 0 0 1 1.662 0c.25.153.45.373.577.633l1.925 3.847 4.334.615c.29.042.562.162.785.348.224.186.39.43.48.704a1.514 1.514 0 0 1-.404 1.58l-3.13 3 .736 4.247c.047.282.014.572-.096.837-.111.265-.294.494-.53.662a1.582 1.582 0 0 1-1.643.117l-3.865-2-3.865 2z"></path>
-        </svg>
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current text-yellow-500">
-            <path d="M8.128 19.825a1.586 1.586 0 0 1-1.643-.117 1.543 1.543 0 0 1-.53-.662 1.515 1.515 0 0 1-.096-.837l.736-4.247-3.13-3a1.514 1.514 0 0 1-.39-1.569c.09-.271.254-.513.475-.698.22-.185.49-.306.776-.35L8.66 7.73l1.925-3.862c.128-.26.328-.48.577-.633a1.584 1.584 0 0 1 1.662 0c.25.153.45.373.577.633l1.925 3.847 4.334.615c.29.042.562.162.785.348.224.186.39.43.48.704a1.514 1.514 0 0 1-.404 1.58l-3.13 3 .736 4.247c.047.282.014.572-.096.837-.111.265-.294.494-.53.662a1.582 1.582 0 0 1-1.643.117l-3.865-2-3.865 2z"></path>
-        </svg>
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current text-yellow-500">
-            <path d="M8.128 19.825a1.586 1.586 0 0 1-1.643-.117 1.543 1.543 0 0 1-.53-.662 1.515 1.515 0 0 1-.096-.837l.736-4.247-3.13-3a1.514 1.514 0 0 1-.39-1.569c.09-.271.254-.513.475-.698.22-.185.49-.306.776-.35L8.66 7.73l1.925-3.862c.128-.26.328-.48.577-.633a1.584 1.584 0 0 1 1.662 0c.25.153.45.373.577.633l1.925 3.847 4.334.615c.29.042.562.162.785.348.224.186.39.43.48.704a1.514 1.514 0 0 1-.404 1.58l-3.13 3 .736 4.247c.047.282.014.572-.096.837-.111.265-.294.494-.53.662a1.582 1.582 0 0 1-1.643.117l-3.865-2-3.865 2z"></path>
-        </svg>
-        <span class="ml-1">4.5 (120)</span>
-    </div>
-    <button class="w-full rounded-lg py-2 bg-blue-600 text-white font-semibold uppercase hover:bg-blue-600">Agregar al carrito</button>
+    <button @onclick="AddItemShopCart" class="w-full rounded-lg py-2 bg-blue-600 text-white font-semibold uppercase hover:bg-blue-600">Agregar al carrito</button>
 </div>
 
 @code {
 
     [Parameter]
     public MusicCatalog MusicCatalog { get; set; } = new();
-
     private string BgTypeFormat { get; set; } = "bg-grey-400";
 
     protected override void OnParametersSet()
@@ -49,7 +30,33 @@
             "CD" => "bg-blue-400",
             "Cassette" => "bg-orange-400",
             _ => "bg-grey-400"
-            };
+        };
     }
 
+    private async void AddItemShopCart()
+    {
+        try
+        {
+            var item = new ShopCart
+            {
+                MusicCatalogId = MusicCatalog.Id,
+                Amount = 1,
+                UnitPrice = 300
+            };
+
+            var isItemCreate = await ShopCartsService.SetShopCartItem(item, MusicCatalog);
+            if (isItemCreate)
+            {
+                ToastService.ShowSuccess($"Se guardo este articulo en el carrito. { MusicCatalog.Title }-{ MusicCatalog.Artist?.Name }");                
+            }
+            else
+            {
+                ToastService.ShowWarning($"Ya existe este articulo en el carrito. { MusicCatalog.Title }-{ MusicCatalog.Artist?.Name }");
+            }      
+        }
+        catch (Exception exception)
+        {
+            ToastService.ShowToast(ToastLevel.Error, exception.Message);
+        }
+    }
 }

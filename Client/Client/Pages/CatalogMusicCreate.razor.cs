@@ -127,7 +127,7 @@ public partial class CatalogMusicCreate : ComponentBase
 
             NewGenre = await HttpClientHelper.Post(nameof(Genre), NewGenre);
             Genres.Add(NewGenre);
-            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el genero {NewGenre?.Name}");
+            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el genero {NewGenre.Name}");
             NewGenre = new Genre();
             ShowModalNewGenre = false;
             StateHasChanged();
@@ -146,7 +146,7 @@ public partial class CatalogMusicCreate : ComponentBase
 
             NewFormat = await HttpClientHelper.Post(nameof(Format), NewFormat);
             Formats.Add(NewFormat);
-            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el formato {NewFormat?.Name}");
+            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el formato {NewFormat.Name}");
             NewFormat = new Format();
             ShowModalNewFormat = false;
             StateHasChanged();
@@ -162,10 +162,10 @@ public partial class CatalogMusicCreate : ComponentBase
         try
         {
             if (!_editContextPresentation.Validate()) return;
-
+            
             NewPresentation = await HttpClientHelper.Post(nameof(Presentation), NewPresentation);
             Presentations.Add(NewPresentation);
-            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo la presentacion {NewPresentation?.Name}");
+            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo la presentacion {NewPresentation.Name}");
             NewPresentation = new Presentation();
             ShowModalNewPresentation = false;
             StateHasChanged();

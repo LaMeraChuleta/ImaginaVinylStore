@@ -8,6 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(b => b.MigrationsAssembly("Catalog.API")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
@@ -28,7 +29,7 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
     });
 });
-;
+
 var app = builder.Build();
 app.UseCors();
 
