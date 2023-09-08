@@ -19,8 +19,8 @@ public partial class Index : ComponentBase
             Artists = await HttpClientHelper.Get<List<Artist>>(nameof(Artist));
             CatalogMusics = await HttpClientHelper.Get<List<MusicCatalog>>(nameof(MusicCatalog));
 
-            Artists = Artists.Take(10);
-            CatalogMusics = CatalogMusics.Take(10);
+            Artists = Artists.Take(5);
+            CatalogMusics = CatalogMusics.OrderByDescending(x => x.Id).Take(10);
         }
         catch (Exception ex)
         {

@@ -1,4 +1,10 @@
-﻿@if (ShowLeftBar)
+﻿<NavBar SendOpenLeftBar="@(() => ShowLeftBar = !ShowLeftBar)"
+        SendOpenSearchList="@(() => ShowSearList = !ShowSearList)"
+        SendRedirectPage="RedirectByPathUrl">
+</NavBar>
+
+
+@if (ShowLeftBar)
 {
     <LeftNavBar SendRedirectPage="RedirectByPathUrl"></LeftNavBar>
 }
@@ -7,7 +13,3 @@
 {
     <SearchNavBarList ></SearchNavBarList>
 }
-<NavBar SendOpenLeftBar="@(() => ShowLeftBar = !ShowLeftBar)"
-        SendOpenSearchList="@(() => ShowSearList = !ShowSearList)"
-        SendRedirectPage="RedirectByPathUrl">
-</NavBar>

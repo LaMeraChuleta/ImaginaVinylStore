@@ -162,7 +162,7 @@ public partial class CatalogMusicCreate : ComponentBase
         try
         {
             if (!_editContextPresentation.Validate()) return;
-
+            
             NewPresentation = await HttpClientHelper.Post(nameof(Presentation), NewPresentation);
             Presentations.Add(NewPresentation);
             ToastService.ShowToast(ToastLevel.Success, $"Exito se creo la presentacion {NewPresentation.Name}");
