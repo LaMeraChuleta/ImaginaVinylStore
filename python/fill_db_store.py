@@ -119,8 +119,8 @@ try:
         Title = col["Title"]
         ArtistName =  get_id_artist(artist_df, col["Artist"])
         GenreId = get_id_genre(genre_df, col["Genre"])
-        FormatId = get_id_format(formats_df, col["Format"])
-        PresentationId = 1
+        FormatId = 2#get_id_format(formats_df, col["Format"])
+        PresentationId = 3#1
         country = col["Country"]
         Year_Db = col["Year"]
         StatusCover = 10
