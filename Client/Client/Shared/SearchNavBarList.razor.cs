@@ -8,6 +8,7 @@ public partial class SearchNavBarList : ComponentBase, IDisposable
 {
     [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
     private List<MusicCatalog> MusicCatalogs { get; set; } = new();
+    private bool isSearching { get; set; }
 
     public void Dispose()
     {
@@ -23,8 +24,18 @@ public partial class SearchNavBarList : ComponentBase, IDisposable
 
     private async void HandleSearchCatalog(string query)
     {
+        if (string.IsNullOrEmpty(query))
+        {
+            MusicCatalogs.Clear();
+            StateHasChanged();
+            return;
+        }
+
+        isSearching = true;
+        StateHasChanged();
         var parameters = new Dictionary<string, string> { { "querySearch", query } };
         MusicCatalogs = await HttpClientHelper.Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForSearch", parameters);
+        isSearching = false;
         StateHasChanged();
     }
 }

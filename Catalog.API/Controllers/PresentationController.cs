@@ -19,7 +19,7 @@ public class PresentationController : ControllerBase
     [HttpGet]
     public IResult Get()
     {
-        return Results.Ok(_context.Presentations.ToArray());
+        return Results.Ok(_context.Presentation.ToArray());
     }
 
     [HttpPost]
@@ -28,7 +28,7 @@ public class PresentationController : ControllerBase
     {
         if (!ModelState.IsValid) return Results.BadRequest();
 
-        _context.Presentations.Add(value);
+        _context.Presentation.Add(value);
         _context.SaveChanges();
         return Results.Ok(value);
     }

@@ -7,8 +7,8 @@ namespace Client.App.Pages;
 
 public partial class Index : ComponentBase
 {
-    private List<MusicCatalog> CatalogMusics { get; set; } = new();
-    private List<Artist> Artists { get; set; } = new();
+    private IEnumerable<MusicCatalog> CatalogMusics { get; set; } = Enumerable.Empty<MusicCatalog>();
+    private IEnumerable<Artist> Artists { get; set; }
     [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
     [Inject] public IToastService ToastService { get; set; }
 
@@ -18,6 +18,9 @@ public partial class Index : ComponentBase
         {
             Artists = await HttpClientHelper.Get<List<Artist>>(nameof(Artist));
             CatalogMusics = await HttpClientHelper.Get<List<MusicCatalog>>(nameof(MusicCatalog));
+
+            Artists = Artists.Take(10);
+            CatalogMusics = CatalogMusics.OrderByDescending(x => x.Id).Take(10);
         }
         catch (Exception ex)
         {

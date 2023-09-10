@@ -1,11 +1,11 @@
 ﻿#nullable disable
 
-using System.ComponentModel.DataAnnotations;
 using Client.Server.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace Client.Server.Areas.Identity.Pages.Account;
 
@@ -80,7 +80,7 @@ public class LoginModel : PageModel
 
     public class InputModel
     {
-        [Required] [EmailAddress] public string Email { get; set; }
+        [Required][EmailAddress] public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

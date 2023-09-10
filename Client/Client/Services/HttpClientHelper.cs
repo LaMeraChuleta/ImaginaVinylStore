@@ -1,9 +1,9 @@
-﻿using System.Net;
+﻿using Client.App.Interfaces;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using SharedApp.Validation;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using Client.App.Interfaces;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using SharedApp;
 
 namespace Client.App.Services;
 
@@ -42,6 +42,11 @@ public class HttpClientHelper : IHttpClientHelper
     public async Task<T> Post<T>(string pathEndPoint, MultipartFormDataContent data)
     {
         var response = await _httpClient.PostAsync(pathEndPoint, data);
+        return await ParseResponseAsync<T>(response);
+    }
+    public async Task<T> Delete<T>(string pathEndPoint, int id)
+    {
+        var response = await _httpClient.DeleteAsync(pathEndPoint + "/" + id.ToString());
         return await ParseResponseAsync<T>(response);
     }
 

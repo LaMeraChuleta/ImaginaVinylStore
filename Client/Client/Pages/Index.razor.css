@@ -1,0 +1,20 @@
+/* Estilo para el contenedor de desplazamiento */
+.scroll-container {
+    overflow-x: scroll;    
+    justify-content: center;
+    
+}
+
+/* Estilo para la barra de desplazamiento */
+.scroll-container::-webkit-scrollbar {
+    width: 1px; /* Ancho de la barra de desplazamiento */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background-color: #ccc; /* Color de la barra de desplazamiento */
+    border-radius: 3px; /* Bordes redondeados */
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Color de fondo de la barra de desplazamiento */
+}

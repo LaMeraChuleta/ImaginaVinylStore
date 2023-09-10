@@ -23,7 +23,7 @@ public class ArtistController : ControllerBase
     [HttpGet]
     public IResult Get()
     {
-        return Results.Ok(_context.Artists
+        return Results.Ok(_context.Artist
             .Include(x => x.Image)
             .ToArray());
     }
@@ -34,7 +34,7 @@ public class ArtistController : ControllerBase
     {
         if (!ModelState.IsValid) return Results.BadRequest();
 
-        _context.Artists.Add(value);
+        _context.Artist.Add(value);
         _context.SaveChanges();
         return Results.Ok(value);
     }
@@ -42,7 +42,7 @@ public class ArtistController : ControllerBase
     [HttpGet("Images")]
     public IResult GetImage(int id)
     {
-        return Results.Ok(_context.ImagesCatalog.Find(id));
+        return Results.Ok(_context.ImageCatalog.Find(id));
     }
 
     [HttpPost("Images")]
@@ -62,7 +62,7 @@ public class ArtistController : ControllerBase
         await file.FirstOrDefault()?.CopyToAsync(ms)!;
         ms.Seek(0, SeekOrigin.Begin);
         await _blobClient.UploadBlobAsync(newImageArtist.Name, ms);
-        await _context.ImageArtists.AddAsync(newImageArtist);
+        await _context.ImageArtist.AddAsync(newImageArtist);
         await _context.SaveChangesAsync();
         return Results.Ok(newImageArtist);
     }

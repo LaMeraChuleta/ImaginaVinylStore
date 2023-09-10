@@ -1,9 +1,9 @@
-﻿using System.Net.Http.Headers;
-using Blazored.Toast.Services;
+﻿using Blazored.Toast.Services;
 using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using SharedApp.Models;
+using System.Net.Http.Headers;
 
 namespace Client.App.Pages;
 
@@ -78,8 +78,7 @@ public partial class CatalogMusicCreate : ComponentBase
                 NewMusicCatalog?.Images?.ToList().Add(image);
             }
 
-            ToastService.ShowToast(ToastLevel.Success,
-                $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
+            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
             NewMusicCatalog = new MusicCatalog();
             PhotoMusicCatalog.Clear();
             StateHasChanged();
@@ -127,7 +126,7 @@ public partial class CatalogMusicCreate : ComponentBase
 
             NewGenre = await HttpClientHelper.Post(nameof(Genre), NewGenre);
             Genres.Add(NewGenre);
-            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el genero {NewGenre?.Name}");
+            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el genero {NewGenre.Name}");
             NewGenre = new Genre();
             ShowModalNewGenre = false;
             StateHasChanged();
@@ -146,7 +145,7 @@ public partial class CatalogMusicCreate : ComponentBase
 
             NewFormat = await HttpClientHelper.Post(nameof(Format), NewFormat);
             Formats.Add(NewFormat);
-            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el formato {NewFormat?.Name}");
+            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el formato {NewFormat.Name}");
             NewFormat = new Format();
             ShowModalNewFormat = false;
             StateHasChanged();
@@ -165,7 +164,7 @@ public partial class CatalogMusicCreate : ComponentBase
 
             NewPresentation = await HttpClientHelper.Post(nameof(Presentation), NewPresentation);
             Presentations.Add(NewPresentation);
-            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo la presentacion {NewPresentation?.Name}");
+            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo la presentacion {NewPresentation.Name}");
             NewPresentation = new Presentation();
             ShowModalNewPresentation = false;
             StateHasChanged();
