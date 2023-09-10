@@ -13,8 +13,8 @@ namespace Client.App.Services
         private readonly IShopCartNotificationService _shopCartNotificationService;
 
         public ShopCartService(
-            AuthenticationStateProvider authenticationStateProvider, 
-            IHttpClientHelper httpClientHelper, 
+            AuthenticationStateProvider authenticationStateProvider,
+            IHttpClientHelper httpClientHelper,
             ILocalStorageService localStorageService,
             IShopCartNotificationService shopCartNotificationService)
         {
@@ -23,18 +23,19 @@ namespace Client.App.Services
             _shopCartNotificationService = shopCartNotificationService;
             _httpClientHelper = httpClientHelper;
         }
+
         public async Task<List<ShopCart>> GetShopCart()
         {
             try
             {
                 if (await SearchInServer())
                 {
-                    var fullShopCart = await _httpClientHelper.Get<List<ShopCart>>(nameof(ShopCart));                    
+                    var fullShopCart = await _httpClientHelper.Get<List<ShopCart>>(nameof(ShopCart));
                     return fullShopCart.ToList() ?? new List<ShopCart>();
                 }
                 else
                 {
-                    return await _localStorageService.GetItemAsync<List<ShopCart>>(nameof(ShopCart)) ?? new();                    
+                    return await _localStorageService.GetItemAsync<List<ShopCart>>(nameof(ShopCart)) ?? new();
                 }
             }
             catch (Exception ex)
@@ -42,7 +43,21 @@ namespace Client.App.Services
                 Console.WriteLine(ex.Message);
                 throw;
             }
-        }        
+        }
+        public async Task<List<MusicCatalog>> GetShopCartToMusicCatalog()
+        {
+            try
+            {
+                var shopCarts = await GetShopCart();
+                var musicCatalogs = await _httpClientHelper.Get<List<MusicCatalog>>(nameof(MusicCatalog));
+                return musicCatalogs.Where(x => shopCarts.Any(y => y.MusicCatalogId == x.Id)).ToList();              
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
         public async Task<int> GetShopCartCount()
         {
             try
@@ -89,10 +104,40 @@ namespace Client.App.Services
                 throw;
             }
         }
+        public async Task<bool> DeleteShopCartItem(int idCatalogMusic)
+        {
+            try
+            {
+                var shopCarts = await GetShopCart();
+                if (await SearchInServer())
+                {
+                    var idShopCart = shopCarts.First(x => x.MusicCatalogId == idCatalogMusic).Id;
+                    var removeItem = await _httpClientHelper.Delete<bool>(nameof(ShopCart), idShopCart);
+                    if (removeItem)
+                    {
+                        var countRemove = shopCarts.RemoveAll(x => x.MusicCatalogId == idCatalogMusic);
+                        await _localStorageService.SetItemAsync(nameof(ShopCart), shopCarts);
+                        _shopCartNotificationService.NotifitShopCartCountChanges(shopCarts.Count);
+                    }
+                    return removeItem;
+                }
+                else
+                {
+                    var countRemove = shopCarts.RemoveAll(x => x.MusicCatalogId == idCatalogMusic);
+                    await _localStorageService.SetItemAsync(nameof(ShopCart), shopCarts);
+                    _shopCartNotificationService.NotifitShopCartCountChanges(shopCarts.Count);
+                    return countRemove == 1 ? true : false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         private async Task<bool> SearchInServer()
         {
             var authenticationState = await _authenticationStateProvider.GetAuthenticationStateAsync();
             return authenticationState.User.Identity is { IsAuthenticated: true };
-        }
+        }   
     }
 }
