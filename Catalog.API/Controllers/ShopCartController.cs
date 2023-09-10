@@ -1,9 +1,8 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
 using SharedApp.Models;
+using System.Security.Claims;
 
 namespace Catalog.API.Controllers;
 
@@ -32,7 +31,7 @@ public class ShopCartController : ControllerBase
     public IResult Post([FromBody] ShopCart value)
     {
         if (!ModelState.IsValid) return Results.BadRequest();
-        
+
         value.ApplicationUserId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         _context.ShopCart.Add(value);
         _context.SaveChanges();
@@ -43,7 +42,7 @@ public class ShopCartController : ControllerBase
     public async Task<IResult> Delete(int id)
     {
         if (!ModelState.IsValid) return Results.BadRequest();
-      
+
         var shopCart = await _context.ShopCart.FindAsync(id);
         var existShopCart = shopCart is not null;
         if (existShopCart)

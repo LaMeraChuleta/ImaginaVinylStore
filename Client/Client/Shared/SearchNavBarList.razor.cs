@@ -34,7 +34,7 @@ public partial class SearchNavBarList : ComponentBase, IDisposable
         isSearching = true;
         StateHasChanged();
         var parameters = new Dictionary<string, string> { { "querySearch", query } };
-        MusicCatalogs = await HttpClientHelper.Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForSearch", parameters);        
+        MusicCatalogs = await HttpClientHelper.Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForSearch", parameters);
         isSearching = false;
         StateHasChanged();
     }

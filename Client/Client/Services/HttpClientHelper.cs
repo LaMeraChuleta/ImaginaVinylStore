@@ -1,10 +1,9 @@
-﻿using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using Azure;
-using Client.App.Interfaces;
+﻿using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using SharedApp.Validation;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 namespace Client.App.Services;
 

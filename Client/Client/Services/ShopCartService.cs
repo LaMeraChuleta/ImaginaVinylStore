@@ -50,7 +50,7 @@ namespace Client.App.Services
             {
                 var shopCarts = await GetShopCart();
                 var musicCatalogs = await _httpClientHelper.Get<List<MusicCatalog>>(nameof(MusicCatalog));
-                return musicCatalogs.Where(x => shopCarts.Any(y => y.MusicCatalogId == x.Id)).ToList();              
+                return musicCatalogs.Where(x => shopCarts.Any(y => y.MusicCatalogId == x.Id)).ToList();
             }
             catch (Exception ex)
             {
@@ -61,8 +61,8 @@ namespace Client.App.Services
         public async Task<int> GetShopCartCount()
         {
             try
-            {                                
-                var shopCarts = await GetShopCart(); 
+            {
+                var shopCarts = await GetShopCart();
                 return shopCarts.Count();
             }
             catch (Exception)
@@ -75,7 +75,7 @@ namespace Client.App.Services
             try
             {
                 if (await SearchInServer())
-                {                    
+                {
                     var fullShopCart = await _httpClientHelper.Get<List<ShopCart>>(nameof(ShopCart));
                     if (fullShopCart.Exists(x => x.MusicCatalogId == shopCart.MusicCatalogId)) return false;
                     else
@@ -138,6 +138,6 @@ namespace Client.App.Services
         {
             var authenticationState = await _authenticationStateProvider.GetAuthenticationStateAsync();
             return authenticationState.User.Identity is { IsAuthenticated: true };
-        }   
+        }
     }
 }

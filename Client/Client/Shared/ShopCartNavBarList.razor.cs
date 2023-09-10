@@ -2,7 +2,6 @@
 using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
 using SharedApp.Models;
-using System;
 
 namespace Client.App.Shared
 {
@@ -11,13 +10,13 @@ namespace Client.App.Shared
         [Inject] private IShopCartService _shopCartService { get; set; }
         [Inject] public IHttpClientHelper _httpClientHelper { get; set; }
         [Inject] public IToastService ToastService { get; set; }
-        private List<MusicCatalog> MusicCatalogs { get; set; }= new();
+        private List<MusicCatalog> MusicCatalogs { get; set; } = new();
         protected override async Task OnInitializedAsync()
-        {            
-            MusicCatalogs = await _shopCartService.GetShopCartToMusicCatalog();            
+        {
+            MusicCatalogs = await _shopCartService.GetShopCartToMusicCatalog();
             await base.OnInitializedAsync();
-        } 
-        
+        }
+
         private async void DeleteShopCartItem(int idCatalogMusic)
         {
             try
@@ -32,7 +31,7 @@ namespace Client.App.Shared
                 else
                 {
                     ToastService.ShowToast(ToastLevel.Warning, $"No se pudo eliminar el producto del carrito");
-                }                  
+                }
             }
             catch (Exception exception)
             {
