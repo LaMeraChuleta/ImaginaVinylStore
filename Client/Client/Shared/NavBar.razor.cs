@@ -18,6 +18,7 @@ public partial class NavBar : ComponentBase, IDisposable
     [Parameter] public EventCallback SendOpenLeftBar { get; set; }
     [Parameter] public EventCallback<string> SendRedirectPage { get; set; }
     [Parameter] public EventCallback<bool> SendOpenSearchList { get; set; }
+    [Parameter] public EventCallback SendOpenShopCartList { get; set; }
 
 
     public void Dispose()

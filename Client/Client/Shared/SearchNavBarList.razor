@@ -1,4 +1,4 @@
-﻿<div class="flex flex-col items-start pl-5 h-screen bg-gray-100 shadow-lg right-20 fixed z-50 top w-96 pt-5">
+﻿<div class="flex flex-col items-start px-4 pt-20 space-y-3 h-screen bg-gray-100 shadow-lg right-16 fixed z-50 top w-96">
     @if (MusicCatalogs.Any())
     {
         @foreach (var item in MusicCatalogs)
@@ -8,10 +8,10 @@
     }
     else if (isSearching)
     {
-        <p class="mt-10">Buscando...</p>
+        <p class="mt-10 mx-auto">Buscando...</p>
     }
     else
     {
-        <p class="mt-10">Sin resultados</p>
+        <p class="mt-10 mx-auto">Sin resultados</p>
     }
 </div>

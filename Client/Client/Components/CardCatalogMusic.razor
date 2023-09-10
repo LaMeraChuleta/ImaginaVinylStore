@@ -3,17 +3,16 @@
 @inject IToastService ToastService
 @inject IShopCartService ShopCartsService
 
-<div class="rounded-lg bg-gray-300 text-gray-900 shadow-lg flex-col w-64">
-    <img @onclick="@(() => NavigationManager.NavigateTo($"CatalogMusicDetail/{MusicCatalog.Id}"))" src="@(MusicCatalog.Images?.FirstOrDefault()?.Url ?? "https://udiscover.mx/cdn/shop/files/big-OR_SIGNEDVINYL-version2.png?v=1691079605")" class=" w-64 rounded-lg h-56 border object-cover object-center" alt="">
+<div @onclick="@(() => NavigationManager.NavigateTo($"CatalogMusicDetail/{MusicCatalog.Id}"))" class="rounded-lg bg-gray-300 text-gray-800 shadow-lg flex-col w-64">
+    <img src="@(MusicCatalog.Images?.FirstOrDefault()?.Url ?? "https://udiscover.mx/cdn/shop/files/big-OR_SIGNEDVINYL-version2.png?v=1691079605")" class=" w-64 rounded-lg h-56 border object-cover object-center" alt="">
     <div class="p-2 text-sm pt-4 sm:h-28 font-bold">
         <span class="@BgTypeFormat inline-block mb-2 font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs">@MusicCatalog.Format?.Name</span>
         <p>@MusicCatalog.Title - @MusicCatalog.Artist?.Name</p>
         <p>Genero: @MusicCatalog.Genre?.Name</p>
     </div>
     <div class="text-md sm:h-10 p-2">
-        <p>Precio: @MusicCatalog.Price.ToString("#,##0.00") MXN</p>
-    </div>
-    <button @onclick="AddItemShopCart" class="w-full rounded-lg py-2 bg-blue-600 text-white font-semibold uppercase hover:bg-blue-600">Agregar al carrito</button>
+        <p>$@MusicCatalog.Price.ToString("#,##0.00") MXN</p>
+    </div>    
 </div>
 
 @code {

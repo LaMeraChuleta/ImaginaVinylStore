@@ -78,8 +78,7 @@ public partial class CatalogMusicCreate : ComponentBase
                 NewMusicCatalog?.Images?.ToList().Add(image);
             }
 
-            ToastService.ShowToast(ToastLevel.Success,
-                $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
+            ToastService.ShowToast(ToastLevel.Success,$"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
             NewMusicCatalog = new MusicCatalog();
             PhotoMusicCatalog.Clear();
             StateHasChanged();
