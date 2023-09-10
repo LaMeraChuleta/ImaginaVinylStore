@@ -3,7 +3,7 @@
 @inject IToastService ToastService
 @inject IShopCartService ShopCartsService
 
-<div @onclick="@(() => NavigationManager.NavigateTo($"CatalogMusicDetail/{MusicCatalog.Id}"))" class="rounded-lg bg-gray-300 text-gray-800 shadow-lg flex-col w-64">
+<div @onclick="@(() => NavigationManager.NavigateTo($"CatalogMusicDetail/{MusicCatalog.Id}"))" class="rounded-lg bg-gray-300     text-gray-800 shadow-lg flex-col w-64">
     <img src="@(MusicCatalog.Images?.FirstOrDefault()?.Url ?? "https://udiscover.mx/cdn/shop/files/big-OR_SIGNEDVINYL-version2.png?v=1691079605")" class=" w-64 rounded-lg h-56 border object-cover object-center" alt="">
     <div class="p-2 text-sm pt-4 sm:h-28 font-bold">
         <span class="@BgTypeFormat inline-block mb-2 font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs">@MusicCatalog.Format?.Name</span>

@@ -2,14 +2,14 @@
 
 <PageTitle>Index</PageTitle>
 <Carrousel></Carrousel>
-<div class="w-full px-10">
+<div class="w-full">
     @if (CatalogMusics.Any())
     {
-        <div class="my-3">
+        <div class="my-3 mx-5">
             <p class="pl-5 text-2xl font-bold">NOVEDADES</p>
             <hr class="border-gray-300 my-2"/>
             <div class="scroll-container">
-                <div class="inline-flex space-x-3">
+                <div class="inline-flex space-x-4 px-3">
                     @foreach (var item in CatalogMusics)
                     {
                         <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
@@ -19,11 +19,11 @@
         </div>
 
 
-        <div class="my-3">
+        <div class="my-3 mx-5">
             <p class="pl-5 text-2xl font-bold">ARTISTAS</p>
             <hr class="border-gray-300 my-2"/>
-            <div class="flex justify-center p-2 md:p-5">
-                <div class="grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 md:gap-x-5">
+            <div class="flex justify-start p-2 md:p-5">
+                <div class="grid gap-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-6">
                     @foreach (var item in Artists)
                     {
                         <CardCatalogArtist Artist="item"></CardCatalogArtist>
@@ -32,11 +32,11 @@
             </div>
         </div>
 
-        <div class="my-3">
+        <div class="my-3 mx-5">
             <p class="pl-5 text-2xl font-bold">RECOMENDACIONES</p>
             <hr class="border-gray-300 my-2"/>
-            <div class="flex justify-center p-2 md:p-5">
-                <div class="grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 md:gap-x-5">
+            <div class="flex justify-start p-2 md:p-5">
+                <div class="grid gap-4 grid-cols-6">
                     @foreach (var item in CatalogMusics)
                     {
                         <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
