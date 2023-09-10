@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
 using SharedApp.Models;
 
@@ -36,5 +37,21 @@ public class ShopCartController : ControllerBase
         _context.ShopCart.Add(value);
         _context.SaveChanges();
         return Results.Ok(value);
+    }
+    [HttpDelete("{id}")]
+    [Authorize]
+    public async Task<IResult> Delete(int id)
+    {
+        if (!ModelState.IsValid) return Results.BadRequest();
+      
+        var shopCart = await _context.ShopCart.FindAsync(id);
+        var existShopCart = shopCart is not null;
+        if (existShopCart)
+        {
+            _context.ShopCart.Remove(shopCart!);
+            _context.SaveChanges();
+            return Results.Ok(true);
+        }
+        return Results.Ok(false);
     }
 }
