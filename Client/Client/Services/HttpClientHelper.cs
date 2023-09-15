@@ -19,10 +19,9 @@ public class HttpClientHelper : IHttpClientHelper
 
         ConfigureAuthorizationHeaderAsync();
     }
-
     public async Task<T> Get<T>(string pathEndPoint)
     {
-        var response = await _httpClient.GetAsync(pathEndPoint);
+        var response = await _httpClient.GetAsync(pathEndPoint);        
         return await ParseResponseAsync<T>(response);
     }
 
@@ -61,7 +60,13 @@ public class HttpClientHelper : IHttpClientHelper
     private static async Task<T> ParseResponseAsync<T>(HttpResponseMessage httpResponseMessage)
     {
         if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
+        {
+            if(typeof(T) == typeof(string))
+            {
+                return (T)(object)(await httpResponseMessage.Content.ReadAsStringAsync())!;
+            }         
             return (await httpResponseMessage.Content.ReadFromJsonAsync<T>())!;
+        }            
 
         var problemDetail = await httpResponseMessage.Content.ReadFromJsonAsync<ProblemDetails>();
         throw new Exception(problemDetail!.Title);

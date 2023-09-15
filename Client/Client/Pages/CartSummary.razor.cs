@@ -8,6 +8,7 @@ namespace Client.App.Pages
     public partial class CartSummary : ComponentBase
     {
         [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
+        [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] private IShopCartService _shopCartService { get; set; }
         private List<MusicCatalog> MusicCatalogsInShopCart { get; set; } = new();
         private List<MusicCatalog> MusicCatalogs { get; set; } = new();
@@ -17,6 +18,12 @@ namespace Client.App.Pages
             MusicCatalogs = await HttpClientHelper.Get<List<MusicCatalog>>(nameof(MusicCatalog));
             MusicCatalogs = MusicCatalogs.Take(10).ToList();
             await base.OnInitializedAsync();
+        }
+        private async void TestStrape()
+        {
+            var url = await HttpClientHelper.Get<string>("ShopCart/Strapi");
+            NavigationManager.NavigateTo(url);
+            
         }
     }
 }
