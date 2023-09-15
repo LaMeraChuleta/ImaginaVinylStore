@@ -22,6 +22,8 @@ builder.Services.AddApiAuthorization();
 
 builder.Services.AddScoped<IHttpClientHelperService, HttpClientHelperService>();
 builder.Services.AddScoped<IShopCartService, ShopCartService>();
+builder.Services.AddScoped<ICatalogMusicService, CatalogMusicService>();
+builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IShopCartNotificationService, ShopCartNotificationService>();
 
 await builder.Build().RunAsync();

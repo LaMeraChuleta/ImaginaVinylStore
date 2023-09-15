@@ -9,6 +9,7 @@ public partial class CatalogMusicIndex : ComponentBase
 {
     [Parameter] public string TypeFormat { get; set; }
     [Inject] public IHttpClientHelperService HttpClientHelper { get; set; }
+    [Inject] public IArtistService ArtistService { get; set; }
     [Inject] public IToastService ToastService { get; set; }
 
     private List<Artist> Artists { get; set; } = new();
@@ -26,12 +27,11 @@ public partial class CatalogMusicIndex : ComponentBase
             Genres = await HttpClientHelper.Get<List<Genre>>(nameof(Genre));
             Presentations = await HttpClientHelper.Get<List<Presentation>>(nameof(Presentation));
             Formats = await HttpClientHelper.Get<List<Format>>(nameof(Format));
-            Artists = await HttpClientHelper.Get<List<Artist>>(nameof(Artist));
+            Artists = await ArtistService.GetAsync();
 
             Filter.IdFormat = Formats.Find(x => x.Name == TypeFormat)!.Id;
             var parameter = Filter.ParseToDictionary();
-            CatalogMusics =
-                await HttpClientHelper.Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForFilter", parameter);
+            CatalogMusics = await HttpClientHelper.Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForFilter", parameter);
             Presentations = Presentations.Where(x => x.FormatId == Filter.IdFormat).ToList();
         }
         catch (Exception ex)

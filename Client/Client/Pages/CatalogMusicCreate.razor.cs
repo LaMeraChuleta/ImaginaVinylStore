@@ -3,7 +3,6 @@ using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using SharedApp.Models;
-using System.Net.Http.Headers;
 
 namespace Client.App.Pages;
 
@@ -20,6 +19,7 @@ public partial class CatalogMusicCreate : ComponentBase
     [Inject] public NavigationManager NavigationManager { get; set; }
     [Inject] public IToastService ToastService { get; set; }
     [Inject] public IHttpClientHelperService HttpClientHelper { get; set; }
+    [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
 
     private MusicCatalog NewMusicCatalog { get; set; } = new();
     private List<IBrowserFile> PhotoMusicCatalog { get; } = new();
@@ -27,6 +27,7 @@ public partial class CatalogMusicCreate : ComponentBase
     private List<string> PhotoMusicCatalogBase64 { get; } = new();
     private List<string> PhotoArtistsBase64 { get; } = new();
 
+    [Inject] public IArtistService ArtistService { get; set; }
     private List<Artist> Artists { get; set; } = new();
     private Artist NewArtist { get; set; } = new();
     private bool ShowModalNewArtist { get; set; }
@@ -46,7 +47,7 @@ public partial class CatalogMusicCreate : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         _editContextArtist = new EditContext(NewArtist);
-        Artists = await HttpClientHelper.Get<List<Artist>>(nameof(Artist));
+        Artists = await ArtistService.GetAsync();
 
         _editContextFormat = new EditContext(NewFormat);
         Formats = await HttpClientHelper.Get<List<Format>>(nameof(Format));
@@ -65,22 +66,18 @@ public partial class CatalogMusicCreate : ComponentBase
         try
         {
             if (!_editContextMusicCatalog.Validate()) return;
-
-            NewMusicCatalog = await HttpClientHelper.Post(nameof(MusicCatalog), NewMusicCatalog);
+            
+            NewMusicCatalog = await CatalogMusicService.CreateAsync(NewMusicCatalog);
             foreach (var file in PhotoMusicCatalog)
             {
-                using var content = new MultipartFormDataContent();
-                var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
-                fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-                content.Add(fileContent, nameof(file), file.Name);
-                var image = await HttpClientHelper.Post<ImageCatalog>(
-                    $"{nameof(MusicCatalog)}/Images?id={NewMusicCatalog?.Id}", content);
+                var image = await CatalogMusicService.CreateImageAsync(NewMusicCatalog!, file);
                 NewMusicCatalog?.Images?.ToList().Add(image);
             }
 
-            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
-            NewMusicCatalog = new MusicCatalog();
             PhotoMusicCatalog.Clear();
+            NewMusicCatalog = new MusicCatalog();
+
+            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");                        
             StateHasChanged();
         }
         catch (Exception exception)
@@ -95,16 +92,12 @@ public partial class CatalogMusicCreate : ComponentBase
         {
             if (!_editContextArtist.Validate()) return;
 
-            NewArtist = await HttpClientHelper.Post(nameof(Artist), NewArtist);
+            NewArtist = await ArtistService.CreateAsync(NewArtist);
             Artists.Add(NewArtist);
 
             foreach (var file in PhotoArtist)
             {
-                using var content = new MultipartFormDataContent();
-                var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
-                fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-                content.Add(fileContent, nameof(file), file.Name);
-                await HttpClientHelper.Post<ImageArtist>($"{nameof(Artist)}/Images?id={NewArtist?.Id}", content);
+                await ArtistService.CreateImageAsync(NewArtist, file);
             }
 
             ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el artista {NewArtist?.Name}");
@@ -180,7 +173,7 @@ public partial class CatalogMusicCreate : ComponentBase
         foreach (var file in e.GetMultipleFiles(MaxAllowedFiles))
         {
             var buffer = new byte[file.Size];
-            var readAsync = await file.OpenReadStream().ReadAsync(buffer);
+            var _ = await file.OpenReadStream().ReadAsync(buffer);
             var imageDataUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
             PhotoArtist.Add(file);
             PhotoArtistsBase64.Add(imageDataUrl);
@@ -194,7 +187,7 @@ public partial class CatalogMusicCreate : ComponentBase
         foreach (var file in e.GetMultipleFiles(MaxAllowedFiles))
         {
             var buffer = new byte[file.Size];
-            var readAsync = await file.OpenReadStream().ReadAsync(buffer);
+            var _ = await file.OpenReadStream().ReadAsync(buffer);
             var imageDataUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
             PhotoMusicCatalog.Add(file);
             PhotoMusicCatalogBase64.Add(imageDataUrl);
