@@ -3,11 +3,11 @@
 @inject IToastService ToastService
 @inject IShopCartService ShopCartsService
 
-<div class=" inline-flex mt-10">
+<div class="inline-flex mt-10">
     <img class="w-24 h-24" src="@(MusicCatalogs.Images!.FirstOrDefault()?.Url ?? "https://as1.ftcdn.net/v2/jpg/02/35/30/46/1000_F_235304686_Dabv7XmRksedIMrH4ADfMpN21K1nN67R.jpg")" alt="Imagen del disco">
     <div class="ml-5 text-sm w-58 bg-red-100">
         <p>@MusicCatalogs.Title-@MusicCatalogs.Artist!.Name</p>        
-        <span class="@BgTypeFormat inline-block mb-2 font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs">@MusicCatalogs.Format?.Name</span>
+        <span class="@BgTypeFormat inline-block mb-2 font-sans px-2 py-1 leading-none text-white rounded-full uppercase text-xs">@MusicCatalogs.Format?.Name</span>
         <button @onclick="AddItemShopCart" class="w-full text-xs rounded-lg py-2 bg-blue-600 text-white font-semibold uppercase hover:bg-blue-600">Agregar al carrito</button>
     </div>
 </div>
