@@ -7,12 +7,12 @@ using System.Net.Http.Json;
 
 namespace Client.App.Services;
 
-public class HttpClientHelper : IHttpClientHelper
+public class HttpClientHelperService : IHttpClientHelperService
 {
     private readonly HttpClient _httpClient;
     private readonly IAccessTokenProvider _tokenProvider;
 
-    public HttpClientHelper(IHttpClientFactory httpClientFactory, IAccessTokenProvider tokenProvider)
+    public HttpClientHelperService(IHttpClientFactory httpClientFactory, IAccessTokenProvider tokenProvider)
     {
         _httpClient = httpClientFactory.CreateClient("CatalogMusic.API");
         _tokenProvider = tokenProvider;

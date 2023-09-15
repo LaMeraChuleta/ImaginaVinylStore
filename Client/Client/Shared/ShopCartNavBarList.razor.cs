@@ -8,7 +8,7 @@ namespace Client.App.Shared
     public partial class ShopCartNavBarList : ComponentBase
     {
         [Inject] private IShopCartService _shopCartService { get; set; }
-        [Inject] public IHttpClientHelper _httpClientHelper { get; set; }
+        [Inject] public IHttpClientHelperService _httpClientHelper { get; set; }
         [Inject] private NavigationManager? _navigationManager { get; set; }
         [Inject] public IToastService ToastService { get; set; }
         private List<MusicCatalog> MusicCatalogs { get; set; } = new();

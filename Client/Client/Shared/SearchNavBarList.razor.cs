@@ -6,7 +6,7 @@ namespace Client.App.Shared;
 
 public partial class SearchNavBarList : ComponentBase, IDisposable
 {
-    [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
+    [Inject] public IHttpClientHelperService HttpClientHelper { get; set; }
     private List<MusicCatalog> MusicCatalogs { get; set; } = new();
     private bool isSearching { get; set; }
 

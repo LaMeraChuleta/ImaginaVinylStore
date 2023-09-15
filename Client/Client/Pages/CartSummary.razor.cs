@@ -7,7 +7,7 @@ namespace Client.App.Pages
 {    
     public partial class CartSummary : ComponentBase
     {
-        [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
+        [Inject] public IHttpClientHelperService HttpClientHelper { get; set; }
         [Inject] private IShopCartService _shopCartService { get; set; }
         private List<MusicCatalog> MusicCatalogsInShopCart { get; set; } = new();
         private List<MusicCatalog> MusicCatalogs { get; set; } = new();

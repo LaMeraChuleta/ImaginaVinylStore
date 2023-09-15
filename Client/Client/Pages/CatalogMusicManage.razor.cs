@@ -6,7 +6,7 @@ namespace Client.App.Pages
 {
     public partial class CatalogMusicManage : ComponentBase
     {
-        [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
+        [Inject] public IHttpClientHelperService HttpClientHelper { get; set; }
         private List<MusicCatalog> CatalogMusics { get; set; } = new();
         protected override async Task OnParametersSetAsync()
         {

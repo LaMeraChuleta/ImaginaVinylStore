@@ -20,7 +20,7 @@ builder.Services.AddBlazoredToast();
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 builder.Services.AddApiAuthorization();
 
-builder.Services.AddScoped<IHttpClientHelper, HttpClientHelper>();
+builder.Services.AddScoped<IHttpClientHelperService, HttpClientHelperService>();
 builder.Services.AddScoped<IShopCartService, ShopCartService>();
 builder.Services.AddScoped<IShopCartNotificationService, ShopCartNotificationService>();
 

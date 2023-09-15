@@ -8,7 +8,7 @@ namespace Client.App.Pages;
 public partial class CatalogMusicIndex : ComponentBase
 {
     [Parameter] public string TypeFormat { get; set; }
-    [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
+    [Inject] public IHttpClientHelperService HttpClientHelper { get; set; }
     [Inject] public IToastService ToastService { get; set; }
 
     private List<Artist> Artists { get; set; } = new();

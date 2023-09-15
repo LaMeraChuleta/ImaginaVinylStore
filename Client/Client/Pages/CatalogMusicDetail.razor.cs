@@ -8,7 +8,7 @@ namespace Client.App.Pages;
 public partial class CatalogMusicDetail : ComponentBase
 {
     [Parameter] public int IdMusicCatalog { get; set; }
-    [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
+    [Inject] public IHttpClientHelperService HttpClientHelper { get; set; }
     [Inject] public IToastService ToastService { get; set; }
 
     private MusicCatalog? MusicCatalog { get; set; } = new();

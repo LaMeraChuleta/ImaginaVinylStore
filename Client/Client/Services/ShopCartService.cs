@@ -8,13 +8,13 @@ namespace Client.App.Services
     public class ShopCartService : IShopCartService
     {
         private readonly AuthenticationStateProvider _authenticationStateProvider;
-        private readonly IHttpClientHelper _httpClientHelper;
+        private readonly IHttpClientHelperService _httpClientHelper;
         private readonly ILocalStorageService _localStorageService;
         private readonly IShopCartNotificationService _shopCartNotificationService;
 
         public ShopCartService(
             AuthenticationStateProvider authenticationStateProvider,
-            IHttpClientHelper httpClientHelper,
+            IHttpClientHelperService httpClientHelper,
             ILocalStorageService localStorageService,
             IShopCartNotificationService shopCartNotificationService)
         {
