@@ -11,7 +11,7 @@ public partial class CatalogMusicDetail : ComponentBase
     [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
     [Inject] public IToastService ToastService { get; set; }
 
-    private MusicCatalog? MusicCatalog { get; set; }
+    private MusicCatalog? MusicCatalog { get; set; } = new();
     private List<MusicCatalog>? CatalogMusics { get; set; }
 
     protected override async Task OnInitializedAsync()

@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Components;
 namespace Client.App.Shared;
 
 public partial class NavBar : ComponentBase, IDisposable
-{   
-    
+{
+
     [Inject] private IShopCartService _shopCartService { get; set; }
     public delegate void SearchCatalogHandler(string query);
     public static event SearchCatalogHandler OnSearchCatalog;
@@ -18,17 +18,18 @@ public partial class NavBar : ComponentBase, IDisposable
     [Parameter] public EventCallback SendOpenLeftBar { get; set; }
     [Parameter] public EventCallback<string> SendRedirectPage { get; set; }
     [Parameter] public EventCallback<bool> SendOpenSearchList { get; set; }
+    [Parameter] public EventCallback SendOpenShopCartList { get; set; }
 
 
     public void Dispose()
-    {        
+    {
         ShopCartNotificationService.OnShopCartCountUpdate -= UpdateShopItemCount;
         base.OnInitialized();
     }
 
     protected override void OnInitialized()
     {
-        
+
         ShopCartNotificationService.OnShopCartCountUpdate += UpdateShopItemCount;
         base.OnInitialized();
     }
@@ -42,7 +43,7 @@ public partial class NavBar : ComponentBase, IDisposable
     private void ChangeShowSearch()
     {
         ShowSearchInput = !ShowSearchInput;
-        if(!ShowSearchInput) QuerySearch = string.Empty;
+        if (!ShowSearchInput) QuerySearch = string.Empty;
         SendOpenSearchList.InvokeAsync(ShowSearchInput);
     }
 
@@ -59,6 +60,6 @@ public partial class NavBar : ComponentBase, IDisposable
             var querySearch = e.Value!.ToString()!;
             if (querySearch.Length == 1) querySearch = string.Empty;
             OnSearchCatalog.Invoke(querySearch);
-        }                                   
+        }
     }
 }

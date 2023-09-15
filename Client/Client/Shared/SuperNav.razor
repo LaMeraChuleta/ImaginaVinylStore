@@ -1,5 +1,6 @@
 ﻿<NavBar SendOpenLeftBar="@(() => ShowLeftBar = !ShowLeftBar)"
         SendOpenSearchList="@(() => ShowSearList = !ShowSearList)"
+        SendOpenShopCartList="@(() => ShowShopCartList = !ShowShopCartList)"
         SendRedirectPage="RedirectByPathUrl">
 </NavBar>
 
@@ -12,4 +13,9 @@
 @if (ShowSearList)
 {
     <SearchNavBarList ></SearchNavBarList>
+}
+
+@if (ShowShopCartList)
+{
+    <ShopCartNavBarList></ShopCartNavBarList>
 }

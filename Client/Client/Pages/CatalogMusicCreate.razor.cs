@@ -1,9 +1,9 @@
-﻿using System.Net.Http.Headers;
-using Blazored.Toast.Services;
+﻿using Blazored.Toast.Services;
 using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using SharedApp.Models;
+using System.Net.Http.Headers;
 
 namespace Client.App.Pages;
 
@@ -78,8 +78,7 @@ public partial class CatalogMusicCreate : ComponentBase
                 NewMusicCatalog?.Images?.ToList().Add(image);
             }
 
-            ToastService.ShowToast(ToastLevel.Success,
-                $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
+            ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
             NewMusicCatalog = new MusicCatalog();
             PhotoMusicCatalog.Clear();
             StateHasChanged();
@@ -162,7 +161,7 @@ public partial class CatalogMusicCreate : ComponentBase
         try
         {
             if (!_editContextPresentation.Validate()) return;
-            
+
             NewPresentation = await HttpClientHelper.Post(nameof(Presentation), NewPresentation);
             Presentations.Add(NewPresentation);
             ToastService.ShowToast(ToastLevel.Success, $"Exito se creo la presentacion {NewPresentation.Name}");

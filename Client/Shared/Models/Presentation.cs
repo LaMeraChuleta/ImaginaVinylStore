@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SharedApp.Validation;
+﻿using SharedApp.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace SharedApp.Models;
 
