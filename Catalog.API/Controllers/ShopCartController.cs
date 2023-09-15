@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedApp.Data;
 using SharedApp.Models;
+using Stripe.Checkout;
 using System.Security.Claims;
 
 namespace Catalog.API.Controllers;
@@ -37,6 +38,38 @@ public class ShopCartController : ControllerBase
         _context.SaveChanges();
         return Results.Ok(value);
     }
+    [HttpGet("Strapi")]
+    public ActionResult PostTest()
+    {
+        var domain = "http://localhost:7285";
+        var options = new SessionCreateOptions
+        {
+            LineItems = new List<SessionLineItemOptions>
+                {
+                  new SessionLineItemOptions
+                  {
+                    // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    Price = "price_1NplPQF4FZD9gDsPuj6AdpwF",
+                    Quantity = 1
+                  },
+                     new SessionLineItemOptions
+                  {
+                    // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    Price = "price_1NplPQF4FZD9gDsPuj6AdpwF",
+                    Quantity = 1
+                  }
+                },
+            Mode = "payment",
+            SuccessUrl = domain + "/success.html",
+            CancelUrl = domain + "/cancel.html",
+        };
+        var service = new SessionService();
+        Session session = service.Create(options);
+
+        Response.Headers.Add("Location", session.Url);
+        return Ok(session.Url);
+    }
+
     [HttpDelete("{id}")]
     [Authorize]
     public async Task<IResult> Delete(int id)
