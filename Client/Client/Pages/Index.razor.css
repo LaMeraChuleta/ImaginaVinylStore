@@ -1,14 +1,13 @@
 /* Estilo para el contenedor de desplazamiento */
 .scroll-container {
-    overflow-x: scroll;
-    display: flex;
+    overflow-x: scroll;    
     justify-content: center;
-    padding: 2rem;
+    
 }
 
 /* Estilo para la barra de desplazamiento */
 .scroll-container::-webkit-scrollbar {
-    width: 2px; /* Ancho de la barra de desplazamiento */
+    width: 1px; /* Ancho de la barra de desplazamiento */
 }
 
 .scroll-container::-webkit-scrollbar-thumb {
