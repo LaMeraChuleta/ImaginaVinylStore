@@ -7,14 +7,13 @@ namespace Client.App.Shared
 {
     public partial class ShopCartNavBarList : ComponentBase
     {
-        [Inject] private IShopCartService _shopCartService { get; set; }
-        [Inject] public IHttpClientHelperService _httpClientHelper { get; set; }
+        [Inject] private IShopCartService ShopCartService { get; set; }
         [Inject] private NavigationManager? _navigationManager { get; set; }
         [Inject] public IToastService ToastService { get; set; }
         private List<MusicCatalog> MusicCatalogs { get; set; } = new();
         protected override async Task OnInitializedAsync()
         {
-            MusicCatalogs = await _shopCartService.GetShopCartToMusicCatalog();
+            MusicCatalogs = await ShopCartService.GetShopCartToMusicCatalog();
             await base.OnInitializedAsync();
         }
 
@@ -22,10 +21,10 @@ namespace Client.App.Shared
         {
             try
             {
-                var deleteItem = await _shopCartService.DeleteShopCartItem(idCatalogMusic);
+                var deleteItem = await ShopCartService.DeleteShopCartItem(idCatalogMusic);
                 if (deleteItem)
                 {
-                    MusicCatalogs = await _shopCartService.GetShopCartToMusicCatalog();
+                    MusicCatalogs = await ShopCartService.GetShopCartToMusicCatalog();
                     ToastService.ShowToast(ToastLevel.Success, $"Se elimino el producto del carrito");
                     StateHasChanged();
                 }

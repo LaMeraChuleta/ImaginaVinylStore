@@ -1,12 +1,13 @@
 ﻿using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
 using SharedApp.Models;
+using static Client.App.Services.CatalogMusicService;
 
 namespace Client.App.Shared;
 
 public partial class SearchNavBarList : ComponentBase, IDisposable
 {
-    [Inject] public IHttpClientHelperService HttpClientHelper { get; set; }
+    [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
     private List<MusicCatalog> MusicCatalogs { get; set; } = new();
     private bool isSearching { get; set; }
 
@@ -33,8 +34,7 @@ public partial class SearchNavBarList : ComponentBase, IDisposable
 
         isSearching = true;
         StateHasChanged();
-        var parameters = new Dictionary<string, string> { { "querySearch", query } };
-        MusicCatalogs = await HttpClientHelper.Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForSearch", parameters);
+        MusicCatalogs = await CatalogMusicService.GetAsync(new FilterForCatalogMusic() { QuerySearch = query });
         isSearching = false;
         StateHasChanged();
     }
