@@ -24,7 +24,7 @@ namespace Client.App.Pages
         {
             var url = await HttpClientHelperService.Get<string>("ShopCart/Strapi");
             NavigationManager.NavigateTo(url);
-            
+
         }
     }
 }

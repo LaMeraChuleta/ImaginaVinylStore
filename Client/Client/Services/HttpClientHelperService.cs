@@ -21,7 +21,7 @@ public class HttpClientHelperService : IHttpClientHelperService
     }
     public async Task<T> Get<T>(string pathEndPoint)
     {
-        var response = await _httpClient.GetAsync(pathEndPoint);        
+        var response = await _httpClient.GetAsync(pathEndPoint);
         return await ParseResponseAsync<T>(response);
     }
 
@@ -61,12 +61,12 @@ public class HttpClientHelperService : IHttpClientHelperService
     {
         if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
         {
-            if(typeof(T) == typeof(string))
+            if (typeof(T) == typeof(string))
             {
                 return (T)(object)(await httpResponseMessage.Content.ReadAsStringAsync())!;
-            }         
+            }
             return (await httpResponseMessage.Content.ReadFromJsonAsync<T>())!;
-        }            
+        }
 
         var problemDetail = await httpResponseMessage.Content.ReadFromJsonAsync<ProblemDetails>();
         throw new Exception(problemDetail!.Title);
