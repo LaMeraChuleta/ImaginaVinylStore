@@ -6,10 +6,10 @@ using System.Net.Http.Headers;
 
 namespace Client.App.Services
 {
-    public class CatalogMusicService : HttpClientHelperService, ICatalogMusicService        
+    public class CatalogMusicService : HttpClientHelperService, ICatalogMusicService
     {
         private const long MaxFileSize = 1024 * 150 * 3;
-        public CatalogMusicService(IHttpClientFactory httpClientFactory, IAccessTokenProvider tokenProvider) 
+        public CatalogMusicService(IHttpClientFactory httpClientFactory, IAccessTokenProvider tokenProvider)
             : base(httpClientFactory, tokenProvider)
         {
         }
@@ -17,12 +17,20 @@ namespace Client.App.Services
         {
             return await Get<List<MusicCatalog>>(nameof(MusicCatalog));
         }
+        public Task<MusicCatalog> GetByIdAsync(FilterForCatalogMusic filter)
+        {
+            return Get<MusicCatalog>($"{nameof(MusicCatalog)}/ById", filter.ParseToDictionary());
+        }
+        public Task<List<MusicCatalog>> GetAsync(FilterForCatalogMusic filter)
+        {
+            return Get<List<MusicCatalog>>($"{nameof(MusicCatalog)}/ForFilter", filter.ParseToDictionary());
+        }
         public async Task<MusicCatalog> CreateAsync(MusicCatalog musicCatalog)
         {
             return await Post<MusicCatalog>(nameof(MusicCatalog), musicCatalog);
         }
         public async Task<ImageCatalog> CreateImageAsync(MusicCatalog musicCatalog, IBrowserFile file)
-        {                                                         
+        {
             return await Post<ImageCatalog>($"{nameof(MusicCatalog)}/Images?id={musicCatalog?.Id}", ParseBrowserFile(file));
         }
         public Task<bool> UpdateAsync(MusicCatalog catalog)
@@ -32,7 +40,7 @@ namespace Client.App.Services
         public async Task<bool> DeleteAsync(MusicCatalog catalog)
         {
             return await Delete<bool>(nameof(MusicCatalog), catalog.Id);
-        }       
+        }
         private MultipartFormDataContent ParseBrowserFile(IBrowserFile file)
         {
             using var content = new MultipartFormDataContent();
@@ -40,6 +48,32 @@ namespace Client.App.Services
             fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
             content.Add(fileContent, nameof(file), file.Name);
             return content;
+        }
+
+        public class FilterForCatalogMusic
+        {
+            internal string Id { get; set; }
+            internal string Title { get; set; }
+            internal string QuerySearch { get; set; }
+            internal int IdArtist { get; set; }
+            internal int IdGenre { get; set; }
+            internal int IdFormat { get; set; }
+            internal int IdPresentation { get; set; }
+
+            internal Dictionary<string, string> ParseToDictionary()
+            {
+                var parameter = new Dictionary<string, string>();
+
+                if (!string.IsNullOrEmpty(Id)) parameter.Add("id", Id);
+                if (!string.IsNullOrEmpty(Title)) parameter.Add("title", Title);
+                if (!string.IsNullOrEmpty(QuerySearch)) parameter.Add("querySearch", QuerySearch);
+                if (IdArtist != 0) parameter.Add("idArtist", IdArtist.ToString());
+                if (IdGenre != 0) parameter.Add("idGenre", IdGenre.ToString());
+                if (IdFormat != 0) parameter.Add("idFormat", IdFormat.ToString());
+                if (IdPresentation != 0) parameter.Add("idPresentation", IdPresentation.ToString());
+
+                return parameter;
+            }
         }
     }
 }

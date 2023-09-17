@@ -9,7 +9,7 @@ namespace Client.App.Services
     public class ArtistService : HttpClientHelperService, IArtistService
     {
         private const long MaxFileSize = 1024 * 150 * 3;
-        public ArtistService(IHttpClientFactory httpClientFactory, IAccessTokenProvider tokenProvider) 
+        public ArtistService(IHttpClientFactory httpClientFactory, IAccessTokenProvider tokenProvider)
             : base(httpClientFactory, tokenProvider)
         {
         }
@@ -27,7 +27,7 @@ namespace Client.App.Services
         }
         private MultipartFormDataContent ParseBrowserFile(IBrowserFile file)
         {
-            using var content = new MultipartFormDataContent();
+            var content = new MultipartFormDataContent();
             var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
             fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
             content.Add(fileContent, nameof(file), file.Name);
