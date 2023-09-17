@@ -2,10 +2,10 @@
 @inherits LayoutComponentBase
 
 <body class="flex flex-col min-h-screen">
-<SuperNav></SuperNav>
-<BlazoredToasts Position="ToastPosition.BottomRight"/>
-<main class="flex-grow">
-    @Body
-</main>
-<Footer></Footer>
+    <SuperNav></SuperNav>
+    <BlazoredToasts Position="ToastPosition.BottomRight" />
+    <main @onclick="CloseSecondComponents" class="flex-grow">
+        @Body
+    </main>
+    <Footer></Footer>
 </body>

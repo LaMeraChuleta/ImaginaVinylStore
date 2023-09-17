@@ -1,6 +1,7 @@
-﻿<NavBar SendOpenLeftBar="@(() => ShowLeftBar = !ShowLeftBar)"
-        SendOpenSearchList="@(() => ShowSearList = !ShowSearList)"
-        SendOpenShopCartList="@(() => ShowShopCartList = !ShowShopCartList)"
+﻿<NavBar SendOpenLeftBar="ChangeShowLeftBar"
+        SendOpenSearchList="ChangeShowSearList"
+        SendOpenShopCartList="ChangeShowShopCartList"
+        SendCloseSecondComponent="CloseSecondComponets"
         SendRedirectPage="RedirectByPathUrl">
 </NavBar>
 

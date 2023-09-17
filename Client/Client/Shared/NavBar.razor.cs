@@ -12,6 +12,7 @@ public partial class NavBar : ComponentBase, IDisposable
     [Parameter] public EventCallback<string> SendRedirectPage { get; set; }
     [Parameter] public EventCallback<bool> SendOpenSearchList { get; set; }
     [Parameter] public EventCallback SendOpenShopCartList { get; set; }
+    [Parameter] public EventCallback SendCloseSecondComponent { get; set; }
 
     public delegate void SearchCatalogHandler(string query);
     public static event SearchCatalogHandler OnSearchCatalog;
@@ -28,22 +29,30 @@ public partial class NavBar : ComponentBase, IDisposable
 
     protected override void OnInitialized()
     {
-
         ShopCartNotificationService.OnShopCartCountUpdate += UpdateShopItemCount;
         base.OnInitialized();
     }
-
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         CountShopCart = await ShopCartService.GetShopCartCount();
         await base.OnInitializedAsync();
     }
-
-    private void ChangeShowSearch()
+    private async void ChangeShowLeftBar()
     {
-        ShowSearchInput = !ShowSearchInput;
+        await SendOpenLeftBar.InvokeAsync();
+    }
+
+    private async void ChangeShowShopCart()
+    {
+        await SendOpenShopCartList.InvokeAsync();
+    }
+
+    private async void ChangeShowSearch()
+    {
         if (!ShowSearchInput) QuerySearch = string.Empty;
-        SendOpenSearchList.InvokeAsync(ShowSearchInput);
+        await SendOpenSearchList.InvokeAsync(ShowSearchInput);
+        ShowSearchInput = !ShowSearchInput;
+        StateHasChanged();
     }
 
     private void UpdateShopItemCount(int shopCartCount)
