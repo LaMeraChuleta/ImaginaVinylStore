@@ -20,8 +20,13 @@ builder.Services.AddBlazoredToast();
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 builder.Services.AddApiAuthorization();
 
-builder.Services.AddScoped<IHttpClientHelper, HttpClientHelper>();
+builder.Services.AddScoped<IHttpClientHelperService, HttpClientHelperService>();
 builder.Services.AddScoped<IShopCartService, ShopCartService>();
+builder.Services.AddScoped<ICatalogMusicService, CatalogMusicService>();
+builder.Services.AddScoped<IArtistService, ArtistService>();
+builder.Services.AddScoped<IFormatService, FormatService>();
+builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<IPresentationService, PresentationService>();
 builder.Services.AddScoped<IShopCartNotificationService, ShopCartNotificationService>();
 
 await builder.Build().RunAsync();

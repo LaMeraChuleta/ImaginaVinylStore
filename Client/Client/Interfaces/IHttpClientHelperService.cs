@@ -1,6 +1,6 @@
 ﻿namespace Client.App.Interfaces;
 
-public interface IHttpClientHelper
+public interface IHttpClientHelperService
 {
     Task<T> Get<T>(string pathEndPoint);
     Task<T> Get<T>(string pathEndPoint, Dictionary<string, string> parameters);

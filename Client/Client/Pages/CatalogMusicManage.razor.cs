@@ -6,11 +6,11 @@ namespace Client.App.Pages
 {
     public partial class CatalogMusicManage : ComponentBase
     {
-        [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
+        [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
         private List<MusicCatalog> CatalogMusics { get; set; } = new();
         protected override async Task OnParametersSetAsync()
         {
-            CatalogMusics = await HttpClientHelper.Get<List<MusicCatalog>>(nameof(MusicCatalog));
+            CatalogMusics = await CatalogMusicService.GetAsync();
         }
     }
 }
