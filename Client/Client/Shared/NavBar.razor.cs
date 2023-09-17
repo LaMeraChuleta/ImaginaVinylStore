@@ -7,19 +7,18 @@ namespace Client.App.Shared;
 public partial class NavBar : ComponentBase, IDisposable
 {
 
-    [Inject] private IShopCartService _shopCartService { get; set; }
+    [Inject] private IShopCartService ShopCartService { get; set; }
+    [Parameter] public EventCallback SendOpenLeftBar { get; set; }
+    [Parameter] public EventCallback<string> SendRedirectPage { get; set; }
+    [Parameter] public EventCallback<bool> SendOpenSearchList { get; set; }
+    [Parameter] public EventCallback SendOpenShopCartList { get; set; }
+
     public delegate void SearchCatalogHandler(string query);
     public static event SearchCatalogHandler OnSearchCatalog;
 
     private bool ShowSearchInput { get; set; }
     private int CountShopCart { get; set; }
     private string QuerySearch { get; set; } = string.Empty;
-
-    [Parameter] public EventCallback SendOpenLeftBar { get; set; }
-    [Parameter] public EventCallback<string> SendRedirectPage { get; set; }
-    [Parameter] public EventCallback<bool> SendOpenSearchList { get; set; }
-    [Parameter] public EventCallback SendOpenShopCartList { get; set; }
-
 
     public void Dispose()
     {
@@ -36,7 +35,7 @@ public partial class NavBar : ComponentBase, IDisposable
 
     protected async override Task OnInitializedAsync()
     {
-        CountShopCart = await _shopCartService.GetShopCartCount();
+        CountShopCart = await ShopCartService.GetShopCartCount();
         await base.OnInitializedAsync();
     }
 
