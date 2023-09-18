@@ -30,7 +30,7 @@ namespace Catalog.API.Controllers
                 {
                   new SessionLineItemOptions
                   {
-                    // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    // Provide the exact Price ID (for example, pr_1234) of the product you want to sell                    
                     Price = "price_1NplPQF4FZD9gDsPuj6AdpwF",
                     Quantity = 1
                   },

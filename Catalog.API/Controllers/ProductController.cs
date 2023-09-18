@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
 using SharedApp.Models;
 using Stripe;
@@ -19,20 +20,25 @@ namespace Catalog.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        public IResult Post([FromBody] MusicCatalog value)
+        //[Authorize]
+        //public IResult Post([FromBody] MusicCatalog value)
+        public IResult Post()
         {
-            if (!ModelState.IsValid) return Results.BadRequest();
+            //if (!ModelState.IsValid) return Results.BadRequest();
+            var value = _context.MusicCatalog
+                .Include(x => x.Artist)
+                .Include(x => x.Product)
+                .FirstOrDefault(x => x.Id == 10)!;            
 
             var images = _context.ImageCatalog
-                .Where(x => x.MusicCatalogId == value.Id)
+                .Where(x => x.MusicCatalogId == 10)
                 .Select(x => x.Url)
                 .ToList();
 
             var options = new ProductCreateOptions()
             {
                 Name = $"{value.Title}-{value.Artist!.Name}",
-                Images = images,
+                //Images = images,
                 DefaultPriceData = new ProductDefaultPriceDataOptions()
                 {
                     UnitAmount = value.Price,
@@ -40,10 +46,19 @@ namespace Catalog.API.Controllers
                 }
             };
             var service = new ProductService();
-            service.Create(options);
+            var result = service.Create(options);
 
-            _context.MusicCatalog.Add(value);
+            var newProduct = new ProductCatalog()
+            {
+                IdProductStripe = result.Id,
+                IdPriceStripe = result.DefaultPriceId,
+                Name = options.Name
+            };        
+            
+            value.Product.Add(newProduct);
+            _context.MusicCatalog.Update(value);
             _context.SaveChanges();
+            
             return Results.Ok(value);
         }
     }
