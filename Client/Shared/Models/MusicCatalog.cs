@@ -6,6 +6,7 @@ namespace SharedApp.Models;
 public class MusicCatalog
 {
     public int Id { get; set; }
+    public ICollection<ProductCatalog> Product { get; set; }
     public IEnumerable<ImageCatalog>? Images { get; set; }
     [Required] public string Title { get; set; }
     public Artist? Artist { get; set; }
