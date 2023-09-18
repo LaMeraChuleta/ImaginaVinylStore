@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
 using SharedApp.Models;
@@ -28,7 +27,7 @@ namespace Catalog.API.Controllers
             var value = _context.MusicCatalog
                 .Include(x => x.Artist)
                 .Include(x => x.Product)
-                .FirstOrDefault(x => x.Id == 10)!;            
+                .FirstOrDefault(x => x.Id == 10)!;
 
             var images = _context.ImageCatalog
                 .Where(x => x.MusicCatalogId == 10)
@@ -53,12 +52,12 @@ namespace Catalog.API.Controllers
                 IdProductStripe = result.Id,
                 IdPriceStripe = result.DefaultPriceId,
                 Name = options.Name
-            };        
-            
+            };
+
             value.Product.Add(newProduct);
             _context.MusicCatalog.Update(value);
             _context.SaveChanges();
-            
+
             return Results.Ok(value);
         }
     }

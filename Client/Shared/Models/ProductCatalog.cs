@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.ComponentModel.DataAnnotations.Schema;
 namespace SharedApp.Models
 {
     public class ProductCatalog
@@ -17,6 +11,6 @@ namespace SharedApp.Models
         public virtual ICollection<MusicCatalog> MusicCatalogs { get; set; }
         [NotMapped]
 
-        public virtual ICollection<AudioCatalog> AudioCatalogs{ get; set; }
+        public virtual ICollection<AudioCatalog> AudioCatalogs { get; set; }
     }
 }

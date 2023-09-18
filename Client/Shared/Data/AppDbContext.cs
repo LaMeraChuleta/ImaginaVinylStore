@@ -18,7 +18,7 @@ public class AppDbContext : DbContext
     public DbSet<Format> Format { get; set; }
     public DbSet<ShopCart> ShopCart { get; set; }
     public DbSet<ImageCatalog> ImageCatalog { get; set; }
-    public DbSet<ImageArtist> ImageArtist { get; set; }    
+    public DbSet<ImageArtist> ImageArtist { get; set; }
     public DbSet<Presentation> Presentation { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
