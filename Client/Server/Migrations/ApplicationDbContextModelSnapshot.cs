@@ -559,6 +559,36 @@ namespace Client.Server.Migrations
                     b.ToTable("Presentation");
                 });
 
+            modelBuilder.Entity("SharedApp.Models.ProductCatalog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("IdPriceStripe")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdProductStripe")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MusicCatalogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MusicCatalogId");
+
+                    b.ToTable("ProductCatalog");
+                });
+
             modelBuilder.Entity("SharedApp.Models.ShopCart", b =>
                 {
                     b.Property<int>("Id")
@@ -705,6 +735,13 @@ namespace Client.Server.Migrations
                     b.Navigation("Format");
                 });
 
+            modelBuilder.Entity("SharedApp.Models.ProductCatalog", b =>
+                {
+                    b.HasOne("SharedApp.Models.MusicCatalog", null)
+                        .WithMany("Product")
+                        .HasForeignKey("MusicCatalogId");
+                });
+
             modelBuilder.Entity("SharedApp.Models.ShopCart", b =>
                 {
                     b.HasOne("Client.Server.Models.ApplicationUser", null)
@@ -745,6 +782,8 @@ namespace Client.Server.Migrations
             modelBuilder.Entity("SharedApp.Models.MusicCatalog", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("SharedApp.Models.Presentation", b =>
