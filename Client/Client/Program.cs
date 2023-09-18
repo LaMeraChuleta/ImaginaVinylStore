@@ -27,6 +27,7 @@ builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IFormatService, FormatService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IPresentationService, PresentationService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IShopCartNotificationService, ShopCartNotificationService>();
 
 await builder.Build().RunAsync();

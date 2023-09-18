@@ -144,8 +144,9 @@ try:
             Price,
             Matrix,
             Label,
-            CreateAt)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+            CreateAt,
+            ActiveInStripe)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         '''
 
         connection_string = "DRIVER=SQL Server;SERVER=localhost;DATABASE=test;UID=sa;PWD=VacaLoca69"
@@ -165,7 +166,8 @@ try:
             Price,
             Matrix,
             Label,
-            CreateAt)
+            CreateAt,
+            False)
         connSql.commit()
 
         # Consulta para insertar el nuevo artista   

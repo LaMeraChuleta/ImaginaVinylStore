@@ -13,6 +13,7 @@ public partial class CatalogMusicCreate : ComponentBase
     [Inject] public NavigationManager NavigationManager { get; set; }
     [Inject] public IToastService ToastService { get; set; }
     [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
+    [Inject] public IProductService ProductService { get; set; }
 
     private MusicCatalog NewMusicCatalog { get; set; } = new();
     private List<IBrowserFile> PhotoMusicCatalog { get; } = new();
@@ -84,6 +85,7 @@ public partial class CatalogMusicCreate : ComponentBase
                 var image = await CatalogMusicService.CreateImageAsync(NewMusicCatalog!, file);
                 NewMusicCatalog?.Images?.ToList().Add(image);
             }
+            await ProductService.CreateAsync(NewMusicCatalog!);
 
             PhotoMusicCatalog.Clear();
             NewMusicCatalog = new MusicCatalog();
