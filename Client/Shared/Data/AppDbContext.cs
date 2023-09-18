@@ -12,7 +12,6 @@ public class AppDbContext : DbContext
 
     public DbSet<AudioCatalog> AudioCatalog { get; set; }
     public DbSet<MusicCatalog> MusicCatalog { get; set; }
-    public DbSet<ProductCatalog> ProductCatalog { get; set; }
     public DbSet<Artist> Artist { get; set; }
     public DbSet<Genre> Genre { get; set; }
     public DbSet<Format> Format { get; set; }
