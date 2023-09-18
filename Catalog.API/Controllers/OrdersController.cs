@@ -16,11 +16,7 @@ namespace Catalog.API.Controllers
             if (stripeEvent.Type == Events.CheckoutSessionCompleted)
             {
                 var r = stripeEvent.Data.Object as Stripe.Checkout.Session;
-
-                foreach (var item in r.LineItems)
-                {
-                    Console.WriteLine(item.ToString());
-                }
+                Console.WriteLine(r);
             }
             return Ok();
         }
