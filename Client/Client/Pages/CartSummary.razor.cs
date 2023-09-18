@@ -8,7 +8,6 @@ namespace Client.App.Pages
     {
         [Inject] public IHttpClientHelperService HttpClientHelperService { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
-        [Inject] private IShopCartService _shopCartService { get; set; }
         [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
         [Inject] private IShopCartService ShopCartService { get; set; }
         private List<MusicCatalog> MusicCatalogsInShopCart { get; set; } = new();
@@ -22,7 +21,7 @@ namespace Client.App.Pages
         }
         private async void TestStrape()
         {
-            var url = await HttpClientHelperService.Get<string>("ShopCart/Strapi");
+            var url = await HttpClientHelperService.Post<string>("Checkout");
             NavigationManager.NavigateTo(url);
 
         }
