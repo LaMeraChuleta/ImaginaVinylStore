@@ -31,6 +31,11 @@ public class HttpClientHelperService : IHttpClientHelperService
         var response = await _httpClient.GetAsync(pathEndPoint);
         return await ParseResponseAsync<T>(response);
     }
+    public async Task<T> Post<T>(string pathEndPoint)
+    {
+        var response = await _httpClient.PostAsJsonAsync(pathEndPoint, new StringContent(""));
+        return await ParseResponseAsync<T>(response);
+    }
 
     public async Task<T> Post<T>(string pathEndPoint, T data)
     {
@@ -79,4 +84,5 @@ public class HttpClientHelperService : IHttpClientHelperService
         var queryString = string.Join("&", queryParams.Select(x => $"{x.Key}={WebUtility.UrlEncode(x.Value)}"));
         return $"{url}?{queryString}";
     }
+
 }
