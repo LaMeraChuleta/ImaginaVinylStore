@@ -28,7 +28,7 @@ public class MusicCatalogController : ControllerBase
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
             .Include(x => x.Format)
-            .Include(x => x.Images)
+            .Include(x => x.Images)            
             .ToArray());
     }
 

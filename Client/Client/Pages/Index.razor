@@ -7,7 +7,7 @@
     {
         <div class="my-3 mx-5">
             <p class="pl-5 text-2xl font-bold">NOVEDADES</p>
-            <hr class="border-gray-300 my-2"/>
+            <hr class="border-gray-300 my-2" />
             <div class="scroll-container">
                 <div class="inline-flex space-x-4 px-3">
                     @foreach (var item in CatalogMusics)
@@ -17,11 +17,12 @@
                 </div>
             </div>
         </div>
-
-
+    }
+    @if (Artists.Any())
+    {
         <div class="my-3 mx-5">
             <p class="pl-5 text-2xl font-bold">ARTISTAS</p>
-            <hr class="border-gray-300 my-2"/>
+            <hr class="border-gray-300 my-2" />
             <div class="flex justify-start p-2 md:p-5">
                 <div class="grid gap-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-6">
                     @foreach (var item in Artists)
@@ -31,10 +32,12 @@
                 </div>
             </div>
         </div>
-
+    }
+    @if (CatalogMusics.Any())
+    {
         <div class="my-3 mx-5">
             <p class="pl-5 text-2xl font-bold">RECOMENDACIONES</p>
-            <hr class="border-gray-300 my-2"/>
+            <hr class="border-gray-300 my-2" />
             <div class="flex justify-start p-2 md:p-5">
                 <div class="grid gap-4 grid-cols-6">
                     @foreach (var item in CatalogMusics)

@@ -24,15 +24,19 @@ namespace Catalog.API.Controllers
         {
             if (!ModelState.IsValid) return Results.BadRequest();
 
+            value = _context.MusicCatalog
+                .Include(x => x.Artist)
+                .FirstOrDefault(a => a.Id == value.Id)!;
+
             var images = _context.ImageCatalog
-                .Where(x => x.MusicCatalogId == 10)
+                .Where(x => x.MusicCatalogId == value.Id)
                 .Select(x => x.Url)
                 .ToList();
 
             var options = new ProductCreateOptions()
             {
                 Name = $"{value.Title}-{value.Artist!.Name}",
-                //Images = images,
+                Images = images,
                 DefaultPriceData = new ProductDefaultPriceDataOptions()
                 {
                     UnitAmount = value.Price,
@@ -43,6 +47,7 @@ namespace Catalog.API.Controllers
             var result = service.Create(options);
             value.IdProductStripe = result.Id;
             value.IdPriceStripe = result.DefaultPriceId;
+            value.ActiveInStripe = true;
 
             _context.MusicCatalog.Update(value);
             _context.SaveChanges();

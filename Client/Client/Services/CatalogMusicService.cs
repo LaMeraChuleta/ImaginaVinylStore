@@ -43,7 +43,7 @@ namespace Client.App.Services
         }
         private MultipartFormDataContent ParseBrowserFile(IBrowserFile file)
         {
-            using var content = new MultipartFormDataContent();
+            var content = new MultipartFormDataContent();
             var fileContent = new StreamContent(file.OpenReadStream(MaxFileSize));
             fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
             content.Add(fileContent, nameof(file), file.Name);
