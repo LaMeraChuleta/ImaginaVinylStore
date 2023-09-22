@@ -7,7 +7,7 @@ namespace Client.App.Services
     public class ProductService : HttpClientHelperService, IProductService
     {
 
-        public ProductService(IHttpClientFactory httpClientFactory, IAccessTokenProvider tokenProvider) 
+        public ProductService(IHttpClientFactory httpClientFactory, IAccessTokenProvider tokenProvider)
             : base(httpClientFactory, tokenProvider)
         {
         }
