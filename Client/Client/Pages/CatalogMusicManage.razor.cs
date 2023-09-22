@@ -7,10 +7,16 @@ namespace Client.App.Pages
     public partial class CatalogMusicManage : ComponentBase
     {
         [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
+        [Inject] public NavigationManager NavigationManager { get; set; }
         private List<MusicCatalog> CatalogMusics { get; set; } = new();
-        protected override async Task OnParametersSetAsync()
+        protected override async Task OnInitializedAsync()
         {
             CatalogMusics = await CatalogMusicService.GetAsync();
+        }
+
+        private void EditMusicCatalog(int id)
+        {
+            NavigationManager.NavigateTo($"EditCatalogMusic/{id}");
         }
     }
 }
