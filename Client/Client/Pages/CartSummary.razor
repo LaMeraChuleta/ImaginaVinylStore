@@ -12,7 +12,7 @@
         <div class="flex justify-between pt-2 mt-2">        
             <div>
                 <div class="inline-flex">
-                    <img class="w-24 h-24 rounded-2 mr-2" src="https://salvajemusicstore.com/cdn/shop/collections/bd3b1065424b8623dc30d7846c666a56_330x.jpg?v=1644812626" )" alt="Imagen del disco">
+                    <img class="w-24 h-24 rounded-2 mr-2" src="@item.Images?.FirstOrDefault()?.Url"  alt="Imagen del disco">
                     <div class="flex w-64 flex-col pt-2 font-bold text-gray-800">
                             <p>@item.Title-@item.Artist!.Name</p>
                             <span class="inline-block w-14 mb-2 font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide">@item.Format?.Name</span>

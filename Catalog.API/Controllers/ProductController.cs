@@ -39,7 +39,7 @@ namespace Catalog.API.Controllers
                 Images = images,
                 DefaultPriceData = new ProductDefaultPriceDataOptions()
                 {
-                    UnitAmount = value.Price,
+                    UnitAmount = value.Price * 100,
                     Currency = "mxn"
                 }
             };
