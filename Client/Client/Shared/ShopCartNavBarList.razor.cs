@@ -7,13 +7,17 @@ namespace Client.App.Shared
 {
     public partial class ShopCartNavBarList : ComponentBase
     {
+        [Parameter] public EventCallback SendCloseComponent { get; set; }
         [Inject] private IShopCartService ShopCartService { get; set; }
         [Inject] private NavigationManager? _navigationManager { get; set; }
         [Inject] public IToastService ToastService { get; set; }
         private List<MusicCatalog> MusicCatalogs { get; set; } = new();
+        private bool IsLoading { get; set; } = true;
         protected override async Task OnInitializedAsync()
         {
+            IsLoading = true;
             MusicCatalogs = await ShopCartService.GetShopCartToMusicCatalog();
+            IsLoading = false;
             await base.OnInitializedAsync();
         }
 
@@ -37,6 +41,12 @@ namespace Client.App.Shared
             {
                 ToastService.ShowToast(ToastLevel.Error, exception.Message);
             }
+        }
+
+        private async void NavigateToCartSummary()
+        {
+            await SendCloseComponent.InvokeAsync();
+            _navigationManager?.NavigateTo(" CartSummary");
         }
     }
 }
