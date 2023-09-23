@@ -10,9 +10,20 @@
         <p>@MusicCatalog.Title - @MusicCatalog.Artist?.Name</p>
         <p>Genero: @MusicCatalog.Genre?.Name</p>
     </div>
-    <div class="text-md sm:h-10 p-2">
-        <p>$@MusicCatalog.Price.ToString("#,##0.00") MXN</p>
-    </div>    
+    <div class="w-full justify-between px-3 inline-flex text-md sm:h-10 p-2">
+        @if (MusicCatalog.Discount != null)
+        {
+            <p>$@(((int)(MusicCatalog.Price - (MusicCatalog.Price * (MusicCatalog.Discount / 100.0)))).ToString("#,##0.00")) MXN</p>
+            <div class="relative">
+                <div class="absolute w-auto -top-3 -right-2 bg-orange-400 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs z-10">-@MusicCatalog.Discount %</div>
+                <p class="text-xs my-auto text-gray-600 line-through">$@MusicCatalog.Price.ToString("#,##0.00") MXN</p>
+            </div>
+        }
+        else
+        {
+            <p>$@MusicCatalog.Price.ToString("#,##0.00") MXN</p>
+        }
+    </div>
 </div>
 
 @code {
@@ -37,21 +48,21 @@
         try
         {
             var item = new ShopCart
-            {
-                MusicCatalogId = MusicCatalog.Id,
-                Amount = 1,
-                UnitPrice = 300
-            };
+                {
+                    MusicCatalogId = MusicCatalog.Id,
+                    Amount = 1,
+                    UnitPrice = 300
+                };
 
             var isItemCreate = await ShopCartsService.SetShopCartItem(item, MusicCatalog);
             if (isItemCreate)
             {
-                ToastService.ShowSuccess($"Se guardo este articulo en el carrito. { MusicCatalog.Title }-{ MusicCatalog.Artist?.Name }");                
+                ToastService.ShowSuccess($"Se guardo este articulo en el carrito. {MusicCatalog.Title}-{MusicCatalog.Artist?.Name}");
             }
             else
             {
-                ToastService.ShowWarning($"Ya existe este articulo en el carrito. { MusicCatalog.Title }-{ MusicCatalog.Artist?.Name }");
-            }      
+                ToastService.ShowWarning($"Ya existe este articulo en el carrito. {MusicCatalog.Title}-{MusicCatalog.Artist?.Name}");
+            }
         }
         catch (Exception exception)
         {

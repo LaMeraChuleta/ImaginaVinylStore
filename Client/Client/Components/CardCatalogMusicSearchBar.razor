@@ -7,8 +7,22 @@
     <img class="w-24 h-24 rounded-2 mr-2" src="@(MusicCatalogs.Images!.FirstOrDefault()?.Url ?? "https://salvajemusicstore.com/cdn/shop/collections/bd3b1065424b8623dc30d7846c666a56_330x.jpg?v=1644812626")" alt="Imagen del disco">
     <div class="flex w-64 flex-col pt-2 text-xs font-bold text-gray-800">
         <p>@MusicCatalogs.Title-@MusicCatalogs.Artist!.Name</p>        
-        <span class="@BgTypeFormat inline-block w-14 mb-2 font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide">@MusicCatalogs.Format?.Name</span>        
-        <button @onclick="AddItemShopCart" class="py-2 px-4 rounded-lg py-2 bg-blue-600 text-white font-semibold uppercase hover:bg-blue-600">Agregar al carrito</button>
+        <span class="@BgTypeFormat inline-block w-12 font-sans px-2 py-1 leading-none text-white text-xs rounded-full tracking-wide">@MusicCatalogs.Format?.Name</span>
+        @if (MusicCatalogs.Discount != null)
+        {
+            <div class="w-full justify-between px-3 inline-flex sm:h-10 p-2">
+                <p>$@(((int)(MusicCatalogs.Price - (MusicCatalogs.Price * (MusicCatalogs.Discount / 100.0)))).ToString("#,##0.00")) MXN</p>
+                <div class="relative">
+                    <div class="absolute w-auto -top-3 -right-2 bg-orange-400 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs z-10">-@MusicCatalogs.Discount %</div>
+                    <p class="text-xs my-auto text-gray-600 line-through">$@MusicCatalogs.Price.ToString("#,##0.00") MXN</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <p class="text-xs">$@MusicCatalogs.Price.ToString("#,##0.00") MXN</p>
+        }
+        <button @onclick="AddItemShopCart" class="py-2 px-4 rounded-lg py-2 bg-blue-600 text-xs text-white font-semibold uppercase hover:bg-blue-600">Agregar al carrito</button>
    </div>    
 </div>
 
