@@ -4,6 +4,7 @@ using Client.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Client.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230923171917_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -484,32 +487,6 @@ namespace Client.Server.Migrations
                     b.ToTable("ImageArtist");
                 });
 
-            modelBuilder.Entity("SharedApp.Models.ImageAudio", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AudioCatalogId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AudioCatalogId");
-
-                    b.ToTable("ImageAudio");
-                });
-
             modelBuilder.Entity("SharedApp.Models.ImageCatalog", b =>
                 {
                     b.Property<int>("Id")
@@ -727,17 +704,6 @@ namespace Client.Server.Migrations
                     b.Navigation("Artist");
                 });
 
-            modelBuilder.Entity("SharedApp.Models.ImageAudio", b =>
-                {
-                    b.HasOne("SharedApp.Models.AudioCatalog", "AudioCatalog")
-                        .WithMany("Images")
-                        .HasForeignKey("AudioCatalogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AudioCatalog");
-                });
-
             modelBuilder.Entity("SharedApp.Models.ImageCatalog", b =>
                 {
                     b.HasOne("SharedApp.Models.MusicCatalog", "MusicCatalog")
@@ -826,11 +792,6 @@ namespace Client.Server.Migrations
                     b.Navigation("CatalogMusics");
 
                     b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("SharedApp.Models.AudioCatalog", b =>
-                {
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("SharedApp.Models.Format", b =>

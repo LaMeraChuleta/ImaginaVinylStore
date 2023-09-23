@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<Format> Format { get; set; }
     public DbSet<ShopCart> ShopCart { get; set; }
     public DbSet<ImageCatalog> ImageCatalog { get; set; }
+    public DbSet<ImageAudio> ImageAudio { get; set; }
     public DbSet<ImageArtist> ImageArtist { get; set; }
     public DbSet<Presentation> Presentation { get; set; }
 
@@ -80,6 +81,9 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<ImageArtist>()
             .Ignore(i => i.Artist);
+
+        modelBuilder.Entity<ImageAudio>()
+            .Ignore(i => i.AudioCatalog);
 
         modelBuilder.Entity<Artist>()
             .Ignore(a => a.CatalogMusics);

@@ -10,5 +10,6 @@
         public string Description { get; set; }
         public int Price { get; set; }
         public bool ActiveInStripe { get; set; }
+        public IEnumerable<ImageAudio>? Images { get; set; }
     }
 }

@@ -24,26 +24,6 @@ namespace Client.Server.Migrations
                     table.PrimaryKey("PK_Artist", x => x.Id);
                 });
 
-
-            migrationBuilder.CreateTable(
-                name: "AudioCatalog",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdProductStripe = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IdPriceStripe = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    ActiveInStripe = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AudioCatalog", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -81,6 +61,25 @@ namespace Client.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AudioCatalog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdProductStripe = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdPriceStripe = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    ActiveInStripe = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AudioCatalog", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -393,6 +392,7 @@ namespace Client.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     MusicCatalogId = table.Column<int>(type: "int", nullable: false),
+                    AudioCatalogId = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<int>(type: "int", nullable: false)
                 },
@@ -404,6 +404,12 @@ namespace Client.Server.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ShopCart_AudioCatalog_AudioCatalogId",
+                        column: x => x.AudioCatalogId,
+                        principalTable: "AudioCatalog",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ShopCart_MusicCatalog_MusicCatalogId",
                         column: x => x.MusicCatalogId,
@@ -529,6 +535,11 @@ namespace Client.Server.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ShopCart_AudioCatalogId",
+                table: "ShopCart",
+                column: "AudioCatalogId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ShopCart_MusicCatalogId",
                 table: "ShopCart",
                 column: "MusicCatalogId");
@@ -539,9 +550,6 @@ namespace Client.Server.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
-
-            migrationBuilder.DropTable(
-                name: "AudioCatalog");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserClaims");
@@ -578,6 +586,9 @@ namespace Client.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "AudioCatalog");
 
             migrationBuilder.DropTable(
                 name: "MusicCatalog");
