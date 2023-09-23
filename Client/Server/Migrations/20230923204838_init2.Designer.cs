@@ -4,6 +4,7 @@ using Client.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Client.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230923204838_init2")]
+    partial class init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -651,10 +654,10 @@ namespace Client.Server.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("AudioCatalogId")
+                    b.Property<int>("AudioCatalogId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MusicCatalogId")
+                    b.Property<int>("MusicCatalogId")
                         .HasColumnType("int");
 
                     b.Property<int>("UnitPrice")
@@ -807,11 +810,15 @@ namespace Client.Server.Migrations
 
                     b.HasOne("SharedApp.Models.AudioCatalog", "AudioCatalog")
                         .WithMany()
-                        .HasForeignKey("AudioCatalogId");
+                        .HasForeignKey("AudioCatalogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SharedApp.Models.MusicCatalog", "CatalogMusic")
                         .WithMany()
-                        .HasForeignKey("MusicCatalogId");
+                        .HasForeignKey("MusicCatalogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AudioCatalog");
 

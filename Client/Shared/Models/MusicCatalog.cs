@@ -27,4 +27,5 @@ public class MusicCatalog
     [Required] public string Label { get; set; }
     public DateTime CreateAt { get; set; } = DateTime.Now;
     public bool ActiveInStripe { get; set; }
+    public int? Discount { get; set; }
 }
