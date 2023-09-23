@@ -48,9 +48,16 @@ public class HttpClientHelperService : IHttpClientHelperService
         var response = await _httpClient.PostAsync(pathEndPoint, data);
         return await ParseResponseAsync<T>(response);
     }
+    public async Task<T> Put<T, U>(string pathEndPoint, int id, U data)
+    {
+        pathEndPoint = BuildUrlWithQueryParams(pathEndPoint, new(), id);
+        var response = await _httpClient.PutAsJsonAsync(pathEndPoint, data);
+        return await ParseResponseAsync<T>(response);
+    }
     public async Task<T> Delete<T>(string pathEndPoint, int id)
     {
-        var response = await _httpClient.DeleteAsync(pathEndPoint + "/" + id.ToString());
+        pathEndPoint = BuildUrlWithQueryParams(pathEndPoint, new(), id);
+        var response = await _httpClient.DeleteAsync(pathEndPoint);
         return await ParseResponseAsync<T>(response);
     }
 
@@ -77,12 +84,12 @@ public class HttpClientHelperService : IHttpClientHelperService
         throw new Exception(problemDetail!.Title);
     }
 
-    private static string BuildUrlWithQueryParams(string url, Dictionary<string, string> queryParams)
+    private static string BuildUrlWithQueryParams(string url, Dictionary<string, string> queryParams, int? id = null)
     {
+        if (id is not null) url += "/" + id;
         if (queryParams.Count == 0) return url;
 
         var queryString = string.Join("&", queryParams.Select(x => $"{x.Key}={WebUtility.UrlEncode(x.Value)}"));
         return $"{url}?{queryString}";
     }
-
 }
