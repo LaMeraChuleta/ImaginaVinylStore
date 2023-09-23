@@ -18,7 +18,7 @@ namespace Catalog.API.Controllers
             _context = context;
         }
 
-        [HttpPost]
+        [HttpPost("MusicCatalog")]
         [Authorize]
         public IResult Post([FromBody] MusicCatalog value)
         {
@@ -50,6 +50,40 @@ namespace Catalog.API.Controllers
             value.ActiveInStripe = true;
 
             _context.MusicCatalog.Update(value);
+            _context.SaveChanges();
+            return Results.Ok(value);
+        }
+
+        [HttpPost("AudioCatalog")]
+        [Authorize]
+        public IResult Post([FromBody] AudioCatalog value)
+        {
+            if (!ModelState.IsValid) return Results.BadRequest();
+
+            value = _context.AudioCatalog.FirstOrDefault(a => a.Id == value.Id)!;
+
+            var images = _context.ImageAudio
+                .Where(x => x.AudioCatalogId == value.Id)
+                .Select(x => x.Url)
+                .ToList();
+
+            var options = new ProductCreateOptions()
+            {
+                Name = $"{value.Name}-{value.Brand}",
+                Images = images,
+                DefaultPriceData = new ProductDefaultPriceDataOptions()
+                {
+                    UnitAmount = value.Price * 100,
+                    Currency = "mxn"
+                }
+            };
+            var service = new ProductService();
+            var result = service.Create(options);
+            value.IdProductStripe = result.Id;
+            value.IdPriceStripe = result.DefaultPriceId;
+            value.ActiveInStripe = true;
+
+            _context.AudioCatalog.Update(value);
             _context.SaveChanges();
             return Results.Ok(value);
         }

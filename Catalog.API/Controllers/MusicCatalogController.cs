@@ -32,7 +32,7 @@ public class MusicCatalogController : ControllerBase
             .ToArray());
     }
 
-    [HttpGet("ById")]
+    [HttpGet("{id}")]
     public IResult GetById(int id)
     {
         return Results.Ok(_context.MusicCatalog
