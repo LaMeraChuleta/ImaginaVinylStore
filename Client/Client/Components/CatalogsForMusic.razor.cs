@@ -11,7 +11,7 @@ namespace Client.App.Components
         [Parameter] public EventCallback<(string, object)> SendNewCatalogForMusic { get; set; }
         [Inject] public IToastService ToastService { get; set; }
         [Inject] public IArtistService ArtistService { get; set; }
-        [Inject] public IGenreService GenreService { get; set; }                
+        [Inject] public IGenreService GenreService { get; set; }
         [Inject] public IFormatService FormatService { get; set; }
         [Inject] public IPresentationService PresentationService { get; set; }
         private List<IBrowserFile> PhotoArtist { get; } = new();
@@ -55,9 +55,9 @@ namespace Client.App.Components
                 }
 
                 await SendNewCatalogForMusic.InvokeAsync((nameof(Artist), NewArtist));
+                ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el artista {NewArtist?.Name}");
                 NewArtist = new Artist();
                 ShowModalNewArtist = false;                
-                ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el artista {NewArtist?.Name}");
                 StateHasChanged();
             }
             catch (Exception exception)
@@ -72,12 +72,12 @@ namespace Client.App.Components
             {
                 if (!_editContextGenre.Validate()) return;
 
-                NewGenre = await GenreService.CreateAsync(NewGenre);                                
+                NewGenre = await GenreService.CreateAsync(NewGenre);
 
                 await SendNewCatalogForMusic.InvokeAsync((nameof(Genre), NewGenre));
-                NewGenre = new Genre();
-                ShowModalNewGenre = false;
                 ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el genero {NewGenre.Name}");
+                NewGenre = new Genre();
+                ShowModalNewGenre = false;                
                 StateHasChanged();
             }
             catch (Exception exception)
@@ -95,9 +95,9 @@ namespace Client.App.Components
                 NewFormat = await FormatService.CreateAsync(NewFormat);
 
                 await SendNewCatalogForMusic.InvokeAsync((nameof(Format), NewFormat));
+                ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el formato {NewFormat.Name}");
                 NewFormat = new Format();
-                ShowModalNewFormat = false;
-                ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el formato {NewFormat.Name}");                
+                ShowModalNewFormat = false;                
                 StateHasChanged();
             }
             catch (Exception exception)
@@ -115,9 +115,9 @@ namespace Client.App.Components
                 NewPresentation = await PresentationService.CreateAsync(NewPresentation);
 
                 await SendNewCatalogForMusic.InvokeAsync((nameof(Presentation), NewPresentation));
+                ToastService.ShowToast(ToastLevel.Success, $"Exito se creo la presentacion {NewPresentation.Name}");
                 NewPresentation = new Presentation();
-                ShowModalNewPresentation = false;
-                ToastService.ShowToast(ToastLevel.Success, $"Exito se creo la presentacion {NewPresentation.Name}");                
+                ShowModalNewPresentation = false;                
                 StateHasChanged();
             }
             catch (Exception exception)

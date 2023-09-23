@@ -24,6 +24,12 @@ public class HttpClientHelperService : IHttpClientHelperService
         var response = await _httpClient.GetAsync(pathEndPoint);
         return await ParseResponseAsync<T>(response);
     }
+    public async Task<T> Get<T>(string pathEndPoint, int id)
+    {
+        pathEndPoint = BuildUrlWithQueryParams(pathEndPoint, new(), id);
+        var response = await _httpClient.GetAsync(pathEndPoint);
+        return await ParseResponseAsync<T>(response);
+    }
 
     public async Task<T> Get<T>(string pathEndPoint, Dictionary<string, string> parameters)
     {

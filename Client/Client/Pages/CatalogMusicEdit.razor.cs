@@ -3,7 +3,6 @@ using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using SharedApp.Models;
-using static Client.App.Services.CatalogMusicService;
 
 namespace Client.App.Pages
 {
@@ -35,7 +34,7 @@ namespace Client.App.Pages
             Formats = await FormatService.GetAsync();
             Genres = await GenreService.GetAsync();
             Presentations = await PresentationService.GetAsync();
-            EditMusicCatalog = await CatalogMusicService.GetByIdAsync(new FilterForCatalogMusic() { Id = MusicCatalogId.ToString() });
+            EditMusicCatalog = await CatalogMusicService.GetByIdAsync(MusicCatalogId);
             _editContextMusicCatalog = new EditContext(EditMusicCatalog);
             IsLoading = false;
             StateHasChanged();

@@ -7,7 +7,7 @@ namespace Client.App.Interfaces
     public interface ICatalogMusicService
     {
         Task<List<MusicCatalog>> GetAsync();
-        Task<MusicCatalog> GetByIdAsync(FilterForCatalogMusic filter);
+        Task<MusicCatalog> GetByIdAsync(int id);
         Task<List<MusicCatalog>> GetAsync(FilterForCatalogMusic filter);
         Task<MusicCatalog> CreateAsync(MusicCatalog musicCatalog);
         Task<ImageCatalog> CreateImageAsync(MusicCatalog musicCatalog, IBrowserFile file);

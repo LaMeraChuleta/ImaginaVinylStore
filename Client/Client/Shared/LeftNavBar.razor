@@ -29,7 +29,10 @@
                         <button @onclick="@(() => SendRedirectPage.InvokeAsync("/ManageCatalogMusic"))">Administrar Catalogo</button>
                     </li>
                     <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogMusic"))">Agregar Catálogo</button>
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogMusic"))">Agregar Catálogo Musica</button>                        
+                    </li>
+                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">                        
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogAudio"))">Agregar Catálogo Audio</button>
                     </li>
                 </Authorized>
             </AuthorizeView>

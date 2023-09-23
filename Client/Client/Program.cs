@@ -23,6 +23,7 @@ builder.Services.AddApiAuthorization();
 builder.Services.AddScoped<IHttpClientHelperService, HttpClientHelperService>();
 builder.Services.AddScoped<IShopCartService, ShopCartService>();
 builder.Services.AddScoped<ICatalogMusicService, CatalogMusicService>();
+builder.Services.AddScoped<IAudioCatalogService, AudioCatalogService>();
 builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IFormatService, FormatService>();
 builder.Services.AddScoped<IGenreService, GenreService>();

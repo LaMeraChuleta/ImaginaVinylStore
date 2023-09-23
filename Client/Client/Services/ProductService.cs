@@ -13,7 +13,12 @@ namespace Client.App.Services
         }
         public Task<MusicCatalog> CreateAsync(MusicCatalog musicCatalog)
         {
-            return Post<MusicCatalog>("Product", musicCatalog);
+            return Post<MusicCatalog>("Product/MusicCatalog", musicCatalog);
+        }
+
+        public Task<AudioCatalog> CreateAsync(AudioCatalog audioCatalog)
+        {
+            return Post<AudioCatalog>("Product/AudioCatalog", audioCatalog);
         }
     }
 }

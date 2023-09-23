@@ -2,7 +2,6 @@
 using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
 using SharedApp.Models;
-using static Client.App.Services.CatalogMusicService;
 
 namespace Client.App.Pages;
 
@@ -19,7 +18,7 @@ public partial class CatalogMusicDetail : ComponentBase
     {
         try
         {
-            MusicCatalog = await CatalogMusicService.GetByIdAsync(new FilterForCatalogMusic() { Id = IdMusicCatalog.ToString() });
+            MusicCatalog = await CatalogMusicService.GetByIdAsync(IdMusicCatalog);
             CatalogMusics = (await CatalogMusicService.GetAsync()).Take(20).ToList();
         }
         catch (Exception ex)

@@ -52,10 +52,9 @@ public partial class CatalogMusicCreate : ComponentBase
                 NewMusicCatalog?.Images?.ToList().Add(image);
             }
             await ProductService.CreateAsync(NewMusicCatalog!);
-
-            PhotoMusicCatalog.Clear();
-            NewMusicCatalog = new MusicCatalog();
             ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
+            PhotoMusicCatalog.Clear();
+            NewMusicCatalog = new MusicCatalog();            
             StateHasChanged();
         }
         catch (Exception exception)

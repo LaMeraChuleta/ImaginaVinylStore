@@ -17,9 +17,9 @@ namespace Client.App.Services
         {
             return await Get<List<MusicCatalog>>(nameof(MusicCatalog));
         }
-        public Task<MusicCatalog> GetByIdAsync(FilterForCatalogMusic filter)
+        public Task<MusicCatalog> GetByIdAsync(int id)
         {
-            return Get<MusicCatalog>($"{nameof(MusicCatalog)}/ById", filter.ParseToDictionary());
+            return Get<MusicCatalog>(nameof(MusicCatalog), id);
         }
         public Task<List<MusicCatalog>> GetAsync(FilterForCatalogMusic filter)
         {
