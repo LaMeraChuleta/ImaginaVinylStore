@@ -27,19 +27,19 @@ namespace Client.App.Services
         }
         public async Task<MusicCatalog> CreateAsync(MusicCatalog musicCatalog)
         {
-            return await Post<MusicCatalog>(nameof(MusicCatalog), musicCatalog);
+            return await Post(nameof(MusicCatalog), musicCatalog);
         }
         public async Task<ImageCatalog> CreateImageAsync(MusicCatalog musicCatalog, IBrowserFile file)
         {
             return await Post<ImageCatalog>($"{nameof(MusicCatalog)}/Images?id={musicCatalog?.Id}", ParseBrowserFile(file));
         }
-        public Task<bool> UpdateAsync(MusicCatalog catalog)
+        public async Task<bool> UpdateAsync(MusicCatalog musicCatalog)
         {
-            throw new NotImplementedException();
+            return await Put<bool, MusicCatalog>(nameof(MusicCatalog), musicCatalog.Id, musicCatalog);
         }
-        public async Task<bool> DeleteAsync(MusicCatalog catalog)
+        public async Task<bool> DeleteAsync(MusicCatalog musicCatalog)
         {
-            return await Delete<bool>(nameof(MusicCatalog), catalog.Id);
+            return await Delete<bool>(nameof(MusicCatalog), musicCatalog.Id);
         }
         private MultipartFormDataContent ParseBrowserFile(IBrowserFile file)
         {

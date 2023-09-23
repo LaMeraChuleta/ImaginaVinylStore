@@ -21,88 +21,88 @@
                     <div class="w-full md:w-1/2 md:p-5 space-y-5">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Título</label>
-                            <input @bind="NewMusicCatalog.Title" type="text" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewMusicCatalog.Title)" />
+                            <input @bind="EditMusicCatalog.Title" type="text" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditMusicCatalog.Title)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Artista</label>
-                            <select @bind="NewMusicCatalog.ArtistId" class="w-full border rounded border-gray-300">
+                            <select @bind="EditMusicCatalog.ArtistId" class="w-full border rounded border-gray-300">
                                 <option value="0">Seleccione una opción</option>
                                 @foreach (var artist in Artists)
                                 {
                                     <option value="@artist.Id">@artist.Name</option>
                                 }
                             </select>
-                            <ValidationMessage For="@(() => NewMusicCatalog.ArtistId)" />
+                            <ValidationMessage For="@(() => EditMusicCatalog.ArtistId)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Género</label>
-                            <select @bind="NewMusicCatalog.GenreId" class="w-full border rounded border-gray-300">
+                            <select @bind="EditMusicCatalog.GenreId" class="w-full border rounded border-gray-300">
                                 <option value="0">Seleccione una opción</option>
                                 @foreach (var genre in Genres)
                                 {
                                     <option value="@genre.Id">@genre.Name</option>
                                 }
                             </select>
-                            <ValidationMessage For="@(() => NewMusicCatalog.GenreId)" />
+                            <ValidationMessage For="@(() => EditMusicCatalog.GenreId)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Origen</label>
-                            <input @bind="NewMusicCatalog.Country" type="text" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewMusicCatalog.Country)" />
+                            <input @bind="EditMusicCatalog.Country" type="text" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditMusicCatalog.Country)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Formato</label>
-                            <select @bind="NewMusicCatalog.FormatId" class="w-full border rounded border-gray-300">
+                            <select @bind="EditMusicCatalog.FormatId" class="w-full border rounded border-gray-300">
                                 <option value="0">Seleccione una opción</option>
                                 @foreach (var format in Formats)
                                 {
                                     <option value="@format.Id">@format.Name</option>
                                 }
                             </select>
-                            <ValidationMessage For="@(() => NewMusicCatalog.FormatId)" />
+                            <ValidationMessage For="@(() => EditMusicCatalog.FormatId)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Presentación</label>
-                            <select @bind="NewMusicCatalog.PresentationId" class="w-full border rounded border-gray-300">
+                            <select @bind="EditMusicCatalog.PresentationId" class="w-full border rounded border-gray-300">
                                 <option value="0">Seleccione una opción</option>
                                 @foreach (var presentation in Presentations)
                                 {
                                     <option value="@presentation.Id">@presentation.Name</option>
                                 }
                             </select>
-                            <ValidationMessage For="@(() => NewMusicCatalog.PresentationId)" />
+                            <ValidationMessage For="@(() => EditMusicCatalog.PresentationId)" />
                         </div>
                     </div>
                     <div class="w-full md:w-1/2 md:p-5 space-y-5">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Etiqueta</label>
-                            <input @bind="NewMusicCatalog.Label" type="text" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewMusicCatalog.Label)" />
+                            <input @bind="EditMusicCatalog.Label" type="text" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditMusicCatalog.Label)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Año</label>
-                            <input @bind="NewMusicCatalog.Year" type="number" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewMusicCatalog.Year)" />
+                            <input @bind="EditMusicCatalog.Year" type="number" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditMusicCatalog.Year)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Matriz</label>
-                            <input @bind="NewMusicCatalog.Matrix" type="text" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewMusicCatalog.Matrix)" />
+                            <input @bind="EditMusicCatalog.Matrix" type="text" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditMusicCatalog.Matrix)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Estado de portada</label>
-                            <input @bind="NewMusicCatalog.StatusCover" type="number" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewMusicCatalog.StatusCover)" />
+                            <input @bind="EditMusicCatalog.StatusCover" type="number" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditMusicCatalog.StatusCover)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Estado del disco</label>
-                            <input @bind="NewMusicCatalog.StatusGeneral" type="number" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewMusicCatalog.StatusGeneral)" />
+                            <input @bind="EditMusicCatalog.StatusGeneral" type="number" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditMusicCatalog.StatusGeneral)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Precio</label>
-                            <input @bind="NewMusicCatalog.Price" type="number" class="w-full border rounded border-gray-300" />
+                            <input @bind="EditMusicCatalog.Price" type="number" class="w-full border rounded border-gray-300" />
                         </div>
                     </div>
 
@@ -114,9 +114,9 @@
         </div>
         <div class="border-1 md:w-1/3 mx-auto">
             <div class="flex place-items-center">
-                @if (PhotoMusicCatalogBase64.Any())
+                @if (EditMusicCatalog.Images!.Any())
                 {
-                    <img src="@PhotoMusicCatalogBase64.FirstOrDefault()" class="w-full sm:64 md:h-96" alt="">
+                    <img src="@EditMusicCatalog.Images?.FirstOrDefault()?.Url" class="w-full sm:64 md:h-96" alt="">
                 }
                 else
                 {
@@ -125,9 +125,13 @@
             </div>
             <div class="sm:inline-flex w-full">
                 <div class="md:w-1/2 border p-5 h-32">
-                    @if (PhotoMusicCatalogBase64?.Count() > 0)
+                    @if (EditMusicCatalog.Images?.Count() > 0 || PhotoMusicCatalogBase64.Count() > 0)
                     {
                         <div class="grid grid-cols-3 border">
+                            @foreach (var photo in EditMusicCatalog.Images!)
+                            {
+                                <img class="w-16 h-16" src="@photo.Url" alt="">
+                            }
                             @foreach (var photo in PhotoMusicCatalogBase64)
                             {
                                 <img class="w-16 h-16" src="@photo" alt="">

@@ -89,6 +89,16 @@ public class MusicCatalogController : ControllerBase
         return Results.Ok(value);
     }
 
+    [HttpPut("{id}")]
+    [Authorize]
+    public IResult Put(int id, [FromBody] MusicCatalog value)
+    {
+        if (!ModelState.IsValid) return Results.BadRequest();
+
+        _context.Entry(value).State = EntityState.Modified;
+        return Results.Ok(Convert.ToBoolean(_context.SaveChanges()));
+    }
+
     [HttpGet("Images")]
     public IResult GetImage(int id)
     {

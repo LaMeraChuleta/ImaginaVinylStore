@@ -8,7 +8,6 @@ namespace Client.App.Pages;
 
 public partial class CatalogMusicCreate : ComponentBase
 {
-    
     [Inject] public IToastService ToastService { get; set; }
     [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
     [Inject] public IArtistService ArtistService { get; set; }

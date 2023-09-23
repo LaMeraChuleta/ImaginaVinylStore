@@ -16,9 +16,8 @@ namespace Client.App.Pages
         [Inject] public IPresentationService PresentationService { get; set; }
         [Inject] public IGenreService GenreService { get; set; }
         [Inject] public IFormatService FormatService { get; set; }
-        [Inject] public IProductService ProductService { get; set; }
 
-        private MusicCatalog NewMusicCatalog { get; set; } = new();
+        private MusicCatalog EditMusicCatalog { get; set; } = new();
         private List<IBrowserFile> PhotoMusicCatalog { get; } = new();
         private List<string> PhotoMusicCatalogBase64 { get; } = new();
         private List<Artist> Artists { get; set; } = new();
@@ -36,8 +35,8 @@ namespace Client.App.Pages
             Formats = await FormatService.GetAsync();
             Genres = await GenreService.GetAsync();
             Presentations = await PresentationService.GetAsync();
-            NewMusicCatalog = await CatalogMusicService.GetByIdAsync(new FilterForCatalogMusic() { Id = MusicCatalogId.ToString() });
-            _editContextMusicCatalog = new EditContext(NewMusicCatalog);
+            EditMusicCatalog = await CatalogMusicService.GetByIdAsync(new FilterForCatalogMusic() { Id = MusicCatalogId.ToString() });
+            _editContextMusicCatalog = new EditContext(EditMusicCatalog);
             IsLoading = false;
             StateHasChanged();
         }
@@ -47,16 +46,19 @@ namespace Client.App.Pages
             {
                 if (!_editContextMusicCatalog.Validate()) return;
 
-                await CatalogMusicService.UpdateAsync(NewMusicCatalog);
+                if (!await CatalogMusicService.UpdateAsync(EditMusicCatalog))
+                {
+                    ToastService.ShowToast(ToastLevel.Success, $"No se pudo actualizar {EditMusicCatalog!.Title}-{EditMusicCatalog.Artist?.Name} en el catalogo");
+                }
+
                 foreach (var file in PhotoMusicCatalog)
                 {
-                    var image = await CatalogMusicService.CreateImageAsync(NewMusicCatalog!, file);
-                    NewMusicCatalog?.Images?.ToList().Add(image);
-                }                
+                    var image = await CatalogMusicService.CreateImageAsync(EditMusicCatalog!, file);
+                    EditMusicCatalog?.Images?.ToList().Add(image);
+                }
 
                 PhotoMusicCatalog.Clear();
-                NewMusicCatalog = new MusicCatalog();
-                ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
+                ToastService.ShowToast(ToastLevel.Success, $"Exito se actualizo {EditMusicCatalog!.Title}-{EditMusicCatalog.Artist?.Name} en el catalogo");
                 StateHasChanged();
             }
             catch (Exception exception)
