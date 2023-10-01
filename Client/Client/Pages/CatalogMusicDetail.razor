@@ -1,63 +1,106 @@
 ﻿@page "/CatalogMusicDetail/{IdMusicCatalog:int}"
 
+
 @if (MusicCatalog is not null)
 {
-    <div class="w-full px-10">
-        <div class="flex flex-col md:flex-row">
-            <div class="w-full md:w-1/2">
-                <div class="md:flex md:items-center">
-                    <div class="w-4/5">
-                        <img src="@(MusicCatalog.Images!.FirstOrDefault()?.Url ?? "https://as1.ftcdn.net/v2/jpg/02/35/30/46/1000_F_235304686_Dabv7XmRksedIMrH4ADfMpN21K1nN67R.jpg")" class="w-full md:max-w-sm rounded-lg mx-auto" alt="">
-                    </div>
-                    <div class="w-1/5 mt-4 md:mt-0 md:ml-2">
-                        <div class="grid grid-cols-1 gap-1">
-                            <img class="w-24 h-24" src="https://www.wallpaperbetter.com/wallpaper/135/762/408/sony-vinyl-record-player-1080P-wallpaper.jpg" alt="Imagen del disco">
-                            <img class="w-24 h-24" src="https://www.wallpaperbetter.com/wallpaper/135/762/408/sony-vinyl-record-player-1080P-wallpaper.jpg" alt="Imagen del disco">
-                            <img class="w-24 h-24" src="https://www.wallpaperbetter.com/wallpaper/135/762/408/sony-vinyl-record-player-1080P-wallpaper.jpg" alt="Imagen del disco">
-                            <img class="w-24 h-24" src="https://www.wallpaperbetter.com/wallpaper/135/762/408/sony-vinyl-record-player-1080P-wallpaper.jpg" alt="Imagen del disco">
-                        </div>
-                    </div>
+
+    <div class="inline-flex w-full px-20 mt-3">
+        <div>
+            <img src="@(MusicCatalog.Images!.FirstOrDefault()?.Url ?? "https://as1.ftcdn.net/v2/jpg/02/35/30/46/1000_F_235304686_Dabv7XmRksedIMrH4ADfMpN21K1nN67R.jpg")" class="w-[45rem] h-[35rem] rounded-lg" alt="">
+            <div class="w-full inline-flex px-10 mt-3 space-x-3">
+                @foreach (var item in MusicCatalog.Images)
+                {
+                    <img class="w-24 h-24" src="@item.Url" alt="Imagen del disco">
+                }
+            </div>
+        </div>
+        <div class="w-full relative px-10 mr-5">
+            <h1 class="text-7xl font-bold mb-12">@MusicCatalog.Artist?.Name-@MusicCatalog.Title</h1>
+            <div class=" inline-flex">
+                <div class="w-1/2">
+                    <p class="text-2xl mb-2">Precio: $@MusicCatalog.Price</p>
+                    <p class="text-2xl mb-2">Label: @MusicCatalog.Label</p>
+                    <p class="text-2xl mb-4">Pais: @MusicCatalog.Country</p>
+                </div>
+                <div class="w-1/2">
+                    <p class=" text-xl mb-3 font-bold">Descripcion:</p>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Vestibulum euismod risus quis eleifend consectetur. Pellentesque mollis elit quis tellus
+                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Vestibulum euismod risus quis eleifend consectetur. 
+                        Pellentesque mollis elit quis tellusLorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Vestibulum euismod risus quis eleifend consectetur. Pellentesque mollis elit quis tellusLorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Vestibulum euismod risus quis eleifend consectetur. Pellentesque mollis elit quis tellusLorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Vestibulum euismod risus quis eleifend consectetur. Pellentesque mollis elit quis tellusLorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Vestibulum euismod risus quis eleifend consectetur. Pellentesque mollis elit quis tellusLorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Vestibulum euismod risus quis eleifend consectetur. Pellentesque mollis elit quis tellus
+                    </p>
                 </div>
             </div>
-            <div class="w-full md:w-1/2 mt-6 md:mt-0 md:pl-6">
-                <h1 class="text-3xl font-bold mb-2">@MusicCatalog.Artist?.Name - @MusicCatalog.Title</h1>
-                <p class="text-xl mb-4">Precio: $@MusicCatalog.Price</p>
-                <p class="text-lg mb-4">Descripción:</p>
-                <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod risus quis eleifend consectetur. Pellentesque mollis elit quis tellus gravida fermentum.</p>
-                <p class="text-lg mb-4">Cantidad:</p>
+            <div class="absolute bottom-32">
+                <p>Cantidad:</p>
                 <div class="flex w-full md:w-40 border-2 h-10 mb-4">
                     <button class="w-1/3 h-full bg-gray-200">-</button>
                     <input id="cantidad" class="w-1/3 text-center bg-gray-100" type="text" value="1">
                     <button class="w-1/3 h-full bg-gray-200">+</button>
                 </div>
-                <div class="space-y-4">
-                    <button class="w-full px-4 py-2 text-white bg-blue-500 hover:bg-blue-600">Agregar al carrito</button>
-                    <button class="w-full px-4 py-2 text-white bg-green-500 hover:bg-green-600">Comprar ahora</button>
+                <div class="flex-col flex space-y-2">                    
+                    <button @onclick="AddItemShopCart" class="w-80 mt-3 h-10 border rounded-xl font-semibold text-white bg-blue-600 text-sm">Agregar al carrito</button>
+                    <button @onclick="AddItemShopCart" class="w-80 mt-3 h-10 border rounded-xl font-semibold text-white bg-green-600 text-sm">Comprar ahora</button>
                 </div>
             </div>
+
         </div>
-        <div class="my-3">
-            <p class="pl-5 text-2xl font-bold">RECOMENDACIONES</p>
-            <hr class="border-gray-300 my-2"/>
-            <div class="flex justify-center p-2 md:p-5">
-                <div class="grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 md:gap-x-5">
-                    @foreach (var item in CatalogMusics)
-                    {
-                        <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
-                    }
-                </div>
+    </div>
+}
+
+@if (CatalogMusics.Any())
+{
+
+    <div class="my-5 mx-5">
+        <p class="pl-5 text-2xl font-bold">NOVEDADES</p>
+        <hr class="border-gray-300 my-2" />
+        <div class="scroll-container">
+            <div class="inline-flex space-x-4 px-3">
+                @foreach (var item in CatalogMusics)
+                {
+                    <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
+                }
             </div>
         </div>
-        <div class="my-3">
-            <p class="pl-5 text-2xl font-bold">RECOMENDACIONES</p>
-            <hr class="border-gray-300 my-2"/>
-            <div class="flex justify-center p-2 md:p-5">
-                <div class="grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 md:gap-x-5">
-                    @foreach (var item in CatalogMusics)
-                    {
-                        <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
-                    }
-                </div>
+    </div>
+}
+
+@if (CatalogMusics.Any())
+{
+
+    <div class="my-5 mx-5">
+        <p class="pl-5 text-2xl font-bold">NOVEDADES</p>
+        <hr class="border-gray-300 my-2" />
+        <div class="scroll-container">
+            <div class="inline-flex space-x-4 px-3">
+                @foreach (var item in CatalogMusics)
+                {
+                    <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@if (CatalogMusics.Any())
+{
+
+    <div class="my-5 mx-5">
+        <p class="pl-5 text-2xl font-bold">NOVEDADES</p>
+        <hr class="border-gray-300 my-2" />
+        <div class="scroll-container">
+            <div class="inline-flex space-x-4 px-3">
+                @foreach (var item in CatalogMusics)
+                {
+                    <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
+                }
             </div>
         </div>
     </div>

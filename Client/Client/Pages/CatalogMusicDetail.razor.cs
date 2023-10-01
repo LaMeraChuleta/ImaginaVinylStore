@@ -1,5 +1,6 @@
 ﻿using Blazored.Toast.Services;
 using Client.App.Interfaces;
+using Client.App.Services;
 using Microsoft.AspNetCore.Components;
 using SharedApp.Models;
 
@@ -10,9 +11,10 @@ public partial class CatalogMusicDetail : ComponentBase
     [Parameter] public int IdMusicCatalog { get; set; }
     [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
     [Inject] public IToastService ToastService { get; set; }
+    [Inject] public IShopCartService ShopCartService { get; set; }
 
     private MusicCatalog? MusicCatalog { get; set; }
-    private List<MusicCatalog>? CatalogMusics { get; set; }
+    private List<MusicCatalog> CatalogMusics { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -27,5 +29,32 @@ public partial class CatalogMusicDetail : ComponentBase
         }
 
         await base.OnInitializedAsync();
+    }
+
+    private async void AddItemShopCart()
+    {
+        try
+        {
+            var item = new ShopCart
+            {
+                MusicCatalogId = MusicCatalog.Id,
+                Amount = 1,
+                UnitPrice = 300
+            };
+
+            var isItemCreate = await ShopCartService.SetShopCartItem(item, MusicCatalog);
+            if (isItemCreate)
+            {
+                ToastService.ShowSuccess($"Se guardo este articulo en el carrito. {MusicCatalog.Title}-{MusicCatalog.Artist?.Name}");
+            }
+            else
+            {
+                ToastService.ShowWarning($"Ya existe este articulo en el carrito. {MusicCatalog.Title}-{MusicCatalog.Artist?.Name}");
+            }
+        }
+        catch (Exception exception)
+        {
+            ToastService.ShowToast(ToastLevel.Error, exception.Message);
+        }
     }
 }

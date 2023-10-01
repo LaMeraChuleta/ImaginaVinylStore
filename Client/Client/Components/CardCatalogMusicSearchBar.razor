@@ -1,7 +1,7 @@
 ﻿@using Client.App.Interfaces
 @inject NavigationManager NavigationManager
 @inject IToastService ToastService
-@inject IShopCartService ShopCartsService
+@inject IShopCartService ShopCartService
 
 <div class="inline-flex bg-gray-200">
     <img class="w-24 h-24 rounded-2 mr-2" src="@(MusicCatalogs.Images!.FirstOrDefault()?.Url ?? "https://salvajemusicstore.com/cdn/shop/collections/bd3b1065424b8623dc30d7846c666a56_330x.jpg?v=1644812626")" alt="Imagen del disco">
@@ -56,7 +56,7 @@
                 UnitPrice = 300
             };
 
-            var isItemCreate = await ShopCartsService.SetShopCartItem(item, MusicCatalogs);
+            var isItemCreate = await ShopCartService.SetShopCartItem(item, MusicCatalogs);
             if (isItemCreate)
             {
                 ToastService.ShowSuccess($"Se guardo este articulo en el carrito. { MusicCatalogs.Title }-{ MusicCatalogs.Artist?.Name }");
