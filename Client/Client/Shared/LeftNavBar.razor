@@ -5,6 +5,22 @@
     <LoginDisplay></LoginDisplay>
     <div class="mt-4">
         <ul class="text-gray-600">
+            <AuthorizeView>
+                <Authorized>      
+                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/ManageCatalogMusic"))">Administrar Catalogo</button>
+                    </li>
+                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogMusic"))">Agregar Catálogo Musica</button>
+                    </li>
+                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogAudio"))">Agregar Catálogo Audio</button>
+                    </li>
+                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                        <a href="Rol">Administrar Roles</a>
+                    </li>
+                </Authorized>
+            </AuthorizeView>
             <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
                 <button @onclick="@(() => SendRedirectPage.InvokeAsync("/"))">Tornamesas</button>
             </li>
@@ -17,22 +33,6 @@
             <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
                 <button @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/CD"))">CD</button>
             </li>            
-            <AuthorizeView>
-                <Authorized>
-                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-                        <a href="Rol">Administrar Roles</a>
-                    </li>
-                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/ManageCatalogMusic"))">Administrar Catalogo</button>
-                    </li>
-                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
-                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogMusic"))">Agregar Catálogo Musica</button>                        
-                    </li>
-                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">                        
-                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogAudio"))">Agregar Catálogo Audio</button>
-                    </li>
-                </Authorized>
-            </AuthorizeView>
         </ul>
     </div>
 </div>
