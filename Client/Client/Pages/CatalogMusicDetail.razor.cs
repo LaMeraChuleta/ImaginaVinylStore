@@ -12,7 +12,7 @@ public partial class CatalogMusicDetail : ComponentBase
     [Inject] public IToastService ToastService { get; set; }
     [Inject] public IShopCartService ShopCartService { get; set; }
 
-    private MusicCatalog? MusicCatalog { get; set; }
+    private MusicCatalog MusicCatalog { get; set; } = new();
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
 
     protected override async Task OnInitializedAsync()

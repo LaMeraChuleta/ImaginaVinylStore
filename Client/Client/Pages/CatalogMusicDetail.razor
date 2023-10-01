@@ -8,7 +8,7 @@
         <div>
             <img src="@(MusicCatalog.Images!.FirstOrDefault()?.Url ?? "https://as1.ftcdn.net/v2/jpg/02/35/30/46/1000_F_235304686_Dabv7XmRksedIMrH4ADfMpN21K1nN67R.jpg")" class="w-[45rem] h-[35rem] rounded-lg" alt="">
             <div class="w-full inline-flex px-10 mt-3 space-x-3">
-                @foreach (var item in MusicCatalog.Images)
+                @foreach (var item in MusicCatalog.Images!)
                 {
                     <img class="w-24 h-24" src="@item.Url" alt="Imagen del disco">
                 }
