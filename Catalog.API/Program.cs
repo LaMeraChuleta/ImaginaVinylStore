@@ -2,6 +2,7 @@ using Catalog.API.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SharedApp.Data;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -9,6 +10,8 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(b =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+StripeConfiguration.ApiKey = "sk_test_51NplEDF4FZD9gDsPR6aXDamqBbOPU0Pr7UIQaJoPyXlbSwzujJ0e7G4X1DWvK8Re6WZ8R61G25e9R2YHaGj8Ef8M00EyzWPhqp";
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
@@ -39,7 +42,6 @@ app.UseCors();
 app.UseSwagger();
 app.UseSwaggerUI();
 //}
-
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();

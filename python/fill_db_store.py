@@ -119,8 +119,8 @@ try:
         Title = col["Title"]
         ArtistName =  get_id_artist(artist_df, col["Artist"])
         GenreId = get_id_genre(genre_df, col["Genre"])
-        FormatId = 2#get_id_format(formats_df, col["Format"])
-        PresentationId = 3#1
+        FormatId = 1#get_id_format(formats_df, col["Format"])
+        PresentationId = 1#1
         country = col["Country"]
         Year_Db = col["Year"]
         StatusCover = 10
@@ -144,8 +144,9 @@ try:
             Price,
             Matrix,
             Label,
-            CreateAt)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+            CreateAt,
+            ActiveInStripe)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         '''
 
         connection_string = "DRIVER=SQL Server;SERVER=localhost;DATABASE=test;UID=sa;PWD=VacaLoca69"
@@ -165,7 +166,8 @@ try:
             Price,
             Matrix,
             Label,
-            CreateAt)
+            CreateAt,
+            False)
         connSql.commit()
 
         # Consulta para insertar el nuevo artista   

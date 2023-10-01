@@ -6,6 +6,8 @@ namespace SharedApp.Models;
 public class MusicCatalog
 {
     public int Id { get; set; }
+    public string? IdProductStripe { get; set; }
+    public string? IdPriceStripe { get; set; }
     public IEnumerable<ImageCatalog>? Images { get; set; }
     [Required] public string Title { get; set; }
     public Artist? Artist { get; set; }
@@ -24,4 +26,6 @@ public class MusicCatalog
     [Required] public string Matrix { get; set; }
     [Required] public string Label { get; set; }
     public DateTime CreateAt { get; set; } = DateTime.Now;
+    public bool ActiveInStripe { get; set; }
+    public int? Discount { get; set; }
 }

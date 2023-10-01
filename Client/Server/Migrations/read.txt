@@ -1,2 +1,0 @@
-﻿Las dos primeras migraciones no se deben eliminar ya que se modificaron a mano
-para poder tener las relaciones y los ids correctos entre ShopCart y ApplicationUser

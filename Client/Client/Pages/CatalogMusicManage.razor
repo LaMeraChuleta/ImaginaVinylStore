@@ -1,0 +1,56 @@
+﻿@page "/ManageCatalogMusic"
+
+<div class="w-full px-10 my-5 px-24">
+    <h3 class="text-4xl my-5">Administrar Catalogo</h3>
+    <table class="min-w-full">
+        <thead>
+            <tr>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    Titulo
+                </th>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    Artista
+                </th>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    Genero
+                </th>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    Formato
+                </th>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    Precio
+                </th>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in CatalogMusics)
+            {
+                <tr>
+                    <td class="px-6 py-4 whitespace-no-wrap">
+                        @item.Title
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap">
+                        @item.Artist.Name
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap">
+                        @item.Genre.Name
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap">
+                        @item.Format.Name - @item.Presentation.Name
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap">
+                        $@item.Price.ToString("#,##0.00")
+                    </td>
+                    <td class="flex flex-col space-y-1 px-6 py-4 whitespace-no-wrap">
+                        <button class="border-2 border-blue-800 bg-blue-400 rounded-2">Fotos</button>
+                        <button @onclick="@(() => EditMusicCatalog(item.Id))" class="border-2 border-yellow-800 bg-yellow-400 rounded-2">Editar</button>
+                        <button class="border-2 border-red-800 bg-red-400 rounded-2">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

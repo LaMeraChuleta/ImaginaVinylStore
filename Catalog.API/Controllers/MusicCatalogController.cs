@@ -32,7 +32,7 @@ public class MusicCatalogController : ControllerBase
             .ToArray());
     }
 
-    [HttpGet("ById")]
+    [HttpGet("{id}")]
     public IResult GetById(int id)
     {
         return Results.Ok(_context.MusicCatalog
@@ -87,6 +87,16 @@ public class MusicCatalogController : ControllerBase
         _context.MusicCatalog.Add(value);
         _context.SaveChanges();
         return Results.Ok(value);
+    }
+
+    [HttpPut("{id}")]
+    [Authorize]
+    public IResult Put(int id, [FromBody] MusicCatalog value)
+    {
+        if (!ModelState.IsValid) return Results.BadRequest();
+
+        _context.Entry(value).State = EntityState.Modified;
+        return Results.Ok(Convert.ToBoolean(_context.SaveChanges()));
     }
 
     [HttpGet("Images")]

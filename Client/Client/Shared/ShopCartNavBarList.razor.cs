@@ -7,13 +7,17 @@ namespace Client.App.Shared
 {
     public partial class ShopCartNavBarList : ComponentBase
     {
-        [Inject] private IShopCartService _shopCartService { get; set; }
-        [Inject] public IHttpClientHelper _httpClientHelper { get; set; }
+        [Parameter] public EventCallback SendCloseComponent { get; set; }
+        [Inject] private IShopCartService ShopCartService { get; set; }
+        [Inject] private NavigationManager? _navigationManager { get; set; }
         [Inject] public IToastService ToastService { get; set; }
         private List<MusicCatalog> MusicCatalogs { get; set; } = new();
+        private bool IsLoading { get; set; } = true;
         protected override async Task OnInitializedAsync()
         {
-            MusicCatalogs = await _shopCartService.GetShopCartToMusicCatalog();
+            IsLoading = true;
+            MusicCatalogs = await ShopCartService.GetShopCartToMusicCatalog();
+            IsLoading = false;
             await base.OnInitializedAsync();
         }
 
@@ -21,10 +25,10 @@ namespace Client.App.Shared
         {
             try
             {
-                var deleteItem = await _shopCartService.DeleteShopCartItem(idCatalogMusic);
+                var deleteItem = await ShopCartService.DeleteShopCartItem(idCatalogMusic);
                 if (deleteItem)
                 {
-                    MusicCatalogs = await _shopCartService.GetShopCartToMusicCatalog();
+                    MusicCatalogs = await ShopCartService.GetShopCartToMusicCatalog();
                     ToastService.ShowToast(ToastLevel.Success, $"Se elimino el producto del carrito");
                     StateHasChanged();
                 }
@@ -37,6 +41,12 @@ namespace Client.App.Shared
             {
                 ToastService.ShowToast(ToastLevel.Error, exception.Message);
             }
+        }
+
+        private async void NavigateToCartSummary()
+        {
+            await SendCloseComponent.InvokeAsync();
+            _navigationManager?.NavigateTo(" CartSummary");
         }
     }
 }
