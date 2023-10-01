@@ -8,19 +8,24 @@ namespace Client.App.Pages;
 public partial class Index : ComponentBase
 {
     private IEnumerable<MusicCatalog> CatalogMusics { get; set; } = Enumerable.Empty<MusicCatalog>();
-    private IEnumerable<Artist> Artists { get; set; }
-    [Inject] public IHttpClientHelper HttpClientHelper { get; set; }
+    private IEnumerable<AudioCatalog> AudioCatalogs { get; set; } = Enumerable.Empty<AudioCatalog>();
+    private IEnumerable<Artist> Artists { get; set; } = Enumerable.Empty<Artist>();
     [Inject] public IToastService ToastService { get; set; }
+    [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
+    [Inject] public IAudioCatalogService AudioCatalogService { get; set; }
+    [Inject] public IArtistService ArtistService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            Artists = await HttpClientHelper.Get<List<Artist>>(nameof(Artist));
-            CatalogMusics = await HttpClientHelper.Get<List<MusicCatalog>>(nameof(MusicCatalog));
+            Artists = (await ArtistService.GetAsync()).Take(10);
 
-            Artists = Artists.Take(10);
-            CatalogMusics = CatalogMusics.OrderByDescending(x => x.Id).Take(10);
+            CatalogMusics = (await CatalogMusicService.GetAsync())
+                .OrderByDescending(x => x.Id)
+                .Take(10);
+
+            AudioCatalogs = await AudioCatalogService.GetAsync();
         }
         catch (Exception ex)
         {

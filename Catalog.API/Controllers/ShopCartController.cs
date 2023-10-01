@@ -37,6 +37,7 @@ public class ShopCartController : ControllerBase
         _context.SaveChanges();
         return Results.Ok(value);
     }
+
     [HttpDelete("{id}")]
     [Authorize]
     public async Task<IResult> Delete(int id)
