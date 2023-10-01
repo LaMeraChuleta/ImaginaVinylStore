@@ -1,6 +1,5 @@
 ﻿using Blazored.Toast.Services;
 using Client.App.Interfaces;
-using Client.App.Services;
 using Microsoft.AspNetCore.Components;
 using SharedApp.Models;
 

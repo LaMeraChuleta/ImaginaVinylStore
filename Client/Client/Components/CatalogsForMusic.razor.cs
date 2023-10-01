@@ -57,7 +57,7 @@ namespace Client.App.Components
                 await SendNewCatalogForMusic.InvokeAsync((nameof(Artist), NewArtist));
                 ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el artista {NewArtist?.Name}");
                 NewArtist = new Artist();
-                ShowModalNewArtist = false;                
+                ShowModalNewArtist = false;
                 StateHasChanged();
             }
             catch (Exception exception)
@@ -77,7 +77,7 @@ namespace Client.App.Components
                 await SendNewCatalogForMusic.InvokeAsync((nameof(Genre), NewGenre));
                 ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el genero {NewGenre.Name}");
                 NewGenre = new Genre();
-                ShowModalNewGenre = false;                
+                ShowModalNewGenre = false;
                 StateHasChanged();
             }
             catch (Exception exception)
@@ -97,7 +97,7 @@ namespace Client.App.Components
                 await SendNewCatalogForMusic.InvokeAsync((nameof(Format), NewFormat));
                 ToastService.ShowToast(ToastLevel.Success, $"Exito se creo el formato {NewFormat.Name}");
                 NewFormat = new Format();
-                ShowModalNewFormat = false;                
+                ShowModalNewFormat = false;
                 StateHasChanged();
             }
             catch (Exception exception)
@@ -117,7 +117,7 @@ namespace Client.App.Components
                 await SendNewCatalogForMusic.InvokeAsync((nameof(Presentation), NewPresentation));
                 ToastService.ShowToast(ToastLevel.Success, $"Exito se creo la presentacion {NewPresentation.Name}");
                 NewPresentation = new Presentation();
-                ShowModalNewPresentation = false;                
+                ShowModalNewPresentation = false;
                 StateHasChanged();
             }
             catch (Exception exception)
