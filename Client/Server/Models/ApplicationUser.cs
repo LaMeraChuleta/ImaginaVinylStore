@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using SharedApp.Models;
+﻿using SharedApp.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Client.Server.Models;
 
 public class ApplicationUser : IdentityUser
-{
-    public ICollection<ShopCart> ShoppingCarts { get; set; }
+{    
+    public virtual Orders Orders { get; set; }
 }
