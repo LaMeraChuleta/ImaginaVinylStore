@@ -14,7 +14,7 @@ namespace Client.App.Pages
         private List<MusicCatalog> MusicCatalogs { get; set; } = new();
         protected override async Task OnInitializedAsync()
         {
-            MusicCatalogsInShopCart = await ShopCartService.GetShopCartToMusicCatalog();
+            MusicCatalogsInShopCart = await ShopCartService.GetShopCart();
             MusicCatalogs = await CatalogMusicService.GetAsync();
             MusicCatalogs = MusicCatalogs.Take(10).ToList();
             await base.OnInitializedAsync();

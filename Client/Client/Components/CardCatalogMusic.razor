@@ -47,14 +47,7 @@
     {
         try
         {
-            var item = new ShopCart
-                {
-                    MusicCatalogId = MusicCatalog.Id,
-                    Amount = 1,
-                    UnitPrice = 300
-                };
-
-            var isItemCreate = await ShopCartsService.SetShopCartItem(item, MusicCatalog);
+            var isItemCreate = await ShopCartsService.SetShopCartItem(MusicCatalog);            
             if (isItemCreate)
             {
                 ToastService.ShowSuccess($"Se guardo este articulo en el carrito. {MusicCatalog.Title}-{MusicCatalog.Artist?.Name}");
