@@ -30,7 +30,7 @@ namespace Client.App.Services
             {
                 return await _localStorageService.GetItemAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? new();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -42,7 +42,7 @@ namespace Client.App.Services
                 var data = await _localStorageService.GetItemAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? new();
                 return data.Select(x => x.Id).ToArray();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
