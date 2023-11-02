@@ -23,7 +23,7 @@ namespace Catalog.API.Controllers
         public IResult Get()
         {
             return Results.Ok(_context.AudioCatalog
-                .Include(x => x.Images)
+                .Include(x => x.Images)                
                 .ToArray());
         }
 
