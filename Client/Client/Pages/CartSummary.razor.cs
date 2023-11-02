@@ -1,11 +1,14 @@
 ﻿using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
+using SharedApp.Extension;
 using SharedApp.Models;
+using System.Text;
+using System.Text.Json;
 
 namespace Client.App.Pages
 {
     public partial class CartSummary : ComponentBase
-    {
+    {        
         [Inject] public IHttpClientHelperService HttpClientHelperService { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
@@ -21,7 +24,12 @@ namespace Client.App.Pages
         }
         private async void TestStrape()
         {
-            var url = await HttpClientHelperService.Post<string>("Checkout");
+            var value = new ShopCart
+            {
+                MusicCatalogs = await ShopCartService.GetShopCart()
+            };
+
+            string url = await HttpClientHelperService.Post("Checkout", value, onlyString: true);
             NavigationManager.NavigateTo(url);
 
         }

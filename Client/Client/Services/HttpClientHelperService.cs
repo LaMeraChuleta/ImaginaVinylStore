@@ -54,6 +54,11 @@ public class HttpClientHelperService : IHttpClientHelperService
         var response = await _httpClient.PostAsync(pathEndPoint, data);
         return await ParseResponseAsync<T>(response);
     }
+    public async Task<string> Post<T>(string pathEndPoint, T data, bool onlyString = false)
+    {
+        var response = await _httpClient.PostAsJsonAsync(pathEndPoint, data);
+        return await ParseResponseAsync<string>(response);
+    }
     public async Task<T> Put<T, U>(string pathEndPoint, int id, U data)
     {
         pathEndPoint = BuildUrlWithQueryParams(pathEndPoint, new(), id);

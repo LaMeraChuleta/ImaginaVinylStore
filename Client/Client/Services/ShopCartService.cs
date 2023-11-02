@@ -35,6 +35,18 @@ namespace Client.App.Services
                 throw;
             }
         }
+        public async Task<int[]> GetShopCartId()
+        {
+            try
+            {
+                var data = await _localStorageService.GetItemAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? new();
+                return data.Select(x => x.Id).ToArray();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
         public async Task<int> GetShopCartCount()
         {
             try
