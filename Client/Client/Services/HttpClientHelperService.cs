@@ -76,8 +76,10 @@ public class HttpClientHelperService : IHttpClientHelperService
     {
         var accessTokenResult = await _tokenProvider.RequestAccessToken();
         if (accessTokenResult.TryGetToken(out var accessToken))
+        {
             _httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", accessToken.Value);
+        }
     }
 
     private static async Task<T> ParseResponseAsync<T>(HttpResponseMessage httpResponseMessage)

@@ -24,7 +24,7 @@ namespace Catalog.API.Controllers
         [Authorize]
         public IActionResult Post([FromBody]ShopCart shopCart)
         {
-            var id = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;            
+            var id = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             var product = _context.MusicCatalog
                 .Where(x => shopCart.GetItemsId().Contains(x.Id))
                 .Select(x => new SessionLineItemOptions()
@@ -32,9 +32,9 @@ namespace Catalog.API.Controllers
                     Price = x.IdPriceStripe,
                     Quantity = 1
                 })
-                .ToList();               
+                .ToList();
 
-            var domain = "http://localhost:7285";
+            const string domain = "http://localhost:7285";
             var options = new SessionCreateOptions
             {
                 LineItems = product,

@@ -8,7 +8,7 @@ using System.Text.Json;
 namespace Client.App.Pages
 {
     public partial class CartSummary : ComponentBase
-    {        
+    {
         [Inject] public IHttpClientHelperService HttpClientHelperService { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
@@ -31,7 +31,6 @@ namespace Client.App.Pages
 
             string url = await HttpClientHelperService.Post("Checkout", value, onlyString: true);
             NavigationManager.NavigateTo(url);
-
         }
     }
 }

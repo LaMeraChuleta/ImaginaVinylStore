@@ -27,11 +27,11 @@ namespace Client.App.Services
         public async Task<List<MusicCatalog>> GetShopCart()
         {
             try
-            {               
-                return await _localStorageService.GetItemAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? new();                
+            {
+                return await _localStorageService.GetItemAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? new();
             }
             catch (Exception ex)
-            {                
+            {
                 throw;
             }
         }
@@ -89,8 +89,7 @@ namespace Client.App.Services
                 var countRemove = shopCarts.RemoveAll(x => x.Id == idCatalogMusic);
                 await _localStorageService.SetItemAsync(nameof(MusicCatalog), shopCarts);
                 _shopCartNotificationService.NotifitShopCartCountChanges(shopCarts.Count);
-                return countRemove == 1 ? true : false;
-
+                return countRemove == 1;
             }
             catch (Exception)
             {
