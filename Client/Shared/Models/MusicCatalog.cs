@@ -12,7 +12,7 @@ public class MusicCatalog
     [Required] public string Country { get; set; }
     [Required] public int Year { get; set; }
     [Range(0, 10)] public int StatusCover { get; set; }
-    [Range(0, 10)] public int StatusGeneral { get; set; }    
+    [Range(0, 10)] public int StatusGeneral { get; set; }
     [Required] public string Matrix { get; set; }
     [Required] public string Label { get; set; }
     public DateTime CreateAt { get; set; } = DateTime.Now;
@@ -33,5 +33,5 @@ public class MusicCatalog
     public Genre? Genre { get; set; }
     public Format? Format { get; set; }
     public Presentation? Presentation { get; set; }
-    public IEnumerable<ImageCatalog>? Images { get; set; }    
+    public IEnumerable<ImageCatalog>? Images { get; set; }
 }

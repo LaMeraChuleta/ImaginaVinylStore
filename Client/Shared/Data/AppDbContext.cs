@@ -11,10 +11,11 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<AudioCatalog> AudioCatalog { get; set; }
-    public DbSet<MusicCatalog> MusicCatalog { get; set; }    
+    public DbSet<MusicCatalog> MusicCatalog { get; set; }
     public DbSet<Artist> Artist { get; set; }
+    public DbSet<Orders> Orders { get; set; }
     public DbSet<Genre> Genre { get; set; }
-    public DbSet<Format> Format { get; set; }    
+    public DbSet<Format> Format { get; set; }
     public DbSet<ImageCatalog> ImageCatalog { get; set; }
     public DbSet<ImageAudio> ImageAudio { get; set; }
     public DbSet<ImageArtist> ImageArtist { get; set; }

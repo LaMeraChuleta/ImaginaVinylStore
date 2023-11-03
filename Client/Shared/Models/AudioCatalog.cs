@@ -17,6 +17,6 @@
         // Foreign key  
 
         // Navigation properties
-        public IEnumerable<ImageAudio>? Images { get; set; }        
+        public IEnumerable<ImageAudio>? Images { get; set; }
     }
 }

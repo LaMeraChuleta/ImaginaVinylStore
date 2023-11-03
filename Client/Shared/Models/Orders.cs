@@ -4,7 +4,7 @@ namespace SharedApp.Models
 {
     public class Orders
     {
-        public int Id { get; set; }        
+        public int Id { get; set; }
         // Foreign key  
         [ForeignKey("ApplicationUser")]
         public string? ApplicationUserId { get; set; }
