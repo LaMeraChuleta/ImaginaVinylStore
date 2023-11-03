@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Components;
 using SharedApp.Extension;
 using SharedApp.Models;
-using System.Text;
-using System.Text.Json;
 
 namespace Client.App.Pages
 {

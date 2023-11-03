@@ -25,7 +25,7 @@ namespace Client.App.Shared
         {
             try
             {
-                var deleteItem = await ShopCartService.DeleteShopCartItem(idCatalogMusic);                
+                var deleteItem = await ShopCartService.DeleteShopCartItem(idCatalogMusic);
                 if (deleteItem)
                 {
                     MusicCatalogs = await ShopCartService.GetShopCart();
