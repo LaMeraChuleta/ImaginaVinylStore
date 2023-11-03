@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedApp.Data;
+using SharedApp.Extension;
 using Stripe.Checkout;
 using System.Security.Claims;
-using SharedApp.Extension;
 
 namespace Catalog.API.Controllers
 {
@@ -22,7 +22,7 @@ namespace Catalog.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Post([FromBody]ShopCart shopCart)
+        public IActionResult Post([FromBody] ShopCart shopCart)
         {
             var id = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             var product = _context.MusicCatalog
@@ -34,19 +34,18 @@ namespace Catalog.API.Controllers
                 })
                 .ToList();
 
-            const string domain = "http://localhost:7285";
+            const string domain = "http://localhost:7197";
             var options = new SessionCreateOptions
             {
                 LineItems = product,
                 ClientReferenceId = id,
                 Mode = "payment",
-                SuccessUrl = domain,
-                CancelUrl = domain + "/ShopCart",
+                SuccessUrl = domain + "/CartSummary",
+                CancelUrl = domain + "/CartSummary",
             };
 
             var service = new SessionService();
-            Session session = service.Create(options);
-            Response.Headers.Add("Location", session.Url);
+            Session session = service.Create(options);            
             return Ok(session.Url);
         }
     }
