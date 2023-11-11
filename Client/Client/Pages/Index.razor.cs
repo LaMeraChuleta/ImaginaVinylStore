@@ -18,8 +18,8 @@ public partial class Index : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         try
-        {            
-            Artists = (await ArtistService.GetAsync()).Take(10);            
+        {
+            Artists = (await ArtistService.GetAsync()).Take(10);
             CatalogMusics = (await CatalogMusicService.GetAsync())
                 .OrderByDescending(x => x.Id)
                 .Take(10);
