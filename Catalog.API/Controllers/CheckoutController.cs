@@ -45,8 +45,8 @@ namespace Catalog.API.Controllers
                 LineItems = product,
                 ClientReferenceId = id,
                 Mode = "payment",
-                SuccessUrl = domain,
-                CancelUrl = domain,
+                SuccessUrl = domain + "Checkout/Complete",
+                CancelUrl = domain + "CartSummary",
             };
 
             var service = new SessionService();
