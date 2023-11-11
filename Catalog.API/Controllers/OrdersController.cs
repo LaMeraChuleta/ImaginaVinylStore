@@ -57,11 +57,11 @@ namespace Catalog.API.Controllers
                     _context.MusicCatalog.UpdateRange(musicCatalog);
                     await _context.SaveChangesAsync();
                 }
-            }            
+            }
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize]
         public IResult Get()
         {
             var id = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
