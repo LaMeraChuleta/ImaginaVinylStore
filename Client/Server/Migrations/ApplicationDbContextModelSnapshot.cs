@@ -22,21 +22,6 @@ namespace Client.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AudioCatalogShopCart", b =>
-                {
-                    b.Property<int>("AudioCatalogsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShopCarsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AudioCatalogsId", "ShopCarsId");
-
-                    b.HasIndex("ShopCarsId");
-
-                    b.ToTable("AudioCatalogShopCart");
-                });
-
             modelBuilder.Entity("Client.Server.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -380,21 +365,6 @@ namespace Client.Server.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MusicCatalogShopCart", b =>
-                {
-                    b.Property<int>("CatalogMusicsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShopCarsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CatalogMusicsId", "ShopCarsId");
-
-                    b.HasIndex("ShopCarsId");
-
-                    b.ToTable("MusicCatalogShopCart");
-                });
-
             modelBuilder.Entity("SharedApp.Models.Artist", b =>
                 {
                     b.Property<int>("Id")
@@ -668,9 +638,7 @@ namespace Client.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId")
-                        .IsUnique()
-                        .HasFilter("[ApplicationUserId] IS NOT NULL");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Orders");
                 });
@@ -695,53 +663,6 @@ namespace Client.Server.Migrations
                     b.HasIndex("FormatId");
 
                     b.ToTable("Presentation");
-                });
-
-            modelBuilder.Entity("SharedApp.Models.ShopCart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("AudioCatalogId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MusicCatalogId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnitPrice")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId")
-                        .IsUnique()
-                        .HasFilter("[ApplicationUserId] IS NOT NULL");
-
-                    b.ToTable("ShopCart");
-                });
-
-            modelBuilder.Entity("AudioCatalogShopCart", b =>
-                {
-                    b.HasOne("SharedApp.Models.AudioCatalog", null)
-                        .WithMany()
-                        .HasForeignKey("AudioCatalogsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SharedApp.Models.ShopCart", null)
-                        .WithMany()
-                        .HasForeignKey("ShopCarsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -791,21 +712,6 @@ namespace Client.Server.Migrations
                     b.HasOne("Client.Server.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MusicCatalogShopCart", b =>
-                {
-                    b.HasOne("SharedApp.Models.MusicCatalog", null)
-                        .WithMany()
-                        .HasForeignKey("CatalogMusicsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SharedApp.Models.ShopCart", null)
-                        .WithMany()
-                        .HasForeignKey("ShopCarsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -890,8 +796,8 @@ namespace Client.Server.Migrations
             modelBuilder.Entity("SharedApp.Models.Orders", b =>
                 {
                     b.HasOne("Client.Server.Models.ApplicationUser", null)
-                        .WithOne("Orders")
-                        .HasForeignKey("SharedApp.Models.Orders", "ApplicationUserId");
+                        .WithMany("Orders")
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("SharedApp.Models.Presentation", b =>
@@ -905,20 +811,9 @@ namespace Client.Server.Migrations
                     b.Navigation("Format");
                 });
 
-            modelBuilder.Entity("SharedApp.Models.ShopCart", b =>
-                {
-                    b.HasOne("Client.Server.Models.ApplicationUser", null)
-                        .WithOne("ShoppingCart")
-                        .HasForeignKey("SharedApp.Models.ShopCart", "ApplicationUserId");
-                });
-
             modelBuilder.Entity("Client.Server.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Orders")
-                        .IsRequired();
-
-                    b.Navigation("ShoppingCart")
-                        .IsRequired();
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("SharedApp.Models.Artist", b =>

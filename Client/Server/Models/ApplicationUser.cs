@@ -5,5 +5,5 @@ namespace Client.Server.Models;
 
 public class ApplicationUser : IdentityUser
 {
-    public virtual Orders Orders { get; set; }
+    public virtual IEnumerable<Orders> Orders { get; set; }
 }
