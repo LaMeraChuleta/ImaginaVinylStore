@@ -9,5 +9,6 @@ namespace Client.App.Interfaces
         Task<int> GetShopCartCount();
         Task<bool> SetShopCartItem(MusicCatalog musicCatalog);
         Task<bool> DeleteShopCartItem(int idCatalogMusic);
+        Task<bool> DeleteShopCart();
     }
 }

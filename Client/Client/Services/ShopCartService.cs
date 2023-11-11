@@ -1,24 +1,20 @@
 ﻿using Blazored.LocalStorage;
 using Client.App.Interfaces;
-using Microsoft.AspNetCore.Components.Authorization;
 using SharedApp.Models;
 
 namespace Client.App.Services
 {
     public class ShopCartService : IShopCartService
     {
-        private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly IHttpClientHelperService _httpClientHelper;
         private readonly ILocalStorageService _localStorageService;
         private readonly IShopCartNotificationService _shopCartNotificationService;
 
         public ShopCartService(
-            AuthenticationStateProvider authenticationStateProvider,
             IHttpClientHelperService httpClientHelper,
             ILocalStorageService localStorageService,
             IShopCartNotificationService shopCartNotificationService)
         {
-            _authenticationStateProvider = authenticationStateProvider;
             _localStorageService = localStorageService;
             _shopCartNotificationService = shopCartNotificationService;
             _httpClientHelper = httpClientHelper;
@@ -81,6 +77,7 @@ namespace Client.App.Services
                 throw;
             }
         }
+
         public async Task<bool> DeleteShopCartItem(int idCatalogMusic)
         {
             try
@@ -90,6 +87,20 @@ namespace Client.App.Services
                 await _localStorageService.SetItemAsync(nameof(MusicCatalog), shopCarts);
                 _shopCartNotificationService.NotifitShopCartCountChanges(shopCarts.Count);
                 return countRemove == 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteShopCart()
+        {
+            try
+            {
+                var shopCarts = (await GetShopCartId()).ToList();
+                shopCarts.ForEach(async (x) => await DeleteShopCartItem(x));
+                return true;
             }
             catch (Exception)
             {
