@@ -54,7 +54,7 @@ public class HttpClientHelperService : IHttpClientHelperService
         var response = await _httpClient.PostAsync(pathEndPoint, data);
         return await ParseResponseAsync<T>(response);
     }
-    public async Task<string> Post<T>(string pathEndPoint, T data, bool onlyString = false)
+    public async Task<string> Post(string pathEndPoint, Dictionary<string, string> data)
     {
         var response = await _httpClient.PostAsJsonAsync(pathEndPoint, data);
         return await ParseResponseAsync<string>(response);

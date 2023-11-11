@@ -1,6 +1,5 @@
 ﻿using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
-using SharedApp.Extension;
 using SharedApp.Models;
 
 namespace Client.App.Pages
@@ -20,14 +19,18 @@ namespace Client.App.Pages
             MusicCatalogs = MusicCatalogs.Take(10).ToList();
             await base.OnInitializedAsync();
         }
-        private async void TestStrape()
+        private async void CreateCheckoutSesion()
         {
-            var value = new ShopCart
-            {
-                MusicCatalogs = await ShopCartService.GetShopCart()
-            };
+            var ids = await ShopCartService.GetShopCartId();
+            var value = ids
+                .Select((value, index) => new
+                {
+                    Key = $"item{index}",
+                    Value = value.ToString()
+                })
+                .ToDictionary(pair => pair.Key, pair => pair.Value);
 
-            string url = await HttpClientHelperService.Post("Checkout", value, onlyString: true);
+            var url = await HttpClientHelperService.Post("Checkout", value);
             NavigationManager.NavigateTo(url);
         }
     }
