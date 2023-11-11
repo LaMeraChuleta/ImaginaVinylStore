@@ -1,6 +1,4 @@
-﻿using SharedApp.Models;
-
-namespace SharedApp.Extension
+﻿namespace SharedApp.Models.DTO
 {
     public class ShopCart
     {
