@@ -51,7 +51,7 @@ namespace Catalog.API.Controllers
                         ApplicationUserId = session.ClientReferenceId,
                         CatalogMusics = musicCatalog,
                     };
-
+								
                     await _context.Orders.AddAsync(order);
                     musicCatalog.ForEach(x => x.ActiveInStripe = false);
                     _context.MusicCatalog.UpdateRange(musicCatalog);
