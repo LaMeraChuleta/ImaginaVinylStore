@@ -37,9 +37,9 @@ class DataBaseService:
                 self.connection.cursor().execute(query_insert_catalog_music, 
                     new_catalog_music["Title"],
                     self.get_id_artist(new_catalog_music["Artist"]),
-                    1,#self.get_id_genre(new_catalog_music["Genre"]),
-                    1,#self.get_id_format(new_catalog_music["Format"]),
-                    1,#self.get_id_presentation(new_catalog_music["Presentation"]),
+                    self.get_id_genre(new_catalog_music["Genre"]),
+                    self.get_id_format(new_catalog_music["Format"]),
+                    1,#self.get_id_presentation(new_catalog_music["Presentation"], self.get_id_format(new_catalog_music["Format"])),
                     new_catalog_music["Country"],
                     new_catalog_music["Year"],
                     10,#StatusCover
@@ -107,19 +107,19 @@ class DataBaseService:
             except Exception as e:
                 print(str(e))                
 
-        def get_id_presentation(self, presentation_text):
+        def get_id_presentation(self, presentation_text, format_id):
             try:
                 presentation_df = pandas.read_sql_query("SELECT * FROM Presentation", self.connection)
                 if presentation_df['Name'].isin([presentation_text]).any():
                     return presentation_df.loc[presentation_df['Name'] == presentation_text, 'Id'].values[0]
                 else:        
-                    return self.create_presentation(presentation_text)
+                    return self.create_presentation(presentation_text, format_id)
             except Exception as e:
                 print(str(e))
     
         def create_presentation(self, presentation_name, format_id):            
             try:                
-                self.connection.cursor().execute("INSERT INTO Format (Name, FormatId) VALUES (?, ?)", presentation_name, format_id)
+                self.connection.cursor().execute("INSERT INTO Presentation (Name, FormatId) VALUES (?, ?)", presentation_name, format_id)
                 self.connection.commit()            
                 return self.get_last_id_insert()
             except Exception as e:
