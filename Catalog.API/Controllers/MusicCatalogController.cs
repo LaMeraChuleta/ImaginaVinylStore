@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedApp.Data;
 using SharedApp.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Catalog.API.Controllers;
 
@@ -36,8 +37,7 @@ public class MusicCatalogController : ControllerBase
     [HttpGet("{id}")]
     public IResult GetById(int id)
     {
-        return Results.Ok(_context.MusicCatalog
-            .Where(x => x.ActiveInStripe)
+        return Results.Ok(_context.MusicCatalog            
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
@@ -47,24 +47,28 @@ public class MusicCatalogController : ControllerBase
     }
 
     [HttpGet("ForFilter")]
-    public IResult GetByFilter(string? title, int? idGenre, int? idArtist, int? idFormat, int? idPresentation)
+    public IResult GetByFilter(string? title, int? idGenre, int? idArtist, int? idFormat, int? idPresentation, bool? isActiveInStripe)
     {
-        var data = _context.MusicCatalog
+        var query = _context.MusicCatalog
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
             .Include(x => x.Format)
-            .Include(x => x.Images)
-            .Where(x => x.ActiveInStripe)
+            .Include(x => x.Images)            
             .Where(x =>
                 (title == null || x.Title.Contains(title)) &&
                 (idGenre == null || x.Genre!.Id == idGenre) &&
                 (idArtist == null || x.Artist!.Id == idArtist) &&
                 (idPresentation == null || x.Presentation!.Id == idPresentation) &&
                 (idFormat == null || x.Format!.Id == idFormat)
-            )
-            .ToArray();
+            );
 
+        if (isActiveInStripe is not null)
+        {
+            query = query.Where(x => x.ActiveInStripe == isActiveInStripe);
+        }
+
+        var data = query.ToArray();
         return Results.Ok(data);
     }
 
