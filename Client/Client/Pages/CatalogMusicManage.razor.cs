@@ -1,6 +1,7 @@
 ﻿using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
 using SharedApp.Models;
+using static Client.App.Services.CatalogMusicService;
 
 namespace Client.App.Pages
 {
@@ -11,7 +12,7 @@ namespace Client.App.Pages
         private List<MusicCatalog> CatalogMusics { get; set; } = new();
         protected override async Task OnInitializedAsync()
         {
-            CatalogMusics = await CatalogMusicService.GetAsync();
+            CatalogMusics = await CatalogMusicService.GetAsync(new FilterForCatalogMusic { IsActiveInStripe = null });
         }
 
         private void EditMusicCatalog(int id)
