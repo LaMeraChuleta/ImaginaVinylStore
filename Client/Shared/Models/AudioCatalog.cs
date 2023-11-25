@@ -7,6 +7,7 @@
 
         public int Price { get; set; }
         public bool ActiveInStripe { get; set; }
+        public bool Sold { get; set; }
         public int? Discount { get; set; }
         public string Name { get; set; }
         public string Brand { get; set; }
