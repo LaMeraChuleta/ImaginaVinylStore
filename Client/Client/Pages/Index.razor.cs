@@ -20,7 +20,6 @@ public partial class Index : ComponentBase
         try
         {
             Artists = (await ArtistService.GetAsync()).Take(10);
-
             CatalogMusics = (await CatalogMusicService.GetAsync())
                 .OrderByDescending(x => x.Id)
                 .Take(10);

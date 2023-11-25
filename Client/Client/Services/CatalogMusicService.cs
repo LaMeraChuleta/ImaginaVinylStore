@@ -59,6 +59,7 @@ namespace Client.App.Services
             internal int IdGenre { get; set; }
             internal int IdFormat { get; set; }
             internal int IdPresentation { get; set; }
+            internal bool? IsActiveInStripe { get; set; }
 
             internal Dictionary<string, string> ParseToDictionary()
             {
@@ -71,6 +72,7 @@ namespace Client.App.Services
                 if (IdGenre != 0) parameter.Add("idGenre", IdGenre.ToString());
                 if (IdFormat != 0) parameter.Add("idFormat", IdFormat.ToString());
                 if (IdPresentation != 0) parameter.Add("idPresentation", IdPresentation.ToString());
+                if (IsActiveInStripe is not null) parameter.Add("isActiveInStripe", IsActiveInStripe.ToString() ?? "");
 
                 return parameter;
             }

@@ -54,6 +54,11 @@ public class HttpClientHelperService : IHttpClientHelperService
         var response = await _httpClient.PostAsync(pathEndPoint, data);
         return await ParseResponseAsync<T>(response);
     }
+    public async Task<string> Post(string pathEndPoint, Dictionary<string, string> data)
+    {
+        var response = await _httpClient.PostAsJsonAsync(pathEndPoint, data);
+        return await ParseResponseAsync<string>(response);
+    }
     public async Task<T> Put<T, U>(string pathEndPoint, int id, U data)
     {
         pathEndPoint = BuildUrlWithQueryParams(pathEndPoint, new(), id);
@@ -71,8 +76,10 @@ public class HttpClientHelperService : IHttpClientHelperService
     {
         var accessTokenResult = await _tokenProvider.RequestAccessToken();
         if (accessTokenResult.TryGetToken(out var accessToken))
+        {
             _httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", accessToken.Value);
+        }
     }
 
     private static async Task<T> ParseResponseAsync<T>(HttpResponseMessage httpResponseMessage)

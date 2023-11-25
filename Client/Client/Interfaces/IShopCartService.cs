@@ -4,10 +4,11 @@ namespace Client.App.Interfaces
 {
     public interface IShopCartService
     {
-        Task<List<ShopCart>> GetShopCart();
-        Task<List<MusicCatalog>> GetShopCartToMusicCatalog();
+        Task<List<MusicCatalog>> GetShopCart();
+        Task<int[]> GetShopCartId();
         Task<int> GetShopCartCount();
-        Task<bool> SetShopCartItem(ShopCart shopCart, MusicCatalog musicCatalog);
+        Task<bool> SetShopCartItem(MusicCatalog musicCatalog);
         Task<bool> DeleteShopCartItem(int idCatalogMusic);
+        Task<bool> DeleteShopCart();
     }
 }

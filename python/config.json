@@ -1,0 +1,74 @@
+{
+    "columns": [
+        {
+            "name": "Title",
+            "type": "string",
+            "description": "El título de la canción"
+        },
+        {
+            "name": "Artist",
+            "type": "string",
+            "description": "Nombre artista"
+        },
+        {
+            "name": "Genre",
+            "type": "string",
+            "description": "Género musical"
+        },
+        {
+            "name": "Format",
+            "type": "integer",
+            "description": "Formato fisico"
+        },
+        {
+            "name": "PresentationId",
+            "type": "integer",
+            "description": "El ID de la presentación de la canción"
+        },
+        {
+            "name": "Country",
+            "type": "string",
+            "description": "El país de origen de la canción"
+        },
+        {
+            "name": "Year",
+            "type": "integer",
+            "description": "El año de lanzamiento de la canción"
+        },
+        {
+            "name": "StatusCover",
+            "type": "integer",
+            "description": "El estado de la portada de la canción"
+        },
+        {
+            "name": "StatusGeneral",
+            "type": "integer",
+            "description": "El estado general de la canción"
+        },
+        {
+            "name": "Price",
+            "type": "decimal",
+            "description": "El precio de la canción"
+        },
+        {
+            "name": "Matrix",
+            "type": "string",
+            "description": "El número de matriz de la canción"
+        },
+        {
+            "name": "Label",
+            "type": "string",
+            "description": "El sello discográfico de la canción"
+        },
+        {
+            "name": "CreateAt",
+            "type": "datetime",
+            "description": "La fecha y hora de creación del registro"
+        },
+        {
+            "name": "ActiveInStripe",
+            "type": "boolean",
+            "description": "Indica si el registro está activo en Stripe"
+        }
+    ]
+}

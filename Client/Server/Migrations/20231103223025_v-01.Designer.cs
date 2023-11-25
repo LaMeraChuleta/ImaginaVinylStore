@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Client.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230923175246_init-1")]
-    partial class init1
+    [Migration("20231103223025_v-01")]
+    partial class v01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -408,6 +408,9 @@ namespace Client.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("Discount")
+                        .HasColumnType("int");
+
                     b.Property<string>("IdPriceStripe")
                         .HasColumnType("nvarchar(max)");
 
@@ -418,10 +421,15 @@ namespace Client.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OrdersId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrdersId");
 
                     b.ToTable("AudioCatalog");
                 });
@@ -560,6 +568,9 @@ namespace Client.Server.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("Discount")
+                        .HasColumnType("int");
+
                     b.Property<int>("FormatId")
                         .HasColumnType("int");
 
@@ -579,6 +590,9 @@ namespace Client.Server.Migrations
                     b.Property<string>("Matrix")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OrdersId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("PresentationId")
                         .HasColumnType("int");
@@ -607,9 +621,29 @@ namespace Client.Server.Migrations
 
                     b.HasIndex("GenreId");
 
+                    b.HasIndex("OrdersId");
+
                     b.HasIndex("PresentationId");
 
                     b.ToTable("MusicCatalog");
+                });
+
+            modelBuilder.Entity("SharedApp.Models.Orders", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("SharedApp.Models.Presentation", b =>
@@ -632,40 +666,6 @@ namespace Client.Server.Migrations
                     b.HasIndex("FormatId");
 
                     b.ToTable("Presentation");
-                });
-
-            modelBuilder.Entity("SharedApp.Models.ShopCart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AudioCatalogId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MusicCatalogId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnitPrice")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("AudioCatalogId");
-
-                    b.HasIndex("MusicCatalogId");
-
-                    b.ToTable("ShopCart");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -717,6 +717,13 @@ namespace Client.Server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SharedApp.Models.AudioCatalog", b =>
+                {
+                    b.HasOne("SharedApp.Models.Orders", null)
+                        .WithMany("AudioCatalogs")
+                        .HasForeignKey("OrdersId");
                 });
 
             modelBuilder.Entity("SharedApp.Models.ImageArtist", b =>
@@ -772,6 +779,10 @@ namespace Client.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SharedApp.Models.Orders", null)
+                        .WithMany("CatalogMusics")
+                        .HasForeignKey("OrdersId");
+
                     b.HasOne("SharedApp.Models.Presentation", "Presentation")
                         .WithMany("CatalogMusics")
                         .HasForeignKey("PresentationId");
@@ -785,6 +796,13 @@ namespace Client.Server.Migrations
                     b.Navigation("Presentation");
                 });
 
+            modelBuilder.Entity("SharedApp.Models.Orders", b =>
+                {
+                    b.HasOne("Client.Server.Models.ApplicationUser", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
             modelBuilder.Entity("SharedApp.Models.Presentation", b =>
                 {
                     b.HasOne("SharedApp.Models.Format", "Format")
@@ -796,32 +814,9 @@ namespace Client.Server.Migrations
                     b.Navigation("Format");
                 });
 
-            modelBuilder.Entity("SharedApp.Models.ShopCart", b =>
-                {
-                    b.HasOne("Client.Server.Models.ApplicationUser", null)
-                        .WithMany("ShoppingCarts")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("SharedApp.Models.AudioCatalog", "AudioCatalog")
-                        .WithMany()
-                        .HasForeignKey("AudioCatalogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SharedApp.Models.MusicCatalog", "CatalogMusic")
-                        .WithMany()
-                        .HasForeignKey("MusicCatalogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AudioCatalog");
-
-                    b.Navigation("CatalogMusic");
-                });
-
             modelBuilder.Entity("Client.Server.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("ShoppingCarts");
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("SharedApp.Models.Artist", b =>
@@ -849,6 +844,13 @@ namespace Client.Server.Migrations
             modelBuilder.Entity("SharedApp.Models.MusicCatalog", b =>
                 {
                     b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("SharedApp.Models.Orders", b =>
+                {
+                    b.Navigation("AudioCatalogs");
+
+                    b.Navigation("CatalogMusics");
                 });
 
             modelBuilder.Entity("SharedApp.Models.Presentation", b =>

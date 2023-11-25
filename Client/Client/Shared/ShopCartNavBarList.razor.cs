@@ -16,7 +16,7 @@ namespace Client.App.Shared
         protected override async Task OnInitializedAsync()
         {
             IsLoading = true;
-            MusicCatalogs = await ShopCartService.GetShopCartToMusicCatalog();
+            MusicCatalogs = await ShopCartService.GetShopCart();
             IsLoading = false;
             await base.OnInitializedAsync();
         }
@@ -28,7 +28,7 @@ namespace Client.App.Shared
                 var deleteItem = await ShopCartService.DeleteShopCartItem(idCatalogMusic);
                 if (deleteItem)
                 {
-                    MusicCatalogs = await ShopCartService.GetShopCartToMusicCatalog();
+                    MusicCatalogs = await ShopCartService.GetShopCart();
                     ToastService.ShowToast(ToastLevel.Success, $"Se elimino el producto del carrito");
                     StateHasChanged();
                 }
