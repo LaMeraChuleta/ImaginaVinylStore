@@ -479,3 +479,7 @@ $RECYCLE.BIN/
 
 #
 Client/wwwroot/
+/Client/Client/package-lock.json
+/Client/Client/package.json
+/Client/Shared/package.json
+/Client/Shared/package-lock.json

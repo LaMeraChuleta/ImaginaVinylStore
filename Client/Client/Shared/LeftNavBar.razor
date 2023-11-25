@@ -1,12 +1,15 @@
 <div class="flex flex-col items-center h-screen bg-gray-100 shadow-lg fixed z-50 top w-64 pt-5">
     <div class="p-4">
-        <img alt="Imagen del usuario" src="https://imusic.b-cdn.net/images/item/original/532/0887828045532.jpg?arctic-monkeys-2022-the-car-lp&class=scaled" class="w-16 h-16 rounded-full"/>
+        <img alt="Imagen del usuario" src="https://imusic.b-cdn.net/images/item/original/532/0887828045532.jpg?arctic-monkeys-2022-the-car-lp&class=scaled" class="w-16 h-16 rounded-full" />
     </div>
     <LoginDisplay></LoginDisplay>
     <div class="mt-4">
         <ul class="text-gray-600">
             <AuthorizeView>
-                <Authorized>      
+                <Authorized>
+                    <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/ManageOrders"))">Pedidos</button>
+                    </li>
                     <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
                         <button @onclick="@(() => SendRedirectPage.InvokeAsync("/ManageCatalogMusic"))">Administrar Catalogo</button>
                     </li>
@@ -32,7 +35,7 @@
             </li>
             <li class="mb-4 py-2 px-6 rounded-lg hover:bg-gray-200">
                 <button @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/CD"))">CD</button>
-            </li>            
+            </li>
         </ul>
     </div>
 </div>

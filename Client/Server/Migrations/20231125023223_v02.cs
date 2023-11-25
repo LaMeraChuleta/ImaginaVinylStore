@@ -5,33 +5,35 @@
 namespace Client.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class init2 : Migration
+    public partial class v02 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "Discount",
+            migrationBuilder.AddColumn<bool>(
+                name: "Sold",
                 table: "MusicCatalog",
-                type: "int",
-                nullable: true);
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
 
-            migrationBuilder.AddColumn<int>(
-                name: "Discount",
+            migrationBuilder.AddColumn<bool>(
+                name: "Sold",
                 table: "AudioCatalog",
-                type: "int",
-                nullable: true);
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Discount",
+                name: "Sold",
                 table: "MusicCatalog");
 
             migrationBuilder.DropColumn(
-                name: "Discount",
+                name: "Sold",
                 table: "AudioCatalog");
         }
     }

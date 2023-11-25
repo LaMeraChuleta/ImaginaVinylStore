@@ -1,0 +1,23 @@
+﻿@page "/Checkout/Complete"
+@using Client.App.Interfaces;
+
+@inject IShopCartService ShopCartService
+@inject NavigationManager NavigateToIndex
+
+<Modal>
+    <BodyContent>        
+        <h3 class="font-semibold text-2xl text-center leading-6 text-gray-600" id="modal-new-format">Gracias por su compra en Imagina Vinyl Store</h3>                
+        <div class="inline-flex px-4 py-3 space-x-3 justify-center sm:px-6">
+            <button @onclick="@(() => NavigateToIndex.NavigateTo(""))" class="mt-3 inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Ok</button>
+        </div>
+    </BodyContent>
+</Modal>
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        await ShopCartService.DeleteShopCart();        
+        await base.OnInitializedAsync();
+    }
+}

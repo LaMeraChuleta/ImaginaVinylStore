@@ -12,7 +12,7 @@ public partial class CatalogMusicDetail : ComponentBase
     [Inject] public IToastService ToastService { get; set; }
     [Inject] public IShopCartService ShopCartService { get; set; }
 
-    private MusicCatalog MusicCatalog { get; set; } = new();
+    private MusicCatalog MusicCatalog { get; set; }
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
@@ -34,14 +34,7 @@ public partial class CatalogMusicDetail : ComponentBase
     {
         try
         {
-            var item = new ShopCart
-            {
-                MusicCatalogId = MusicCatalog.Id,
-                Amount = 1,
-                UnitPrice = 300
-            };
-
-            var isItemCreate = await ShopCartService.SetShopCartItem(item, MusicCatalog);
+            var isItemCreate = await ShopCartService.SetShopCartItem(MusicCatalog);
             if (isItemCreate)
             {
                 ToastService.ShowSuccess($"Se guardo este articulo en el carrito. {MusicCatalog.Title}-{MusicCatalog.Artist?.Name}");

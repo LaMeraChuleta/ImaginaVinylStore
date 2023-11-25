@@ -51,7 +51,7 @@ public partial class CatalogMusicCreate : ComponentBase
                 var image = await CatalogMusicService.CreateImageAsync(NewMusicCatalog!, file);
                 NewMusicCatalog?.Images?.ToList().Add(image);
             }
-            await ProductService.CreateAsync(NewMusicCatalog!);
+            await ProductService.CreateCatalogOnStripeAsync(NewMusicCatalog!);
             ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
             PhotoMusicCatalog.Clear();
             NewMusicCatalog = new MusicCatalog();

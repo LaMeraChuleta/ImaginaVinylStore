@@ -48,15 +48,8 @@
     private async void AddItemShopCart()
     {
         try
-        {
-            var item = new ShopCart
-            {
-                MusicCatalogId = MusicCatalogs.Id,
-                Amount = 1,
-                UnitPrice = 300
-            };
-
-            var isItemCreate = await ShopCartService.SetShopCartItem(item, MusicCatalogs);
+        {  
+            var isItemCreate = await ShopCartService.SetShopCartItem(MusicCatalogs);            
             if (isItemCreate)
             {
                 ToastService.ShowSuccess($"Se guardo este articulo en el carrito. { MusicCatalogs.Title }-{ MusicCatalogs.Artist?.Name }");

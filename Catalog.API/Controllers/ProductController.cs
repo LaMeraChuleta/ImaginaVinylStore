@@ -36,7 +36,7 @@ namespace Catalog.API.Controllers
             var options = new ProductCreateOptions()
             {
                 Name = $"{value.Title}-{value.Artist!.Name}",
-                Images = images,
+                Images = images.Count == 0 ? null : images,
                 DefaultPriceData = new ProductDefaultPriceDataOptions()
                 {
                     UnitAmount = value.Price * 100,

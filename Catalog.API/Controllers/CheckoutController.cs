@@ -12,6 +12,7 @@ namespace Catalog.API.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private const string domain = "https://localhost:7197/";
 
         public CheckoutController(IHttpContextAccessor httpContextAccessor, AppDbContext context)
         {
@@ -21,36 +22,35 @@ namespace Catalog.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Post()
+        public IActionResult Post([FromBody] Dictionary<string, string> value)
         {
-
             var id = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            var product = _context.ShopCart
-                .Where(x => x.ApplicationUserId == id)
-                .Join(_context.MusicCatalog,
-                    x => x.MusicCatalogId,
-                    y => y.Id,
-                    (_, y) => new SessionLineItemOptions()
-                    {
-                        Price = y.IdPriceStripe,
-                        Quantity = 1
-                    })
+
+            var idCatalogMusic = value
+                .Select(x => Convert.ToInt32(x.Value))
                 .ToList();
 
+            var product = _context.MusicCatalog
+                .Where(x => idCatalogMusic
+                .Contains(x.Id))
+                .Select(x => new SessionLineItemOptions()
+                {
+                    Price = x.IdPriceStripe,
+                    Quantity = 1
+                })
+                .ToList();
 
-            var domain = "http://localhost:7285";
             var options = new SessionCreateOptions
             {
                 LineItems = product,
                 ClientReferenceId = id,
                 Mode = "payment",
-                SuccessUrl = domain,
-                CancelUrl = domain + "/ShopCart",
+                SuccessUrl = domain + "Checkout/Complete",
+                CancelUrl = domain + "CartSummary",
             };
 
             var service = new SessionService();
             Session session = service.Create(options);
-            Response.Headers.Add("Location", session.Url);
             return Ok(session.Url);
         }
     }

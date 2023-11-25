@@ -9,13 +9,13 @@ namespace Client.App.Pages
     public partial class CatalogMusicEdit : ComponentBase
     {
         [Parameter] public int MusicCatalogId { get; set; }
+        [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public IToastService ToastService { get; set; }
         [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
         [Inject] public IArtistService ArtistService { get; set; }
         [Inject] public IPresentationService PresentationService { get; set; }
         [Inject] public IGenreService GenreService { get; set; }
         [Inject] public IFormatService FormatService { get; set; }
-
         private MusicCatalog EditMusicCatalog { get; set; } = new();
         private List<IBrowserFile> PhotoMusicCatalog { get; } = new();
         private List<string> PhotoMusicCatalogBase64 { get; } = new();
@@ -59,6 +59,7 @@ namespace Client.App.Pages
                 PhotoMusicCatalog.Clear();
                 ToastService.ShowToast(ToastLevel.Success, $"Exito se actualizo {EditMusicCatalog!.Title}-{EditMusicCatalog.Artist?.Name} en el catalogo");
                 StateHasChanged();
+                NavigationManager.NavigateTo("/ManageCatalogMusic");
             }
             catch (Exception exception)
             {

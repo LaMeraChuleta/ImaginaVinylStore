@@ -14,16 +14,24 @@ namespace Client.App.Pages
         private List<MusicCatalog> MusicCatalogs { get; set; } = new();
         protected override async Task OnInitializedAsync()
         {
-            MusicCatalogsInShopCart = await ShopCartService.GetShopCartToMusicCatalog();
+            MusicCatalogsInShopCart = await ShopCartService.GetShopCart();
             MusicCatalogs = await CatalogMusicService.GetAsync();
             MusicCatalogs = MusicCatalogs.Take(10).ToList();
             await base.OnInitializedAsync();
         }
-        private async void TestStrape()
+        private async void CreateCheckoutSesion()
         {
-            var url = await HttpClientHelperService.Post<string>("Checkout");
-            NavigationManager.NavigateTo(url);
+            var ids = await ShopCartService.GetShopCartId();
+            var value = ids
+                .Select((value, index) => new
+                {
+                    Key = $"item{index}",
+                    Value = value.ToString()
+                })
+                .ToDictionary(pair => pair.Key, pair => pair.Value);
 
+            var url = await HttpClientHelperService.Post("Checkout", value);
+            NavigationManager.NavigateTo(url);
         }
     }
 }
