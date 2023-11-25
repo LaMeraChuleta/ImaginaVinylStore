@@ -11,14 +11,14 @@ namespace Client.App.Services
             : base(httpClientFactory, tokenProvider)
         {
         }
-        public Task<MusicCatalog> CreateAsync(MusicCatalog musicCatalog)
+        public Task<MusicCatalog> CreateCatalogOnStripeAsync(MusicCatalog musicCatalog)
         {
-            return Post<MusicCatalog>("Product/MusicCatalog", musicCatalog);
+            return Post("Product/MusicCatalog", musicCatalog);
         }
 
         public Task<AudioCatalog> CreateAsync(AudioCatalog audioCatalog)
         {
-            return Post<AudioCatalog>("Product/AudioCatalog", audioCatalog);
+            return Post("Product/AudioCatalog", audioCatalog);
         }
     }
 }

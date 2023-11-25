@@ -21,6 +21,9 @@
                     Precio
                 </th>
                 <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    Estatus 
+                </th>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
                     Acciones
                 </th>
             </tr>
@@ -44,10 +47,34 @@
                     <td class="px-6 py-4 whitespace-no-wrap">
                         $@item.Price.ToString("#,##0.00")
                     </td>
+                    @if(!item.ActiveInStripe)
+                    {
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            <button @onclick="@(() => ActiveCatalogMusicInStripe(item))" class="bg-yellow-300 border rounded-xl p-2">Activar en Stripe</button>
+                        </td>
+                    }
+                    else if(item.Sold){
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            <span class="bg-gray-300 border rounded-xl p-2">Vendido</span>
+                        </td>
+                    }                   
+                    else
+                    {
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            <span class="bg-green-300 border rounded-xl p-2">Disponible</span>
+                        </td>
+                    }
                     <td class="flex flex-col space-y-1 px-6 py-4 whitespace-no-wrap">
-                        <button class="border-2 border-blue-800 bg-blue-400 rounded-2">Fotos</button>
-                        <button @onclick="@(() => EditMusicCatalog(item.Id))" class="border-2 border-yellow-800 bg-yellow-400 rounded-2">Editar</button>
-                        <button class="border-2 border-red-800 bg-red-400 rounded-2">Eliminar</button>
+                        @if (item.Sold)
+                        {
+                            <span>Ver detalles</span>
+                        }
+                        else
+                        {
+                            <button class="border-2 border-blue-800 bg-blue-400 rounded-2">Fotos</button>
+                            <button @onclick="@(() => EditMusicCatalog(item.Id))" class="border-2 border-yellow-800 bg-yellow-400 rounded-2">Editar</button>
+                            <button class="border-2 border-red-800 bg-red-400 rounded-2">Eliminar</button>
+                        }
                     </td>
                 </tr>
             }
