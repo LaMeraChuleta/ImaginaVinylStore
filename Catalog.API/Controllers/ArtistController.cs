@@ -15,7 +15,7 @@ public class ArtistController : ControllerBase
     private readonly AppDbContext _context;
 
     public ArtistController(AppDbContext context, IConfiguration config)
-    {
+    {        
         _context = context;
         _blobClient = new BlobContainerClient(config["BlobConnectionString"], config["BlobContainerName"]);
     }

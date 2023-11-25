@@ -53,17 +53,24 @@ namespace Catalog.API.Controllers
                     };
 								
                     await _context.Orders.AddAsync(order);
-                    musicCatalog.ForEach(x => x.ActiveInStripe = false);
+                    musicCatalog.ForEach(x => {
+                        x.ActiveInStripe = false;
+                        x.Sold = true;
+                    });
                     _context.MusicCatalog.UpdateRange(musicCatalog);
                     await _context.SaveChangesAsync();
                 }
             }
         }
 
-        [HttpGet]
-        [Authorize]
+        [HttpGet]      
         public IResult Get()
-        {
+        { 
+            var service = new ProductService();
+            var option = new ProductUpdateOptions { Active = true };
+
+            service.Update("prod_OxBwfB3kPPgmSq", option);
+
             var id = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             return Results.Ok(_context.Orders
            .Where(x => x.ApplicationUserId == id)
