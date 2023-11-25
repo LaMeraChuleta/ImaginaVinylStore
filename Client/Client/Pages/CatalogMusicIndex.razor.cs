@@ -21,21 +21,37 @@ public partial class CatalogMusicIndex : ComponentBase
     private List<Format> Formats { get; set; } = new();
     private List<Presentation> Presentations { get; set; } = new();
     private List<MusicCatalog> CatalogMusics { get; set; } = new();
-    private FilterForCatalogMusic Filter { get; } = new();
-
+    private FilterForCatalogMusic Filter { get; set; } = new();
+    private bool IsLoading { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
         try
         {
+            IsLoading = true;
+
+            Filter = new();
+            CatalogMusics = new();
+            Presentations = new();
+
             Artists = await ArtistService.GetAsync();
             Genres = await GenreService.GetAsync();
-            Presentations = await PresentationService.GetAsync();
-            Presentations = Presentations.Where(x => x.FormatId == Filter.IdFormat).ToList();
             Formats = await FormatService.GetAsync();
 
-            Filter.IdFormat = Formats.Find(x => x.Name == TypeFormat)!.Id;
-            CatalogMusics = await CatalogMusicService.GetAsync(Filter);
+            var formatCurrent = Formats.Find(x => x.Name == TypeFormat);
+
+            if (formatCurrent is not null)
+            {
+                Filter.IdFormat = formatCurrent.Id;
+                CatalogMusics = await CatalogMusicService.GetAsync(Filter);
+                Presentations = (await PresentationService.GetAsync())
+                    .Where(x => x.FormatId == Filter.IdFormat)
+                    .ToList();
+            }
+
+            IsLoading = false;
+            StateHasChanged();
+
         }
         catch (Exception ex)
         {
