@@ -17,15 +17,16 @@ namespace Client.App.Pages
         [Inject] public IGenreService GenreService { get; set; }
         [Inject] public IFormatService FormatService { get; set; }
         private MusicCatalog EditMusicCatalog { get; set; } = new();
-        private List<IBrowserFile> PhotoMusicCatalog { get; } = new();
-        private List<string> PhotoMusicCatalogBase64 { get; } = new();
         private List<Artist> Artists { get; set; } = new();
         private List<Genre> Genres { get; set; } = new();
         private List<Format> Formats { get; set; } = new();
         private List<Presentation> Presentations { get; set; } = new();
-        private EditContext _editContextMusicCatalog;
-        private const int MaxAllowedFiles = 3;
+        private EditContext _editContextMusicCatalog;        
         private bool IsLoading { get; set; }
+        private bool IsAnyImage { get; set; }
+
+        public delegate void CatalogMusicEditOnDb(int idCatalogMusic);
+        public static event CatalogMusicEditOnDb OnCompleteEdit;
 
         protected override async Task OnInitializedAsync()
         {
@@ -50,13 +51,7 @@ namespace Client.App.Pages
                     ToastService.ShowToast(ToastLevel.Success, $"No se pudo actualizar {EditMusicCatalog!.Title}-{EditMusicCatalog.Artist?.Name} en el catalogo");
                 }
 
-                foreach (var file in PhotoMusicCatalog)
-                {
-                    var image = await CatalogMusicService.CreateImageAsync(EditMusicCatalog!, file);
-                    EditMusicCatalog?.Images?.ToList().Add(image);
-                }
-
-                PhotoMusicCatalog.Clear();
+                OnCompleteEdit.Invoke(EditMusicCatalog.Id);
                 ToastService.ShowToast(ToastLevel.Success, $"Exito se actualizo {EditMusicCatalog!.Title}-{EditMusicCatalog.Artist?.Name} en el catalogo");
                 StateHasChanged();
                 NavigationManager.NavigateTo("/ManageCatalogMusic");
@@ -66,17 +61,9 @@ namespace Client.App.Pages
                 ToastService.ShowToast(ToastLevel.Error, exception.Message);
             }
         }
-        private async void SaveImage(InputFileChangeEventArgs e, List<IBrowserFile> photos, List<string> photoBase64)
+        public void SetIsAnyImageForCatalog(bool value)
         {
-            foreach (var file in e.GetMultipleFiles(MaxAllowedFiles))
-            {
-                var buffer = new byte[file.Size];
-                var _ = await file.OpenReadStream().ReadAsync(buffer);
-                var imageDataUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
-                photos.Add(file);
-                photoBase64.Add(imageDataUrl);
-            }
-
+            IsAnyImage = value;
             StateHasChanged();
         }
         private void NewCatalogForMusic((string, object) value)
