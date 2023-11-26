@@ -16,16 +16,16 @@ public class HttpClientHelperService : IHttpClientHelperService
     {
         _httpClient = httpClientFactory.CreateClient("CatalogMusic.API");
         _tokenProvider = tokenProvider;
-
-        ConfigureAuthorizationHeaderAsync();
     }
     public async Task<T> Get<T>(string pathEndPoint)
     {
+        await ConfigureAuthorizationHeaderAsync();
         var response = await _httpClient.GetAsync(pathEndPoint);
         return await ParseResponseAsync<T>(response);
     }
     public async Task<T> Get<T>(string pathEndPoint, int id)
     {
+        await ConfigureAuthorizationHeaderAsync();
         pathEndPoint = BuildUrlWithQueryParams(pathEndPoint, new(), id);
         var response = await _httpClient.GetAsync(pathEndPoint);
         return await ParseResponseAsync<T>(response);
@@ -33,46 +33,53 @@ public class HttpClientHelperService : IHttpClientHelperService
 
     public async Task<T> Get<T>(string pathEndPoint, Dictionary<string, string> parameters)
     {
+        await ConfigureAuthorizationHeaderAsync();
         pathEndPoint = BuildUrlWithQueryParams(pathEndPoint, parameters);
         var response = await _httpClient.GetAsync(pathEndPoint);
         return await ParseResponseAsync<T>(response);
     }
     public async Task<T> Post<T>(string pathEndPoint)
     {
+        await ConfigureAuthorizationHeaderAsync();
         var response = await _httpClient.PostAsJsonAsync(pathEndPoint, new StringContent(""));
         return await ParseResponseAsync<T>(response);
     }
 
     public async Task<T> Post<T>(string pathEndPoint, T data)
     {
+        await ConfigureAuthorizationHeaderAsync();
         var response = await _httpClient.PostAsJsonAsync(pathEndPoint, data);
         return await ParseResponseAsync<T>(response);
     }
 
     public async Task<T> Post<T>(string pathEndPoint, MultipartFormDataContent data)
     {
+        await ConfigureAuthorizationHeaderAsync();
         var response = await _httpClient.PostAsync(pathEndPoint, data);
         return await ParseResponseAsync<T>(response);
     }
     public async Task<string> Post(string pathEndPoint, Dictionary<string, string> data)
     {
+        await ConfigureAuthorizationHeaderAsync();
         var response = await _httpClient.PostAsJsonAsync(pathEndPoint, data);
         return await ParseResponseAsync<string>(response);
     }
     public async Task<T> Put<T, U>(string pathEndPoint, int id, U data)
     {
+        await ConfigureAuthorizationHeaderAsync();
         pathEndPoint = BuildUrlWithQueryParams(pathEndPoint, new(), id);
         var response = await _httpClient.PutAsJsonAsync(pathEndPoint, data);
         return await ParseResponseAsync<T>(response);
     }
     public async Task<T> Delete<T>(string pathEndPoint, int id)
     {
+        await ConfigureAuthorizationHeaderAsync();
         pathEndPoint = BuildUrlWithQueryParams(pathEndPoint, new(), id);
         var response = await _httpClient.DeleteAsync(pathEndPoint);
         return await ParseResponseAsync<T>(response);
     }
 
-    private async void ConfigureAuthorizationHeaderAsync()
+    internal async Task ConfigureAuthorizationHeaderAsync()
     {
         var accessTokenResult = await _tokenProvider.RequestAccessToken();
         if (accessTokenResult.TryGetToken(out var accessToken))
@@ -81,7 +88,6 @@ public class HttpClientHelperService : IHttpClientHelperService
                 new AuthenticationHeaderValue("Bearer", accessToken.Value);
         }
     }
-
     private static async Task<T> ParseResponseAsync<T>(HttpResponseMessage httpResponseMessage)
     {
         if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
@@ -92,7 +98,10 @@ public class HttpClientHelperService : IHttpClientHelperService
             }
             return (await httpResponseMessage.Content.ReadFromJsonAsync<T>())!;
         }
-
+        if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+        {
+            return (T)(object)(new());
+        }
         var problemDetail = await httpResponseMessage.Content.ReadFromJsonAsync<ProblemDetails>();
         throw new Exception(problemDetail!.Title);
     }
