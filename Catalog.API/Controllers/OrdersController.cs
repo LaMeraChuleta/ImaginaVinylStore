@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Configuration;
 using SharedApp.Data;
 using SharedApp.Models;
 using Stripe;
@@ -15,6 +16,7 @@ namespace Catalog.API.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        const string endpointSecret = "whsec_2bacb0ffe54bdc9d94dd067b03cb0730c67ab567f143c5b76c5f8502ab5940b8";
         public OrdersController(IHttpContextAccessor httpContextAccessor, AppDbContext context)
         {
             _context = context;
@@ -22,60 +24,74 @@ namespace Catalog.API.Controllers
         }
 
         [HttpPost]
-        public async Task Post()
+        public async Task<IResult> Post()
         {
-            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-            var stripeEvent = EventUtility.ParseEvent(json);
-
-            if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+            try
             {
-                var session = stripeEvent.Data.Object as Session;
-                if (session is not null)
+                var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+                var stripeEvent = EventUtility.ParseEvent(json, throwOnApiVersionMismatch: false);
+
+                if (stripeEvent.Type == Events.CheckoutSessionCompleted)
                 {
-                    var options = new SessionGetOptions();
-                    options.AddExpand("line_items");
-                    var service = new SessionService();
-                    Session sessionWithLineItems = service.Get(session.Id, options);
-                    StripeList<LineItem> lineItems = sessionWithLineItems.LineItems;
-
-                    var priceStripeId = lineItems
-                        .Select(x => x.Price.ProductId)
-                        .ToArray();
-
-                    var musicCatalog = await _context.MusicCatalog
-                        .Where(x => priceStripeId.Contains(x.IdProductStripe))
-                        .ToListAsync();
-
-                    var order = new Orders
+                    var session = stripeEvent.Data.Object as Session;
+                    if (session is not null)
                     {
-                        ApplicationUserId = session.ClientReferenceId,
-                        CatalogMusics = musicCatalog,
-                    };
-								
-                    await _context.Orders.AddAsync(order);
-                    musicCatalog.ForEach(x => {
-                        x.ActiveInStripe = false;
-                        x.Sold = true;
-                    });
-                    _context.MusicCatalog.UpdateRange(musicCatalog);
-                    await _context.SaveChangesAsync();
+                        var options = new SessionGetOptions();
+                        options.AddExpand("line_items");
+                        var service = new SessionService();
+                        Session sessionWithLineItems = service.Get(session.Id, options);
+                        StripeList<LineItem> lineItems = sessionWithLineItems.LineItems;
+
+                        var priceStripeId = lineItems
+                            .Select(x => x.Price.ProductId)
+                            .ToArray();
+
+                        var musicCatalog = await _context.MusicCatalog
+                            .Where(x => priceStripeId.Contains(x.IdProductStripe))
+                            .ToListAsync();
+
+                        var order = new Orders
+                        {
+                            ApplicationUserId = session.ClientReferenceId,
+                            CatalogMusics = musicCatalog,
+                        };
+
+                        await _context.Orders.AddAsync(order);
+                        await _context.SaveChangesAsync();
+
+                        musicCatalog.ForEach(x =>
+                        {
+                            x.ActiveInStripe = false;
+                            x.Sold = true;
+                        });
+                        _context.MusicCatalog.UpdateRange(musicCatalog);
+                        await _context.SaveChangesAsync();
+                    }
                 }
+                return Results.Ok();
+            }
+            catch(Exception exeption)
+            {
+                Console.WriteLine(exeption.Message);
+                return Results.BadRequest(exeption.Message);
             }
         }
 
-        [HttpGet]      
+        [HttpGet]
+        [Authorize]
         public IResult Get()
-        { 
-            var service = new ProductService();
-            var option = new ProductUpdateOptions { Active = true };
-
-            service.Update("prod_OxBwfB3kPPgmSq", option);
-
+        {
             var id = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            return Results.Ok(_context.Orders
-           .Where(x => x.ApplicationUserId == id)
-           .Include(x => x.CatalogMusics)
-           .ToArray());
+            var orders = _context.Orders
+                .Where(x => x.ApplicationUserId == id)
+                .Include(x => x.CatalogMusics)
+                .Include(x => x.AudioCatalogs)
+                .ToArray();
+
+            //if(orders.Any()) 
+                return Results.Ok(orders);
+
+            //return Results.NoContent();
         }
     }
 }

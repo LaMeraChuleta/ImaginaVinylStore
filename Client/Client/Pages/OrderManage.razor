@@ -1,0 +1,54 @@
+﻿@page "/OrderManage"
+
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+
+<div class="w-full px-10 my-5 px-24">
+    <h3 class="text-4xl my-5">Administrar Pedidos</h3>
+    <table class="min-w-full">
+        <thead>
+            <tr>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    Id
+                </th>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    IdUser
+                </th>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    Musica
+                </th>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    Audio
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Orders.Any())
+            {
+                @foreach (var item in Orders)
+                {
+                    <tr>
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            @item.Id
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            @item.ApplicationUserId
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            @item.CatalogMusics.Count()
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            @item.AudioCatalogs.Count()
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr> Sin Datos </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

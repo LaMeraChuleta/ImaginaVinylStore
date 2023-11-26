@@ -75,7 +75,7 @@ namespace Client.App.Components
         }
         private async Task DeleteImage(Guid id)
         {
-            ImagesData = ImagesData.Where(x => x.Id != id).ToList();
+            ImagesData.RemoveAll(x => x.Id != id);
             await SetIsAnyImage.InvokeAsync(ImagesData.Any());
             StateHasChanged();
         }
