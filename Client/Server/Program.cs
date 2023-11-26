@@ -35,6 +35,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+//builder.Services.ConfigureApplicationCookie(option =>
+//{
+//    option.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+//});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();
