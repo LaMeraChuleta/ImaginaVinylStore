@@ -33,7 +33,6 @@ namespace Client.App.Components
 
         protected override async Task OnInitializedAsync()
         {
-
             Formats = await FormatService.GetAsync();
             _editContextArtist = new EditContext(NewArtist);
             _editContextFormat = new EditContext(NewFormat);
@@ -136,7 +135,6 @@ namespace Client.App.Components
                 photos.Add(file);
                 photoBase64.Add(imageDataUrl);
             }
-
             StateHasChanged();
         }
     }
