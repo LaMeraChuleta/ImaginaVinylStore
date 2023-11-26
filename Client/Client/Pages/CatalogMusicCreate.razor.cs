@@ -17,15 +17,16 @@ public partial class CatalogMusicCreate : ComponentBase
     [Inject] public IProductService ProductService { get; set; }
 
     private MusicCatalog NewMusicCatalog { get; set; } = new();
-    private List<IBrowserFile> PhotoMusicCatalog { get; } = new();
-    private List<string> PhotoMusicCatalogBase64 { get; } = new();
     private List<Artist> Artists { get; set; } = new();
     private List<Genre> Genres { get; set; } = new();
     private List<Format> Formats { get; set; } = new();
     private List<Presentation> Presentations { get; set; } = new();
     private EditContext _editContextMusicCatalog;
-    private const int MaxAllowedFiles = 3;
     private bool IsLoading { get; set; }
+    private bool IsAnyImage { get; set; }
+
+    public delegate void CatalogMusicInsertOnDb(int idCatalogMusic);
+    public static event CatalogMusicInsertOnDb OnCompleteInsert;
 
     protected override async Task OnInitializedAsync()
     {
@@ -46,14 +47,9 @@ public partial class CatalogMusicCreate : ComponentBase
             if (!_editContextMusicCatalog.Validate()) return;
 
             NewMusicCatalog = await CatalogMusicService.CreateAsync(NewMusicCatalog);
-            foreach (var file in PhotoMusicCatalog)
-            {
-                var image = await CatalogMusicService.CreateImageAsync(NewMusicCatalog!, file);
-                NewMusicCatalog?.Images?.ToList().Add(image);
-            }
             await ProductService.CreateCatalogOnStripeAsync(NewMusicCatalog!);
+            OnCompleteInsert.Invoke(NewMusicCatalog.Id);
             ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
-            PhotoMusicCatalog.Clear();
             NewMusicCatalog = new MusicCatalog();
             StateHasChanged();
         }
@@ -62,17 +58,9 @@ public partial class CatalogMusicCreate : ComponentBase
             ToastService.ShowToast(ToastLevel.Error, exception.Message);
         }
     }
-    private async void SaveImage(InputFileChangeEventArgs e, List<IBrowserFile> photos, List<string> photoBase64)
+    public void SetIsAnyImageForCatalog(bool value)
     {
-        foreach (var file in e.GetMultipleFiles(MaxAllowedFiles))
-        {
-            var buffer = new byte[file.Size];
-            var _ = await file.OpenReadStream().ReadAsync(buffer);
-            var imageDataUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
-            photos.Add(file);
-            photoBase64.Add(imageDataUrl);
-        }
-
+        IsAnyImage = value;
         StateHasChanged();
     }
     private void NewCatalogForMusic((string, object) value)

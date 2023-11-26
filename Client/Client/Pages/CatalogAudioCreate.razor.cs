@@ -13,11 +13,12 @@ namespace Client.App.Pages
         [Inject] public IProductService ProductService { get; set; }
 
         private AudioCatalog NewAudioCatalog { get; set; } = new();
-        private List<IBrowserFile> PhotoAudioCatalog { get; } = new();
-        private List<string> PhotoAudioCatalogBase64 { get; } = new();
         private EditContext _newContextAudioCatalog;
-        private const int MaxAllowedFiles = 3;
         private bool IsLoading { get; set; }
+        private bool IsAnyImage { get; set; }
+
+        public delegate void CatalogAudioInsertOnDb(int idCatalogAudio);
+        public static event CatalogAudioInsertOnDb OnCompleteInsert;
 
         protected override void OnInitialized()
         {
@@ -26,7 +27,6 @@ namespace Client.App.Pages
             IsLoading = false;
             StateHasChanged();
         }
-
         private async void CreateCataloAudios()
         {
             try
@@ -34,14 +34,8 @@ namespace Client.App.Pages
                 if (!_newContextAudioCatalog.Validate()) return;
 
                 NewAudioCatalog = await AudioCatalogService.CreateAsync(NewAudioCatalog);
-                foreach (var file in PhotoAudioCatalog)
-                {
-                    var image = await AudioCatalogService.CreateImageAsync(NewAudioCatalog!, file);
-                    NewAudioCatalog?.Images?.ToList().Add(image);
-                }
+                OnCompleteInsert.Invoke(NewAudioCatalog.Id);
                 await ProductService.CreateAsync(NewAudioCatalog!);
-
-                PhotoAudioCatalog.Clear();
                 NewAudioCatalog = new AudioCatalog();
                 ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewAudioCatalog!.Name}-{NewAudioCatalog.Brand} en el catalogo");
                 StateHasChanged();
@@ -51,17 +45,9 @@ namespace Client.App.Pages
                 ToastService.ShowToast(ToastLevel.Error, exception.Message);
             }
         }
-        private async void SaveImage(InputFileChangeEventArgs e, List<IBrowserFile> photos, List<string> photoBase64)
+        public void SetIsAnyImageForCatalog(bool value)
         {
-            foreach (var file in e.GetMultipleFiles(MaxAllowedFiles))
-            {
-                var buffer = new byte[file.Size];
-                var _ = await file.OpenReadStream().ReadAsync(buffer);
-                var imageDataUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
-                photos.Add(file);
-                photoBase64.Add(imageDataUrl);
-            }
-
+            IsAnyImage = value;
             StateHasChanged();
         }
     }

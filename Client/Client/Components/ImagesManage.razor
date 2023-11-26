@@ -1,0 +1,36 @@
+﻿<div class="flex place-items-center">
+    @if (ImagesData.Any())
+    {
+        <img src="@ImagesData.FirstOrDefault()!.Url" class="w-full sm:64 md:h-96" alt="">
+    }
+    else
+    {
+        <img v-else src="https://rental.servicevision.es/wp-content/uploads/2019/05/default.jpg" class="w-full sm:64 md:h-96" alt="">
+    }
+</div>
+<div class="sm:inline-flex w-full">
+    <div class="md:w-1/2 border p-2">
+        @if (ImagesData?.Count() > 0)
+        {
+            <div class="grid grid-cols-3 space-x-3 border">
+                @foreach (var photo in ImagesData)
+                {
+                    <div class="relative">
+                        <img src="@photo.Url" class="w-full h-16 w-16" alt="">
+                        <button @onclick="@(() => DeleteImage(photo.Id))" class="border rounded-full absolute -top-3 right-4 m-2 bg-red-200 text-red-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <div class="flex flex-col md:w-1/2 h-32 sm:w-full relative cursor-pointer mx-auto justify-center items-center border border-gray-600 border-dotted">
+        <InputFile OnChange="@((InputFileChangeEventArgs e) => SaveImage(e))" multiple class="absolute opacity-0 w-full h-full" />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 absolute">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+        </svg>
+    </div>
+</div>
