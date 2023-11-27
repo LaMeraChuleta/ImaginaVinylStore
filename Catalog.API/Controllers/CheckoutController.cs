@@ -44,6 +44,11 @@ namespace Catalog.API.Controllers
             {
                 LineItems = product,
                 ClientReferenceId = id,
+                ShippingAddressCollection = new Stripe.Checkout.SessionShippingAddressCollectionOptions
+                {
+                    
+                    AllowedCountries = new List<string> { "MX" }                    
+                },
                 Mode = "payment",
                 SuccessUrl = domain + "Checkout/Complete",
                 CancelUrl = domain + "CartSummary",

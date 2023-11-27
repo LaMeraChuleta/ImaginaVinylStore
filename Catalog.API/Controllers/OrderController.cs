@@ -12,12 +12,12 @@ namespace Catalog.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : Controller
+    public class OrderController : Controller
     {
         private readonly AppDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         const string endpointSecret = "whsec_2bacb0ffe54bdc9d94dd067b03cb0730c67ab567f143c5b76c5f8502ab5940b8";
-        public OrdersController(IHttpContextAccessor httpContextAccessor, AppDbContext context)
+        public OrderController(IHttpContextAccessor httpContextAccessor, AppDbContext context)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
@@ -50,13 +50,13 @@ namespace Catalog.API.Controllers
                             .Where(x => priceStripeId.Contains(x.IdProductStripe))
                             .ToListAsync();
 
-                        var order = new Orders
+                        var order = new Order
                         {
                             ApplicationUserId = session.ClientReferenceId,
                             CatalogMusics = musicCatalog,
                         };
 
-                        await _context.Orders.AddAsync(order);
+                        await _context.Order.AddAsync(order);
                         await _context.SaveChangesAsync();
 
                         musicCatalog.ForEach(x =>
@@ -82,7 +82,7 @@ namespace Catalog.API.Controllers
         public IResult Get()
         {
             var id = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            var orders = _context.Orders
+            var orders = _context.Order
                 .Where(x => x.ApplicationUserId == id)
                 .Include(x => x.CatalogMusics)
                 .Include(x => x.AudioCatalogs)
