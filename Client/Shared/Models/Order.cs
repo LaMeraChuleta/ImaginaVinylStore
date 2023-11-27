@@ -2,7 +2,7 @@
 
 namespace SharedApp.Models
 {
-    public class Orders
+    public class Order
     {
         public int Id { get; set; }
         // Foreign key  
