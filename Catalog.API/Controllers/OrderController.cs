@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Configuration;
 using SharedApp.Data;
 using SharedApp.Models;
 using Stripe;
@@ -16,7 +15,7 @@ namespace Catalog.API.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        const string endpointSecret = "whsec_2bacb0ffe54bdc9d94dd067b03cb0730c67ab567f143c5b76c5f8502ab5940b8";
+        private readonly string endpointSecret = "whsec_2bacb0ffe54bdc9d94dd067b03cb0730c67ab567f143c5b76c5f8502ab5940b8";
         public OrderController(IHttpContextAccessor httpContextAccessor, AppDbContext context)
         {
             _context = context;
@@ -70,7 +69,7 @@ namespace Catalog.API.Controllers
                 }
                 return Results.Ok();
             }
-            catch(Exception exeption)
+            catch (Exception exeption)
             {
                 Console.WriteLine(exeption.Message);
                 return Results.BadRequest(exeption.Message);
@@ -89,7 +88,7 @@ namespace Catalog.API.Controllers
                 .ToArray();
 
             //if(orders.Any()) 
-                return Results.Ok(orders);
+            return Results.Ok(orders);
 
             //return Results.NoContent();
         }

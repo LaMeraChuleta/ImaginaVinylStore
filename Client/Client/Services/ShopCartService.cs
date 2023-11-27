@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Client.App.Interfaces;
+using SharedApp.Extension;
 using SharedApp.Models;
 
 namespace Client.App.Services
@@ -20,11 +21,11 @@ namespace Client.App.Services
             _httpClientHelper = httpClientHelper;
         }
 
-        public async Task<List<MusicCatalog>> GetShopCart()
+        public async Task<List<ShopCartWrapper>> GetShopCart()
         {
             try
             {
-                return await _localStorageService.GetItemAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? new();
+                return await _localStorageService.GetItemAsync<List<ShopCartWrapper>>(nameof(ShopCartWrapper)) ?? new();
             }
             catch (Exception)
             {
@@ -35,7 +36,7 @@ namespace Client.App.Services
         {
             try
             {
-                var data = await _localStorageService.GetItemAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? new();
+                var data = await _localStorageService.GetItemAsync<List<ShopCartWrapper>>(nameof(ShopCartWrapper)) ?? new();
                 return data.Select(x => x.Id).ToArray();
             }
             catch (Exception)
@@ -55,19 +56,41 @@ namespace Client.App.Services
                 throw;
             }
         }
+        public async Task<bool> SetShopCartItem(AudioCatalog audioCatalog)
+        {
+            try
+            {
+                var shopCartItems = await _localStorageService.GetItemAsync<List<ShopCartWrapper>>(nameof(ShopCartWrapper)) ?? new();
+                if (shopCartItems.Exists(x => x.Id == audioCatalog.Id))
+                {
+                    return false;
+                }
+                else
+                {
+                    shopCartItems.Add(new ShopCartWrapper(audioCatalog));
+                    await _localStorageService.SetItemAsync(nameof(ShopCartWrapper), shopCartItems);
+                    _shopCartNotificationService.NotifitShopCartCountChanges(shopCartItems.Count);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<bool> SetShopCartItem(MusicCatalog musicCatalog)
         {
             try
             {
-                var shopCartItems = await _localStorageService.GetItemAsync<List<MusicCatalog>>(nameof(MusicCatalog)) ?? new();
+                var shopCartItems = await _localStorageService.GetItemAsync<List<ShopCartWrapper>>(nameof(ShopCartWrapper)) ?? new();
                 if (shopCartItems.Exists(x => x.Id == musicCatalog.Id))
                 {
                     return false;
                 }
                 else
                 {
-                    shopCartItems.Add(musicCatalog);
-                    await _localStorageService.SetItemAsync(nameof(MusicCatalog), shopCartItems);
+                    shopCartItems.Add(new ShopCartWrapper(musicCatalog));
+                    await _localStorageService.SetItemAsync(nameof(ShopCartWrapper), shopCartItems);
                     _shopCartNotificationService.NotifitShopCartCountChanges(shopCartItems.Count);
                     return true;
                 }
@@ -78,13 +101,13 @@ namespace Client.App.Services
             }
         }
 
-        public async Task<bool> DeleteShopCartItem(int idCatalogMusic)
+        public async Task<bool> DeleteShopCartItem(Guid guid)
         {
             try
             {
                 var shopCarts = await GetShopCart();
-                var countRemove = shopCarts.RemoveAll(x => x.Id == idCatalogMusic);
-                await _localStorageService.SetItemAsync(nameof(MusicCatalog), shopCarts);
+                var countRemove = shopCarts.RemoveAll(x => x.Guid == guid);
+                await _localStorageService.SetItemAsync(nameof(ShopCartWrapper), shopCarts);
                 _shopCartNotificationService.NotifitShopCartCountChanges(shopCarts.Count);
                 return countRemove == 1;
             }
@@ -98,8 +121,9 @@ namespace Client.App.Services
         {
             try
             {
-                var shopCarts = (await GetShopCartId()).ToList();
-                shopCarts.ForEach(async (x) => await DeleteShopCartItem(x));
+                var value = await GetShopCart();
+                value.ForEach(async (x) => await DeleteShopCartItem(x.Guid));
+
                 return true;
             }
             catch (Exception)

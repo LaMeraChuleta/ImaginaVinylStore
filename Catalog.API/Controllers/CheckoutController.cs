@@ -25,6 +25,7 @@ namespace Catalog.API.Controllers
         public IActionResult Post([FromBody] Dictionary<string, string> value)
         {
             var id = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var email = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.Email)!;
 
             var idCatalogMusic = value
                 .Select(x => Convert.ToInt32(x.Value))
@@ -44,10 +45,10 @@ namespace Catalog.API.Controllers
             {
                 LineItems = product,
                 ClientReferenceId = id,
+                CustomerEmail = email,
                 ShippingAddressCollection = new Stripe.Checkout.SessionShippingAddressCollectionOptions
                 {
-                    
-                    AllowedCountries = new List<string> { "MX" }                    
+                    AllowedCountries = new List<string> { "MX" }
                 },
                 Mode = "payment",
                 SuccessUrl = domain + "Checkout/Complete",

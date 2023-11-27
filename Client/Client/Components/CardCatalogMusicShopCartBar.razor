@@ -1,16 +1,18 @@
 ﻿@using Client.App.Interfaces
+@using Client.App.Services
+@using SharedApp.Extension
 @inject NavigationManager NavigationManager
 @inject IToastService ToastService
 @inject IShopCartService ShopCartsService
 
 <div class="relative inline-flex bg-gray-200">
-    <img class="w-24 h-24 rounded-2 mr-2" src="@(MusicCatalogs.Images!.FirstOrDefault()?.Url ?? "https://salvajemusicstore.com/cdn/shop/collections/bd3b1065424b8623dc30d7846c666a56_330x.jpg?v=1644812626")" alt="Imagen del disco">
+    <img class="w-24 h-24 rounded-2 mr-2" src="@(ShopCart.Url ?? "https://salvajemusicstore.com/cdn/shop/collections/bd3b1065424b8623dc30d7846c666a56_330x.jpg?v=1644812626")" alt="Imagen del disco">
     <div class="flex w-64 flex-col pt-2 text-sm font-bold text-gray-800">
-        <p>@MusicCatalogs.Title-@MusicCatalogs.Artist!.Name</p>
-        <span class="@BgTypeFormat inline-block w-12 mb-2 font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs">@MusicCatalogs.Format?.Name</span>        
-        <p class="font-normal text-black">$ @MusicCatalogs.Price.ToString("#,##0.00")</p>
+        <p>@ShopCart.Name</p>
+        <span class="@BgTypeFormat inline-block w-12 mb-2 font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs">@ShopCart.Format</span>        
+        <p class="font-normal text-black">$ @ShopCart.Price.ToString("#,##0.00")</p>
     </div>
-    <div @onclick="@(() => SendIdDeleteShopCart.InvokeAsync(MusicCatalogs.Id))" class="absolute -top-1 -right-4 bg-gray-400 rounded-full border-2 border-gray-500 w-6 h-6 flex items-center justify-center mr-2">
+    <div @onclick="@(() => SendIdDeleteShopCart.InvokeAsync(ShopCart.Guid))" class="absolute -top-1 -right-4 bg-gray-400 rounded-full border-2 border-gray-500 w-6 h-6 flex items-center justify-center mr-2">
         <span class="text-sm text-white cursor-pointer">x</span>
     </div>
 </div>
@@ -18,13 +20,13 @@
 
 @code
 {
-    [Parameter] public EventCallback<int> SendIdDeleteShopCart { get; set; }
-    [Parameter] public MusicCatalog MusicCatalogs { get; set; } = new();
+    [Parameter] public EventCallback<Guid> SendIdDeleteShopCart { get; set; }
+    [Parameter] public ShopCartWrapper ShopCart { get; set; }
     private string BgTypeFormat { get; set; } = "bg-grey-400";
 
     protected override void OnParametersSet()
     {
-        BgTypeFormat = MusicCatalogs.Format?.Name switch
+        BgTypeFormat = ShopCart.Format switch
         {
             "Vinyl" => "bg-red-400",
             "CD" => "bg-blue-400",
