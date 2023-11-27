@@ -4,6 +4,6 @@ namespace Client.App.Interfaces
 {
     public interface IOrderService
     {
-        Task<List<Orders>> GetAsync();
+        Task<List<Order>> GetAsync();
     }
 }

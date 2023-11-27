@@ -11,9 +11,9 @@ namespace Client.App.Services
         {
         }
 
-        public async Task<List<Orders>> GetAsync()
+        public async Task<List<Order>> GetAsync()
         {
-            return await Get<List<Orders>>(nameof(Orders));
+            return await Get<List<Order>>(nameof(Order));
         }
     }
 }
