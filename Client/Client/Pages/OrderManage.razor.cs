@@ -10,7 +10,7 @@ namespace Client.App.Pages
         [Inject] public IToastService ToastService { get; set; }
         [Inject] public IOrderService OrderService { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
-        private List<Orders> Orders { get; set; } = new();
+        private List<Order> Orders { get; set; } = new();
         protected override async Task OnInitializedAsync()
         {
             Orders = await OrderService.GetAsync();
