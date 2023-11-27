@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -274,7 +275,7 @@ namespace Client.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "Order",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -283,9 +284,9 @@ namespace Client.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_Order", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_ApplicationUserId",
+                        name: "FK_Order_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
@@ -319,21 +320,22 @@ namespace Client.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Price = table.Column<int>(type: "int", nullable: false),
                     ActiveInStripe = table.Column<bool>(type: "bit", nullable: false),
+                    Sold = table.Column<bool>(type: "bit", nullable: false),
                     Discount = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdProductStripe = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdPriceStripe = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrdersId = table.Column<int>(type: "int", nullable: true)
+                    OrderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AudioCatalog", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AudioCatalog_Orders_OrdersId",
-                        column: x => x.OrdersId,
-                        principalTable: "Orders",
+                        name: "FK_AudioCatalog_Order_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
                         principalColumn: "Id");
                 });
 
@@ -352,6 +354,7 @@ namespace Client.Server.Migrations
                     Label = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ActiveInStripe = table.Column<bool>(type: "bit", nullable: false),
+                    Sold = table.Column<bool>(type: "bit", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
                     Discount = table.Column<int>(type: "int", nullable: true),
                     IdProductStripe = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -360,7 +363,7 @@ namespace Client.Server.Migrations
                     GenreId = table.Column<int>(type: "int", nullable: false),
                     FormatId = table.Column<int>(type: "int", nullable: false),
                     PresentationId = table.Column<int>(type: "int", nullable: true),
-                    OrdersId = table.Column<int>(type: "int", nullable: true)
+                    OrderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -384,9 +387,9 @@ namespace Client.Server.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MusicCatalog_Orders_OrdersId",
-                        column: x => x.OrdersId,
-                        principalTable: "Orders",
+                        name: "FK_MusicCatalog_Order_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_MusicCatalog_Presentation_PresentationId",
@@ -477,9 +480,9 @@ namespace Client.Server.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AudioCatalog_OrdersId",
+                name: "IX_AudioCatalog_OrderId",
                 table: "AudioCatalog",
-                column: "OrdersId");
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
@@ -529,9 +532,9 @@ namespace Client.Server.Migrations
                 column: "GenreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicCatalog_OrdersId",
+                name: "IX_MusicCatalog_OrderId",
                 table: "MusicCatalog",
-                column: "OrdersId");
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MusicCatalog_PresentationId",
@@ -539,8 +542,8 @@ namespace Client.Server.Migrations
                 column: "PresentationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_ApplicationUserId",
-                table: "Orders",
+                name: "IX_Order_ApplicationUserId",
+                table: "Order",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
@@ -621,7 +624,7 @@ namespace Client.Server.Migrations
                 name: "Genre");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Order");
 
             migrationBuilder.DropTable(
                 name: "Presentation");

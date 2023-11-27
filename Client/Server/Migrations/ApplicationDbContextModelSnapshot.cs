@@ -418,7 +418,7 @@ namespace Client.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrdersId")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("Price")
@@ -429,7 +429,7 @@ namespace Client.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrdersId");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("AudioCatalog");
                 });
@@ -591,7 +591,7 @@ namespace Client.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrdersId")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PresentationId")
@@ -624,14 +624,14 @@ namespace Client.Server.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.HasIndex("OrdersId");
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("PresentationId");
 
                     b.ToTable("MusicCatalog");
                 });
 
-            modelBuilder.Entity("SharedApp.Models.Orders", b =>
+            modelBuilder.Entity("SharedApp.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -646,7 +646,7 @@ namespace Client.Server.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("SharedApp.Models.Presentation", b =>
@@ -724,9 +724,9 @@ namespace Client.Server.Migrations
 
             modelBuilder.Entity("SharedApp.Models.AudioCatalog", b =>
                 {
-                    b.HasOne("SharedApp.Models.Orders", null)
+                    b.HasOne("SharedApp.Models.Order", null)
                         .WithMany("AudioCatalogs")
-                        .HasForeignKey("OrdersId");
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("SharedApp.Models.ImageArtist", b =>
@@ -782,9 +782,9 @@ namespace Client.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SharedApp.Models.Orders", null)
+                    b.HasOne("SharedApp.Models.Order", null)
                         .WithMany("CatalogMusics")
-                        .HasForeignKey("OrdersId");
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("SharedApp.Models.Presentation", "Presentation")
                         .WithMany("CatalogMusics")
@@ -799,7 +799,7 @@ namespace Client.Server.Migrations
                     b.Navigation("Presentation");
                 });
 
-            modelBuilder.Entity("SharedApp.Models.Orders", b =>
+            modelBuilder.Entity("SharedApp.Models.Order", b =>
                 {
                     b.HasOne("Client.Server.Models.ApplicationUser", null)
                         .WithMany("Orders")
@@ -849,7 +849,7 @@ namespace Client.Server.Migrations
                     b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("SharedApp.Models.Orders", b =>
+            modelBuilder.Entity("SharedApp.Models.Order", b =>
                 {
                     b.Navigation("AudioCatalogs");
 
