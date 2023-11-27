@@ -11,7 +11,7 @@ namespace Client.App.Components
         private const int MaxAllowedFiles = 3;
         [Parameter] public List<ImageCatalog>? Images { get; set; }
         [Parameter] public EventCallback<bool> SetIsAnyImage { get; set; }
-        [Inject] public ICatalogMusicService catalogMusicService { get; set; }
+        [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
         private List<ImageTypeWrapper> ImagesData { get; set; } = new();
 
         protected override void OnInitialized()
@@ -31,10 +31,7 @@ namespace Client.App.Components
         {
             if (Images is not null)
             {
-                Images.ForEach(x =>
-                {
-                    ImagesData.Add(new ImageTypeWrapper(x));
-                });
+                Images.ForEach(x => ImagesData.Add(new ImageTypeWrapper(x)));
                 await SetIsAnyImage.InvokeAsync(ImagesData.Any());
             }
             await base.OnInitializedAsync();
@@ -43,11 +40,8 @@ namespace Client.App.Components
         {
             try
             {
-                var value = await catalogMusicService.GetByIdAsync(id);
-                ImagesData.ForEach(x =>
-                {
-                    catalogMusicService.CreateImageAsync(value, x.BrowserImage);
-                });
+                var value = await CatalogMusicService.GetByIdAsync(id);
+                ImagesData.ForEach(x => CatalogMusicService.CreateImageAsync(value, x.BrowserImage));
                 ImagesData.Clear();
             }
             catch
@@ -79,26 +73,5 @@ namespace Client.App.Components
             await SetIsAnyImage.InvokeAsync(ImagesData.Any());
             StateHasChanged();
         }
-    }
-
-    internal class ImageTypeWrapper
-    {
-        public ImageTypeWrapper(ImageCatalog image)
-        {
-            Id = Guid.NewGuid();
-            Url = image.Url;
-            IsInDb = true;
-        }
-        public ImageTypeWrapper(IBrowserFile file, byte[] buffer)
-        {
-            Id = Guid.NewGuid();
-            IsInDb = false;
-            BrowserImage = file;
-            Url = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
-        }
-        public Guid Id { get; set; }
-        public string Url { get; set; }
-        public bool IsInDb { get; set; }
-        public IBrowserFile BrowserImage { get; set; }
     }
 }

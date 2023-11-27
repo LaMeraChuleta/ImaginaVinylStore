@@ -1,5 +1,6 @@
 ﻿using Client.App.Interfaces;
 using Microsoft.AspNetCore.Components;
+using SharedApp.Extension;
 using SharedApp.Models;
 
 namespace Client.App.Pages
@@ -10,11 +11,11 @@ namespace Client.App.Pages
         [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
         [Inject] private IShopCartService ShopCartService { get; set; }
-        private List<MusicCatalog> MusicCatalogsInShopCart { get; set; } = new();
+        private List<ShopCartWrapper> ShopCarts { get; set; } = new();
         private List<MusicCatalog> MusicCatalogs { get; set; } = new();
         protected override async Task OnInitializedAsync()
         {
-            MusicCatalogsInShopCart = await ShopCartService.GetShopCart();
+            ShopCarts = await ShopCartService.GetShopCart();
             MusicCatalogs = await CatalogMusicService.GetAsync();
             MusicCatalogs = MusicCatalogs.Take(10).ToList();
             await base.OnInitializedAsync();
