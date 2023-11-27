@@ -37,7 +37,7 @@ public class MusicCatalogController : ControllerBase
     [HttpGet("{id}")]
     public IResult GetById(int id)
     {
-        return Results.Ok(_context.MusicCatalog            
+        return Results.Ok(_context.MusicCatalog
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
@@ -54,7 +54,7 @@ public class MusicCatalogController : ControllerBase
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
             .Include(x => x.Format)
-            .Include(x => x.Images)            
+            .Include(x => x.Images)
             .Where(x =>
                 (title == null || x.Title.Contains(title)) &&
                 (idGenre == null || x.Genre!.Id == idGenre) &&
