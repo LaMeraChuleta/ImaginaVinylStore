@@ -30,8 +30,8 @@ class DataBaseService:
                 query_insert_catalog_music = f'''
                 INSERT INTO MusicCatalog (Title, ArtistId, GenreId, FormatId, 
                     PresentationId, Country, [Year], StatusCover, StatusGeneral,
-                    Price, Matrix, Label, CreateAt, ActiveInStripe)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                    Price, Matrix, Label, CreateAt, ActiveInStripe, Sold)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                 '''       
 
                 self.connection.cursor().execute(query_insert_catalog_music, 
@@ -48,6 +48,7 @@ class DataBaseService:
                     new_catalog_music["Matrix"],
                     new_catalog_music["Label"],
                     datetime.datetime.now(),
+                    False,
                     False)
                 self.connection.commit()      
 
