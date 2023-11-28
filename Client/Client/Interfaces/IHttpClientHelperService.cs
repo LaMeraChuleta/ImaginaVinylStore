@@ -6,6 +6,7 @@ public interface IHttpClientHelperService
     Task<T> Post<T>(string pathEndPoint);
     Task<T> Post<T>(string pathEndPoint, T data);
     Task<string> Post(string pathEndPoint, Dictionary<string, string> data);
+    Task<string> Post(string pathEndPoint, object data);
     Task<T> Put<T, U>(string pathEndPoint, int id, U data);
     Task<T> Post<T>(string pathEndPoint, MultipartFormDataContent data);
     Task<T> Delete<T>(string pathEndPoint, int id);
