@@ -36,7 +36,7 @@ namespace Client.App.Components
             }
             await base.OnInitializedAsync();
         }
-        private async void InsertImagesInDb(int id)
+        private void InsertImagesInDb(int id)
         {
             try
             {

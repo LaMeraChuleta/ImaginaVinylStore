@@ -33,8 +33,16 @@ namespace SharedApp.Extension
         public decimal GetPrice()
         {
             return IsMusicCatalog
-                ? CatalogMusic.Price
-                : AudioCatalog.Price;
+                ? CatalogMusic!.Price
+                : AudioCatalog!.Price;
+        }
+        public string GetIdPriceStripe()
+        {
+            var id = IsMusicCatalog 
+                ? CatalogMusic!.IdPriceStripe 
+                : AudioCatalog!.IdPriceStripe;
+
+            return id ?? string.Empty;
         }
     }
 }
