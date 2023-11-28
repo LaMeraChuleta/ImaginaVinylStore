@@ -30,7 +30,6 @@ public class HttpClientHelperService : IHttpClientHelperService
         var response = await _httpClient.GetAsync(pathEndPoint);
         return await ParseResponseAsync<T>(response);
     }
-
     public async Task<T> Get<T>(string pathEndPoint, Dictionary<string, string> parameters)
     {
         await ConfigureAuthorizationHeaderAsync();
@@ -38,31 +37,17 @@ public class HttpClientHelperService : IHttpClientHelperService
         var response = await _httpClient.GetAsync(pathEndPoint);
         return await ParseResponseAsync<T>(response);
     }
-    public async Task<T> Post<T>(string pathEndPoint)
-    {
-        await ConfigureAuthorizationHeaderAsync();
-        var response = await _httpClient.PostAsJsonAsync(pathEndPoint, new StringContent(""));
-        return await ParseResponseAsync<T>(response);
-    }
-
     public async Task<T> Post<T>(string pathEndPoint, T data)
     {
         await ConfigureAuthorizationHeaderAsync();
         var response = await _httpClient.PostAsJsonAsync(pathEndPoint, data);
         return await ParseResponseAsync<T>(response);
     }
-
     public async Task<T> Post<T>(string pathEndPoint, MultipartFormDataContent data)
     {
         await ConfigureAuthorizationHeaderAsync();
         var response = await _httpClient.PostAsync(pathEndPoint, data);
         return await ParseResponseAsync<T>(response);
-    }
-    public async Task<string> Post(string pathEndPoint, Dictionary<string, string> data)
-    {
-        await ConfigureAuthorizationHeaderAsync();
-        var response = await _httpClient.PostAsJsonAsync(pathEndPoint, data);
-        return await ParseResponseAsync<string>(response);
     }
     public async Task<string> Post(string pathEndPoint, object data)
     {
@@ -84,7 +69,6 @@ public class HttpClientHelperService : IHttpClientHelperService
         var response = await _httpClient.DeleteAsync(pathEndPoint);
         return await ParseResponseAsync<T>(response);
     }
-
     internal async Task ConfigureAuthorizationHeaderAsync()
     {
         var accessTokenResult = await _tokenProvider.RequestAccessToken();
@@ -103,10 +87,6 @@ public class HttpClientHelperService : IHttpClientHelperService
                 return (T)(object)(await httpResponseMessage.Content.ReadAsStringAsync())!;
             }
             return (await httpResponseMessage.Content.ReadFromJsonAsync<T>())!;
-        }
-        if(httpResponseMessage.StatusCode == HttpStatusCode.Found)
-        {
-            return (T)(object)await httpResponseMessage.Content.ReadAsStringAsync();
         }
         if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
         {
