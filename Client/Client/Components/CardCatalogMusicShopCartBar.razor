@@ -14,11 +14,11 @@
             <span class="@BgTypeFormat inline-block w-12 mb-2 font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs">@ShopCart.CatalogMusic.Format.Name</span>
         } 
         
-        @if (ShopCart.IsMusicCatalog)
+        @if (ShopCart.CatalogMusic is not null)
         {
             <p class="font-normal text-black">$ @ShopCart.CatalogMusic.Price.ToString("#,##0.00")</p>
         }
-        else
+        else if (ShopCart.AudioCatalog is not null)
         {
             <p class="font-normal text-black">$ @ShopCart.AudioCatalog.Price.ToString("#,##0.00")</p>
         }        
