@@ -11,10 +11,16 @@
     </div>
     <div class="text-md sm:h-10 p-2">
         <p>$@AudioCatalog.Price.ToString("#,##0.00") MXN</p>
+        <button @onclick="AddItemShopCart" class="py-2 px-4 rounded-lg py-2 bg-blue-600 text-xs text-white font-semibold uppercase hover:bg-blue-600">Agregar al carrito</button>
     </div>
 </div>
 
 @code {
     [Parameter]
-    public AudioCatalog AudioCatalog { get; set; } = new();
+    public AudioCatalog AudioCatalog { get; set; } = new();   
+
+    private void AddItemShopCart()
+    {
+        ShopCartsService.SetShopCartItem(AudioCatalog);
+    }
 }
