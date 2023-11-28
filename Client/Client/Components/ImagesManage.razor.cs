@@ -40,8 +40,7 @@ namespace Client.App.Components
         {
             try
             {
-                var value = await CatalogMusicService.GetByIdAsync(id);
-                ImagesData.ForEach(x => CatalogMusicService.CreateImageAsync(value, x.BrowserImage));
+                ImagesData.ForEach(x => CatalogMusicService.CreateImageAsync(id, x.BrowserImage));
                 ImagesData.Clear();
             }
             catch
