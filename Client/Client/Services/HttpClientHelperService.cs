@@ -64,6 +64,12 @@ public class HttpClientHelperService : IHttpClientHelperService
         var response = await _httpClient.PostAsJsonAsync(pathEndPoint, data);
         return await ParseResponseAsync<string>(response);
     }
+    public async Task<string> Post(string pathEndPoint, object data)
+    {
+        await ConfigureAuthorizationHeaderAsync();
+        var response = await _httpClient.PostAsJsonAsync(pathEndPoint, data);
+        return await ParseResponseAsync<string>(response);
+    }
     public async Task<T> Put<T, U>(string pathEndPoint, int id, U data)
     {
         await ConfigureAuthorizationHeaderAsync();
@@ -97,6 +103,10 @@ public class HttpClientHelperService : IHttpClientHelperService
                 return (T)(object)(await httpResponseMessage.Content.ReadAsStringAsync())!;
             }
             return (await httpResponseMessage.Content.ReadFromJsonAsync<T>())!;
+        }
+        if(httpResponseMessage.StatusCode == HttpStatusCode.Found)
+        {
+            return (T)(object)await httpResponseMessage.Content.ReadAsStringAsync();
         }
         if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
         {

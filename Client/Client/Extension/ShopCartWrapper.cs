@@ -5,8 +5,8 @@ namespace SharedApp.Extension
     public class ShopCartWrapper
     {
         public Guid Guid { get; set; }
-        public MusicCatalog CatalogMusic { get; set; }
-        public AudioCatalog AudioCatalog { get; set; }
+        public MusicCatalog? CatalogMusic { get; set; }
+        public AudioCatalog? AudioCatalog { get; set; }
         public int Id { get; set; }
         public string? Url { get; set; }
         public bool IsMusicCatalog { get; set; }
