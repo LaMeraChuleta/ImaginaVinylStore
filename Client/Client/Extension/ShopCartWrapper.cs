@@ -30,5 +30,11 @@ namespace SharedApp.Extension
             if (audioCatalog.Images is not null && audioCatalog.Images.Any())
                 Url = audioCatalog.Images.First().Url;
         }
+        public decimal GetPrice()
+        {
+            return IsMusicCatalog
+                ? CatalogMusic.Price
+                : AudioCatalog.Price;
+        }
     }
 }
