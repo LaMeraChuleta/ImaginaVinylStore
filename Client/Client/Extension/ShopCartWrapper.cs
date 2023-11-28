@@ -5,8 +5,8 @@ namespace SharedApp.Extension
     public class ShopCartWrapper
     {
         public Guid Guid { get; set; }
-        public MusicCatalog CatalogMusic { get; set; }
-        public AudioCatalog AudioCatalog { get; set; }
+        public MusicCatalog? CatalogMusic { get; set; }
+        public AudioCatalog? AudioCatalog { get; set; }
         public int Id { get; set; }
         public string? Url { get; set; }
         public bool IsMusicCatalog { get; set; }
@@ -29,6 +29,20 @@ namespace SharedApp.Extension
 
             if (audioCatalog.Images is not null && audioCatalog.Images.Any())
                 Url = audioCatalog.Images.First().Url;
+        }
+        public decimal GetPrice()
+        {
+            return IsMusicCatalog
+                ? CatalogMusic!.Price
+                : AudioCatalog!.Price;
+        }
+        public string GetIdPriceStripe()
+        {
+            var id = IsMusicCatalog 
+                ? CatalogMusic!.IdPriceStripe 
+                : AudioCatalog!.IdPriceStripe;
+
+            return id ?? string.Empty;
         }
     }
 }

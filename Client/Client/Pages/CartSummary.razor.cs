@@ -23,17 +23,7 @@ namespace Client.App.Pages
         private async void CreateCheckoutSesion()
         {
             var shopCarts = await ShopCartService.GetShopCart();
-
-            //await HttpClientHelperService.Post<string>("Checkout", data);
-            var data = shopCarts
-                .Select((value, index) => new
-                {
-                    Key = value.IsMusicCatalog ? $"music-{index}" : $"audio-{index}",
-                    Value = value.Id.ToString()
-                })
-                .ToDictionary(pair => pair.Key, pair => pair.Value);
-
-            var url = await HttpClientHelperService.Post("Checkout", data);
+            var url = await HttpClientHelperService.Post("Checkout", (object)shopCarts);
             NavigationManager.NavigateTo(url);
         }
     }
