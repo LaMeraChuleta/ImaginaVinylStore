@@ -29,9 +29,9 @@ namespace Client.App.Services
         {
             return await Post(nameof(MusicCatalog), musicCatalog);
         }
-        public async Task<ImageCatalog> CreateImageAsync(MusicCatalog musicCatalog, IBrowserFile file)
+        public async Task<ImageCatalog> CreateImageAsync(int idMusicCatalog, IBrowserFile file)
         {
-            return await Post<ImageCatalog>($"{nameof(MusicCatalog)}/Images?id={musicCatalog?.Id}", ParseBrowserFile(file));
+            return await Post<ImageCatalog>($"{nameof(MusicCatalog)}/Images?id={idMusicCatalog}", ParseBrowserFile(file));
         }
         public async Task<bool> UpdateAsync(MusicCatalog musicCatalog)
         {

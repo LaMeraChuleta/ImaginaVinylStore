@@ -22,16 +22,18 @@ namespace Client.App.Pages
         }
         private async void CreateCheckoutSesion()
         {
-            var ids = await ShopCartService.GetShopCartId();
-            var value = ids
+            var shopCarts = await ShopCartService.GetShopCart();
+
+            //await HttpClientHelperService.Post<string>("Checkout", data);
+            var data = shopCarts
                 .Select((value, index) => new
                 {
-                    Key = $"item{index}",
-                    Value = value.ToString()
+                    Key = value.IsMusicCatalog ? $"music-{index}" : $"audio-{index}",
+                    Value = value.Id.ToString()
                 })
                 .ToDictionary(pair => pair.Key, pair => pair.Value);
 
-            var url = await HttpClientHelperService.Post("Checkout", value);
+            var url = await HttpClientHelperService.Post("Checkout", data);
             NavigationManager.NavigateTo(url);
         }
     }
