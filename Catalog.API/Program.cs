@@ -1,4 +1,6 @@
+using Catalog.API.Interfaces;
 using Catalog.API.Middlewares;
+using Catalog.API.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SharedApp.Data;
@@ -33,6 +35,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddScoped<IProductStripeService, ProductStripeService>();
+
 var app = builder.Build();
 app.UseCors();
 
@@ -42,7 +46,6 @@ app.UseCors();
 app.UseSwagger();
 app.UseSwaggerUI();
 //}
-
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
