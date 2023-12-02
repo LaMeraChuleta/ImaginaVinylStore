@@ -11,6 +11,12 @@ namespace Client.App.Components
             Url = image.Url;
             IsInDb = true;
         }
+        public ImageTypeWrapper(ImageAudio image)
+        {
+            Id = Guid.NewGuid();
+            Url = image.Url;
+            IsInDb = true;
+        }
         public ImageTypeWrapper(IBrowserFile file, byte[] buffer)
         {
             Id = Guid.NewGuid();

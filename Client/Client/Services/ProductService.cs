@@ -16,7 +16,7 @@ namespace Client.App.Services
             return Post("Product/MusicCatalog", musicCatalog);
         }
 
-        public Task<AudioCatalog> CreateAsync(AudioCatalog audioCatalog)
+        public Task<AudioCatalog> CreateCatalogOnStripeAsync(AudioCatalog audioCatalog)
         {
             return Post("Product/AudioCatalog", audioCatalog);
         }
