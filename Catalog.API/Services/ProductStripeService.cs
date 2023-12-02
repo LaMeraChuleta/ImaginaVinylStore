@@ -59,7 +59,7 @@ namespace Catalog.API.Services
                 throw;
             }
         }
-        private Product CreateInStripe(string name, int price, List<string>? images = null)
+        private static Product CreateInStripe(string name, int price, List<string>? images = null)
         {
             if (images is not null)
             {

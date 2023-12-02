@@ -35,7 +35,7 @@ namespace Client.App.Pages
 
                 NewAudioCatalog = await AudioCatalogService.CreateAsync(NewAudioCatalog);
                 OnCompleteInsert.Invoke(NewAudioCatalog.Id);
-                await ProductService.CreateAsync(NewAudioCatalog!);
+                await ProductService.CreateCatalogOnStripeAsync(NewAudioCatalog!);
                 NewAudioCatalog = new AudioCatalog();
                 ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewAudioCatalog!.Name}-{NewAudioCatalog.Brand} en el catalogo");
                 StateHasChanged();
