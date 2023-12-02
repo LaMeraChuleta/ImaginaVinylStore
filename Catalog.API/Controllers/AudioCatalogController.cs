@@ -27,6 +27,14 @@ namespace Catalog.API.Controllers
                 .ToArray());
         }
 
+        [HttpGet("{id}")]
+        public IResult GetById(int id)
+        {
+            return Results.Ok(_context.AudioCatalog
+                .Include(x => x.Images)
+                .First(x => x.Id == id));
+        }
+
         [HttpPost]
         [Authorize]
         public IResult Post([FromBody] AudioCatalog value)
@@ -36,6 +44,16 @@ namespace Catalog.API.Controllers
             _context.AudioCatalog.Add(value);
             _context.SaveChanges();
             return Results.Ok(value);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public IResult Put(int id, [FromBody] AudioCatalog value)
+        {
+            if (!ModelState.IsValid) return Results.BadRequest();
+
+            _context.Entry(value).State = EntityState.Modified;
+            return Results.Ok(Convert.ToBoolean(_context.SaveChanges()));
         }
 
         [HttpPost("Images")]

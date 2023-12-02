@@ -1,4 +1,4 @@
-﻿@page "/CreateCatalogAudio"
+﻿@page "/EditCatalogAudio/{AudioCatalogId:int}"
 
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
@@ -13,46 +13,46 @@
                 <h1>Agregar nuevo catálogo audio</h1>
             </div>
             <hr />
-            <EditForm EditContext="@_newContextAudioCatalog" OnValidSubmit="@CreateCataloAudios">
+            <EditForm EditContext="@_editContextAudioCatalog" OnValidSubmit="@EditCatalogAudio">
                 <DataAnnotationsValidator />
                 <div class="flex flex-wrap">
                     <div class="w-full md:w-1/2 md:p-5 space-y-5">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Nombre</label>
-                            <input @bind="NewAudioCatalog.Name" type="text" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewAudioCatalog.Name)" />
+                            <input @bind="EditAudioCatalog.Name" type="text" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditAudioCatalog.Name)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Marca</label>
-                            <input @bind="NewAudioCatalog.Brand" type="text" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewAudioCatalog.Brand)" />
+                            <input @bind="EditAudioCatalog.Brand" type="text" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditAudioCatalog.Brand)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Descripcion</label>
-                            <input @bind="NewAudioCatalog.Description" type="text" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewAudioCatalog.Description)" />
+                            <input @bind="EditAudioCatalog.Description" type="text" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditAudioCatalog.Description)" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Precio</label>
-                            <input @bind="NewAudioCatalog.Price" type="text" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewAudioCatalog.Price)" />
+                            <input @bind="EditAudioCatalog.Price" type="text" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditAudioCatalog.Price)" />
                         </div>
                     </div>
                     <div class="w-full md:w-1/2 md:p-5 space-y-5">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Modelo</label>
-                            <input @bind="NewAudioCatalog.Model" type="text" class="w-full border rounded border-gray-300" />
-                            <ValidationMessage For="@(() => NewAudioCatalog.Model)" />
-                        </div>                   
+                            <input @bind="EditAudioCatalog.Model" type="text" class="w-full border rounded border-gray-300" />
+                            <ValidationMessage For="@(() => EditAudioCatalog.Model)" />
+                        </div>
                     </div>
                 </div>
                 <div class="block space-y-2 mt-3">
-                    <button disabled="@(!IsAnyImage)" type="submit" class="w-full h-10 border rounded-xl font-semibold text-white @(IsAnyImage ? "bg-green-600" : "bg-gray-300")">Agregar</button>
+                    <button disabled="@(!IsAnyImage)" type="submit" class="w-full h-10 border rounded-xl font-semibold text-white @(IsAnyImage ? "bg-yellow-600" : "bg-gray-300")">Editar</button>
                 </div>
             </EditForm>
         </div>
         <div class="border-1 md:w-1/3 mx-auto">
-            <ImagesManage SetIsAnyImage="SetIsAnyImageForCatalog"></ImagesManage>
+            <ImagesManage ImagesAudio="EditAudioCatalog.Images" SetIsAnyImage="SetIsAnyImageForCatalog"></ImagesManage>
         </div>
     </div>
 }

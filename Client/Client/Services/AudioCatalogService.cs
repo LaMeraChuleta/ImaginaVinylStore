@@ -17,13 +17,21 @@ namespace Client.App.Services
         {
             return await Get<List<AudioCatalog>>(nameof(AudioCatalog));
         }
+        public Task<AudioCatalog> GetByIdAsync(int id)
+        {
+            return Get<AudioCatalog>(nameof(AudioCatalog), id);
+        }
         public async Task<AudioCatalog> CreateAsync(AudioCatalog audioCatalog)
         {
             return await Post(nameof(AudioCatalog), audioCatalog);
         }
-        public async Task<ImageAudio> CreateImageAsync(AudioCatalog audioCatalog, IBrowserFile file)
+        public async Task<ImageAudio> CreateImageAsync(int idAudioCatalog, IBrowserFile file)
         {
-            return await Post<ImageAudio>($"{nameof(AudioCatalog)}/Images?id={audioCatalog?.Id}", ParseBrowserFile(file));
+            return await Post<ImageAudio>($"{nameof(AudioCatalog)}/Images?id={idAudioCatalog}", ParseBrowserFile(file));
+        }
+        public async Task<bool> UpdateAsync(AudioCatalog audioCatalog)
+        {
+            return await Put<bool, AudioCatalog>(nameof(AudioCatalog), audioCatalog.Id, audioCatalog);
         }
         private MultipartFormDataContent ParseBrowserFile(IBrowserFile file)
         {

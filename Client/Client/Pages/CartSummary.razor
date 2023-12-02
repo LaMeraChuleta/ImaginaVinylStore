@@ -13,7 +13,7 @@
         <div class="flex justify-between pt-2 mt-2">
             <div>
                 <div class="inline-flex">
-                    <img class="w-24 h-24 rounded-2 mr-2" src="@shopCart.Url" alt="Imagen del disco">
+                    <img class="w-24 h-24 rounded-2 mr-2" src="@(shopCart.Url ?? "https://udiscover.mx/cdn/shop/files/big-OR_SIGNEDVINYL-version2.png?v=1691079605")" alt="Imagen del disco">
                     <div class="flex w-64 flex-col pt-2 font-bold text-gray-800">
                         <p>@(shopCart.IsMusicCatalog ? shopCart.CatalogMusic.Title : shopCart.AudioCatalog.Name)</p>
                         @if (shopCart.IsMusicCatalog)
@@ -28,11 +28,11 @@
                 <div class="flex">
                     @if (shopCart.IsMusicCatalog)
                     {
-                        <p class="font-normal text-black">$ @shopCart.CatalogMusic.Price.ToString("#,##0.00")</p>
+                        <p class="font-normal text-black">$ @shopCart.GetPrice().ToString("#,##0.00")</p>
                     }
                     else
                     {
-                        <p class="font-normal text-black">$ @shopCart.AudioCatalog.Price.ToString("#,##0.00")</p>
+                        <p class="font-normal text-black">$ @shopCart.GetPrice().ToString("#,##0.00")</p>
                     }
                 </div>
             </div>
@@ -51,11 +51,11 @@
                 <div class="flex">
                     @if (shopCart.IsMusicCatalog)
                     {
-                        <p class="font-normal text-black">$ @shopCart.CatalogMusic.Price.ToString("#,##0.00")</p>
+                        <p class="font-normal text-black">$ @shopCart.GetPrice().ToString("#,##0.00")</p>
                     }
                     else
                     {
-                        <p class="font-normal text-black">$ @shopCart.AudioCatalog.Price.ToString("#,##0.00")</p>
+                        <p class="font-normal text-black">$ @shopCart.GetPrice().ToString("#,##0.00")</p>
                     }
                 </div>
             </div>
