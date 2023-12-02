@@ -38,8 +38,8 @@ namespace SharedApp.Extension
         }
         public string GetIdPriceStripe()
         {
-            var id = IsMusicCatalog 
-                ? CatalogMusic!.IdPriceStripe 
+            var id = IsMusicCatalog
+                ? CatalogMusic!.IdPriceStripe
                 : AudioCatalog!.IdPriceStripe;
 
             return id ?? string.Empty;
