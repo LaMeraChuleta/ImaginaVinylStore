@@ -4,7 +4,7 @@ using System.Security.Claims;
 
 namespace Catalog.API.Controllers;
 
-    [Route("api/[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class OrderController : Controller
 {

@@ -21,7 +21,7 @@ namespace Client.App.Pages
         private List<Genre> Genres { get; set; } = new();
         private List<Format> Formats { get; set; } = new();
         private List<Presentation> Presentations { get; set; } = new();
-        private EditContext _editContextMusicCatalog;        
+        private EditContext _editContextMusicCatalog;
         private bool IsLoading { get; set; }
         private bool IsAnyImage { get; set; }
 
