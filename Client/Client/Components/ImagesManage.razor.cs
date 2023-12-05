@@ -53,7 +53,8 @@ namespace Client.App.Components
         {
             try
             {
-                ImagesData.ForEach(x => {
+                ImagesData.ForEach(x =>
+                {
                     if (IsImageMusic)
                         CatalogMusicService.CreateImageAsync(id, x.BrowserImage);
                     else

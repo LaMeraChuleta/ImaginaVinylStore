@@ -7,7 +7,7 @@ using static Client.App.Services.CatalogMusicService;
 namespace Client.App.Pages
 {
     public partial class CatalogMusicManage : ComponentBase
-    {         
+    {
         [Inject] public IToastService ToastService { get; set; }
         [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
         [Inject] public IProductService ProductService { get; set; }
@@ -17,15 +17,15 @@ namespace Client.App.Pages
         {
             CatalogMusics = await CatalogMusicService.GetAsync(new FilterForCatalogMusic { IsActiveInStripe = null });
         }
-        
+
         private async Task ActiveCatalogMusicInStripe(MusicCatalog musicCatalog)
         {
             try
             {
                 await ProductService.CreateCatalogOnStripeAsync(musicCatalog);
             }
-            catch (Exception exception) 
-            { 
+            catch (Exception exception)
+            {
                 ToastService.ShowToast(ToastLevel.Error, exception.Message);
             }
         }

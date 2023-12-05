@@ -15,7 +15,7 @@ builder.Services.AddHttpClient("Client.ServerAPI",
     client => { client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress + "api/"); });
 
 builder.Services.AddHttpClient("CatalogMusic.API",
-        client => { client.BaseAddress = new Uri(@"https://localhost:7285/api/"); });    
+        client => { client.BaseAddress = new Uri(@"https://localhost:7285/api/"); });
 
 builder.Services.AddBlazoredToast();
 builder.Services.AddBlazoredLocalStorageAsSingleton();
