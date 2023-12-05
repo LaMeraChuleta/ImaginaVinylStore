@@ -7,7 +7,7 @@
             "hosted": true,
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Client/Server/bin/Debug/net6.0/Client.Server.dll",            
+            "program": "${workspaceFolder}/Client/Server/bin/Debug/net7.0/Client.Server.dll",            
             "cwd": "${workspaceFolder}/Client/Server"         
         },
         {
