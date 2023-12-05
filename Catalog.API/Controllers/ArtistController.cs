@@ -1,9 +1,4 @@
 ﻿using Azure.Storage.Blobs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SharedApp.Data;
-using SharedApp.Models;
 
 namespace Catalog.API.Controllers;
 
@@ -15,7 +10,7 @@ public class ArtistController : ControllerBase
     private readonly AppDbContext _context;
 
     public ArtistController(AppDbContext context, IConfiguration config)
-    {        
+    {
         _context = context;
         _blobClient = new BlobContainerClient(config["BlobConnectionString"], config["BlobContainerName"]);
     }
