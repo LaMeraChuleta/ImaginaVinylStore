@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using SharedApp.Data;
-using SharedApp.Models;
-
-namespace Catalog.API.Controllers;
+﻿namespace Catalog.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

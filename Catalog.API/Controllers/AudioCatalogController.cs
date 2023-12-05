@@ -1,9 +1,4 @@
 ﻿using Azure.Storage.Blobs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SharedApp.Data;
-using SharedApp.Models;
 
 namespace Catalog.API.Controllers
 {

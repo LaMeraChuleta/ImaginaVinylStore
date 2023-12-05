@@ -1,7 +1,4 @@
-﻿using Catalog.API.Interfaces;
-using SharedApp.Data;
-using SharedApp.Models;
-using Stripe;
+﻿using Stripe;
 
 namespace Catalog.API.Services
 {
