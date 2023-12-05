@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using SharedApp.Extension;
-using Stripe.Checkout;
+﻿using Stripe.Checkout;
 using System.Security.Claims;
 
 namespace Catalog.API.Controllers
