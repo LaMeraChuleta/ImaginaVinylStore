@@ -1,12 +1,7 @@
-﻿using Client.App.Interfaces;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using SharedApp.Models;
-
-namespace Client.App.Services
+﻿namespace Client.App.Services
 {
     public class ProductService : HttpClientHelperService, IProductService
     {
-
         public ProductService(IHttpClientFactory httpClientFactory, IAccessTokenProvider tokenProvider)
             : base(httpClientFactory, tokenProvider)
         {

@@ -1,7 +1,4 @@
-﻿using SharedApp.Extension;
-using SharedApp.Models;
-
-namespace Client.App.Interfaces
+﻿namespace Client.App.Interfaces
 {
     public interface IShopCartService
     {

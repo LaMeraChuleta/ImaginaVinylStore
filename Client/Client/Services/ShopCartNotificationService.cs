@@ -1,6 +1,4 @@
-﻿using Client.App.Interfaces;
-
-namespace Client.App.Services
+﻿namespace Client.App.Services
 {
     public class ShopCartNotificationService : IShopCartNotificationService
     {

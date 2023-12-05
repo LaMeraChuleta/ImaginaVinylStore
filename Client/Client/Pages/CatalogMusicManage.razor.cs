@@ -1,8 +1,4 @@
-﻿using Blazored.Toast.Services;
-using Client.App.Interfaces;
-using Microsoft.AspNetCore.Components;
-using SharedApp.Models;
-using static Client.App.Services.CatalogMusicService;
+﻿using static Client.App.Services.CatalogMusicService;
 
 namespace Client.App.Pages
 {
