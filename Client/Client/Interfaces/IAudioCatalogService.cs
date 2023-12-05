@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
-using SharedApp.Models;
-
-namespace Client.App.Interfaces
+﻿namespace Client.App.Interfaces
 {
     public interface IAudioCatalogService
     {

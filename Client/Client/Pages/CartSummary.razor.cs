@@ -1,9 +1,4 @@
-﻿using Client.App.Interfaces;
-using Microsoft.AspNetCore.Components;
-using SharedApp.Extension;
-using SharedApp.Models;
-
-namespace Client.App.Pages
+﻿namespace Client.App.Pages
 {
     public partial class CartSummary : ComponentBase
     {

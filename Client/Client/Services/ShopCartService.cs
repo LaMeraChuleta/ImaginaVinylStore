@@ -1,9 +1,4 @@
-﻿using Blazored.LocalStorage;
-using Client.App.Interfaces;
-using SharedApp.Extension;
-using SharedApp.Models;
-
-namespace Client.App.Services
+﻿namespace Client.App.Services
 {
     public class ShopCartService : IShopCartService
     {

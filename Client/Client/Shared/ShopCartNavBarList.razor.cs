@@ -1,9 +1,4 @@
-﻿using Blazored.Toast.Services;
-using Client.App.Interfaces;
-using Microsoft.AspNetCore.Components;
-using SharedApp.Extension;
-
-namespace Client.App.Shared
+﻿namespace Client.App.Shared
 {
     public partial class ShopCartNavBarList : ComponentBase
     {

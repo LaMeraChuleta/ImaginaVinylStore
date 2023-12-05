@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
-namespace Client.App.Shared
+﻿namespace Client.App.Shared
 {
     public partial class MainLayout : LayoutComponentBase
     {

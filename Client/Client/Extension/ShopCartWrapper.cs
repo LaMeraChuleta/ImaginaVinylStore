@@ -1,6 +1,4 @@
-﻿using SharedApp.Models;
-
-namespace SharedApp.Extension
+﻿namespace SharedApp.Extension
 {
     public class ShopCartWrapper
     {
