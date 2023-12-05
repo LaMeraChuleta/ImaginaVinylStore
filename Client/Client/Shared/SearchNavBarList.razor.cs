@@ -1,41 +1,39 @@
-﻿using Client.App.Interfaces;
-using Microsoft.AspNetCore.Components;
-using SharedApp.Models;
-using static Client.App.Services.CatalogMusicService;
+﻿using static Client.App.Services.CatalogMusicService;
 
-namespace Client.App.Shared;
-
-public partial class SearchNavBarList : ComponentBase, IDisposable
+namespace Client.App.Shared
 {
-    [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
-    private List<MusicCatalog> MusicCatalogs { get; set; } = new();
-    private bool isSearching { get; set; }
-
-    public void Dispose()
+    public partial class SearchNavBarList : ComponentBase, IDisposable
     {
-        NavBar.OnSearchCatalog -= HandleSearchCatalog;
-        base.OnInitialized();
-    }
+        [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
+        private List<MusicCatalog> MusicCatalogs { get; set; } = new();
+        private bool isSearching { get; set; }
 
-    protected override void OnInitialized()
-    {
-        NavBar.OnSearchCatalog += HandleSearchCatalog;
-        base.OnInitialized();
-    }
-
-    private async void HandleSearchCatalog(string query)
-    {
-        if (string.IsNullOrEmpty(query))
+        public void Dispose()
         {
-            MusicCatalogs.Clear();
-            StateHasChanged();
-            return;
+            NavBar.OnSearchCatalog -= HandleSearchCatalog;
+            base.OnInitialized();
         }
 
-        isSearching = true;
-        StateHasChanged();
-        MusicCatalogs = await CatalogMusicService.GetAsync(new FilterForCatalogMusic() { QuerySearch = query });
-        isSearching = false;
-        StateHasChanged();
+        protected override void OnInitialized()
+        {
+            NavBar.OnSearchCatalog += HandleSearchCatalog;
+            base.OnInitialized();
+        }
+
+        private async void HandleSearchCatalog(string query)
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                MusicCatalogs.Clear();
+                StateHasChanged();
+                return;
+            }
+
+            isSearching = true;
+            StateHasChanged();
+            MusicCatalogs = await CatalogMusicService.GetAsync(new FilterForCatalogMusic() { QuerySearch = query });
+            isSearching = false;
+            StateHasChanged();
+        }
     }
 }

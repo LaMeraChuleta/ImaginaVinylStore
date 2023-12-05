@@ -1,8 +1,4 @@
-﻿using Client.App.Interfaces;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using SharedApp.Models;
-
-namespace Client.App.Services
+﻿namespace Client.App.Services
 {
     public class GenreService : HttpClientHelperService, IGenreService
     {
