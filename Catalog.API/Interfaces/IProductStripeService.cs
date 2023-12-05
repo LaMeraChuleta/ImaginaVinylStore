@@ -1,6 +1,4 @@
-﻿using SharedApp.Models;
-
-namespace Catalog.API.Interfaces
+﻿namespace Catalog.API.Interfaces
 {
     public interface IProductStripeService
     {
