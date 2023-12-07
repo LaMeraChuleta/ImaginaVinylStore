@@ -1,6 +1,4 @@
-﻿using Stripe.Checkout;
-
-namespace Catalog.API.Services
+﻿namespace Catalog.API.Services
 {
     public class URLStripeService : IURLStripeService
     {
