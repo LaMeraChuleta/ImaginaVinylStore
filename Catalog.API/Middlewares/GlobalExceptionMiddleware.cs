@@ -8,7 +8,6 @@ public class GlobalExceptionMiddleware
     {
         _next = next;
     }
-
     public async Task InvokeAsync(HttpContext httpContext)
     {
         try
@@ -18,22 +17,22 @@ public class GlobalExceptionMiddleware
         catch (DbUpdateException)
         {
             await Results.Problem(
-                    title: "Ocurrio un error al actualizar el registro en la base de datos",
-                    statusCode: StatusCodes.Status500InternalServerError)
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Ocurrio un error al actualizar el registro en la base de datos")
                 .ExecuteAsync(httpContext);
         }
         catch (SqlException)
         {
             await Results.Problem(
-                    title: "Ocurrio un error en la base de datos",
-                    statusCode: StatusCodes.Status500InternalServerError)
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Ocurrio un error en la base de datos")
                 .ExecuteAsync(httpContext);
         }
         catch (Exception ex)
         {
             await Results.Problem(
-                    title: ex.Message,
-                    statusCode: StatusCodes.Status500InternalServerError)
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    title: ex.Message)
                 .ExecuteAsync(httpContext);
         }
     }
