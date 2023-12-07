@@ -2,11 +2,11 @@
 {
     public class ProductStripeService : IProductStripeService
     {
-        private readonly AppDbContext _context;       
+        private readonly AppDbContext _context;
         public ProductStripeService(AppDbContext context)
         {
             _context = context;
-        }   
+        }
         public bool Create(MusicCatalog value)
         {
             try
