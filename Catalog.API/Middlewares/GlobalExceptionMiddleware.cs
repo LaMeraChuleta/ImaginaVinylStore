@@ -1,6 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-
-namespace Catalog.API.Middlewares;
+﻿namespace Catalog.API.Middlewares;
 
 public class GlobalExceptionMiddleware
 {
