@@ -1,10 +1,3 @@
-using Catalog.API.Interfaces;
-using Catalog.API.Middlewares;
-using Catalog.API.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using SharedApp.Data;
-using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -35,17 +28,18 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IURLStripeService, URLStripeService>();
 builder.Services.AddScoped<IProductStripeService, ProductStripeService>();
 
 var app = builder.Build();
 app.UseCors();
-
 // Configure the HTTP request pipeline.
-// if (app.Environment.IsDevelopment())
-// {
-app.UseSwagger();
-app.UseSwaggerUI();
-//}
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
