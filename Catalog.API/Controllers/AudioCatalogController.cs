@@ -1,6 +1,4 @@
-﻿using Azure.Storage.Blobs;
-
-namespace Catalog.API.Controllers
+﻿namespace Catalog.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
