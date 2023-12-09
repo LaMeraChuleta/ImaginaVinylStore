@@ -1,9 +1,10 @@
-﻿using SharedApp.Validation;
+﻿using SharedApp.Interfaces;
+using SharedApp.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace SharedApp.Models;
 
-public class MusicCatalog
+public class MusicCatalog : IStripeCatalogBase
 {
     // Primary key
     public int Id { get; set; }
