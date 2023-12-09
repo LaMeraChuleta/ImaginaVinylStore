@@ -1,6 +1,7 @@
-﻿global using SharedApp.Extension;
-global using SharedApp.Data;
+﻿global using SharedApp.Data;
 global using SharedApp.Models;
+global using SharedApp.Extension;
+global using SharedApp.Interfaces;
 
 global using Catalog.API.Services;
 global using Catalog.API.Interfaces;
