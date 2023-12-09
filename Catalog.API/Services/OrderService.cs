@@ -9,40 +9,22 @@
         }
         public async Task<bool> CreateAsync(Session session)
         {
-            var options = new SessionGetOptions();
-            options.AddExpand("line_items");
-            var service = new SessionService();
-            Session sessionWithLineItems = service.Get(session.Id, options);
-            StripeList<LineItem> lineItems = sessionWithLineItems.LineItems;
+            var priceStripeId = GetLineItemStripe(session);
 
-            var priceStripeId = lineItems
-                .Select(x => x.Price.ProductId)
-                .ToArray();
+            var musicCatalog = await ChangeStateToSold<MusicCatalog>(priceStripeId);
+            var audioCatalog = await ChangeStateToSold<AudioCatalog>(priceStripeId);
 
-            var musicCatalog = await _context.MusicCatalog
-                .Where(x => priceStripeId.Contains(x.IdProductStripe))
-                .ToListAsync();
-
-            var order = new Order
+            var order = new Order()
             {
                 ApplicationUserId = session.ClientReferenceId,
                 CatalogMusics = musicCatalog,
+                AudioCatalogs = audioCatalog
             };
 
             await _context.Order.AddAsync(order);
             await _context.SaveChangesAsync();
-
-            musicCatalog.ForEach(x =>
-            {
-                x.ActiveInStripe = false;
-                x.Sold = true;
-            });
-
-            _context.MusicCatalog.UpdateRange(musicCatalog);
-            await _context.SaveChangesAsync();
             return true;
         }
-
         public async Task<IEnumerable<Order>> GetAsync(string idAspNetUser)
         {
             return await _context.Order
@@ -50,6 +32,35 @@
                 .Include(x => x.CatalogMusics)
                 .Include(x => x.AudioCatalogs)
                 .ToArrayAsync();
+        }
+        private static IEnumerable<string> GetLineItemStripe(Session session)
+        {
+            var options = new SessionGetOptions();
+            options.AddExpand("line_items");
+            var service = new SessionService();
+            Session sessionWithLineItems = service.Get(session.Id, options);
+            StripeList<LineItem> lineItems = sessionWithLineItems.LineItems;
+
+            return lineItems
+                .Select(x => x.Price.ProductId)
+                .ToArray();
+        }
+        private async Task<List<T>> ChangeStateToSold<T>(IEnumerable<string> priceStripeId)
+            where T : class, IStripeCatalogBase
+        {
+            var catalog = await _context.Set<T>()
+                .Where(x => priceStripeId.Contains(x.IdProductStripe))
+                .ToListAsync();
+
+            catalog.ForEach(x =>
+            {
+                x.ActiveInStripe = false;
+                x.Sold = true;
+            });
+
+            _context.Set<T>().UpdateRange(catalog);
+            await _context.SaveChangesAsync();
+            return catalog;
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace SharedApp.Models
+﻿using SharedApp.Interfaces;
+
+namespace SharedApp.Models
 {
-    public class AudioCatalog
+    public class AudioCatalog : IStripeCatalogBase
     {
         // Primary key
         public int Id { get; set; }
