@@ -1,6 +1,4 @@
-﻿using Azure.Storage.Blobs;
-
-namespace Catalog.API.Controllers;
+﻿namespace Catalog.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -19,7 +17,7 @@ public class MusicCatalogController : ControllerBase
     public IResult Get()
     {
         return Results.Ok(_context.MusicCatalog
-            .Where(x => x.ActiveInStripe)
+            .Where(x => x.Sold!)
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
