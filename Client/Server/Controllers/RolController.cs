@@ -25,7 +25,6 @@ public class RolController : Controller
 
     private RolModel ModelRol { get; }
 
-    // GET
     [HttpGet]
     public IActionResult Index(string id = "", bool isOpenModal = false)
     {
@@ -43,12 +42,9 @@ public class RolController : Controller
             if (!await _roleManager.RoleExistsAsync(rolName))
             {
                 var result = await _roleManager.CreateAsync(new IdentityRole(rolName));
-                if (result.Succeeded) await _userManager.AddToRoleAsync(user, rolName);
+                if (result.Succeeded) return View("Index", ModelRol);
             }
-            else
-            {
-                await _userManager.AddToRoleAsync(user, rolName);
-            }
+            await _userManager.AddToRoleAsync(user, rolName);
         }
 
         ModelRol.IsOpenAddRolToUser = false;
