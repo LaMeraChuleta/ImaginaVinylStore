@@ -1,47 +1,39 @@
-﻿@model Client.Server.Controllers.RolController.RolModel
-
+﻿@model Client.Server.Models.RolModel
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
-
 <h2>title</h2>
-
 <div class="row">
     <div class="col-md-4">
         <table class="table">
             <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">User</th>
-                <th scope="col">Roles</th>
-                <th scope="col">Accion</th>
-            </tr>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Roles</th>
+                    <th scope="col">Accion</th>
+                </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model.Users)
-            {
-                <tr>
-                    <td>@item.Id</td>
-                    <td>@item.UserName</td>
-                    <td>
-                        @foreach (var rol in await Model.GetRolesAsync(item))
-                        {
-                            <ul>@rol</ul>
-                        }
-                    </td>
-                    <form method="post">
+                @foreach (var item in Model.Users)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.UserName</td>
+                        <td>
+                            @foreach (var rol in await Model.GetRolesAsync(item))
+                            {
+                                <ul>@rol</ul>
+                            }
+                        </td>
                         <td>
                             <a href="@Url.Action("Index", "Rol", new RouteValueDictionary { { "id", item.Id }, { "isOpenModal", true } })">Agregar</a>
                         </td>
-                    </form>
-                </tr>
-            }
+                    </tr>
+                }
             <tbody>
         </table>
-
-
-        @Model.IsOpenAddRolToUser
         @if (Model.IsOpenAddRolToUser)
         {
             @using (Html.BeginForm("AssignRolToUser", "Rol", new RouteValueDictionary { { "id", Model.Id }, { "rolName", Model.RolName } }, FormMethod.Post))
