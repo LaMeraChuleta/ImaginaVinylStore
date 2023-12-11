@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,18 +14,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => { options.SignIn.RequireConfirmedAccount = false; })
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options => {
+    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>
+    {
         options.IdentityResources["openid"].UserClaims.Add("role");
-        if(options.ApiScopes.Any())
+        if (options.ApiScopes.Any())
             options.ApiResources.Single().UserClaims.Add("role");
     });
-
-JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
+//JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -41,11 +40,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret_key"))
         };
     });
-
-//builder.Services.ConfigureApplicationCookie(option =>
-//{
-//    option.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-//});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
