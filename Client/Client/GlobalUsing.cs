@@ -2,11 +2,13 @@
 global using SharedApp.Models;
 global using SharedApp.Extension;
 
+global using Client.App;
 global using Client.App.Pages;
 global using Client.App.Services;
 global using Client.App.Interfaces;
 
 global using Blazored.LocalStorage;
+global using Blazored.Toast;
 global using Blazored.Toast.Services;
 
 global using System.Net;

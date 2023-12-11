@@ -1,5 +1,3 @@
-using Blazored.Toast;
-using Client.App;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
