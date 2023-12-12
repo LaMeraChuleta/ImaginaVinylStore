@@ -2,14 +2,12 @@
 using SharedApp.Models;
 
 namespace SharedApp.Data;
-
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
     }
-
     public DbSet<AudioCatalog> AudioCatalog { get; set; }
     public DbSet<MusicCatalog> MusicCatalog { get; set; }
     public DbSet<Artist> Artist { get; set; }
@@ -20,6 +18,7 @@ public class AppDbContext : DbContext
     public DbSet<ImageAudio> ImageAudio { get; set; }
     public DbSet<ImageArtist> ImageArtist { get; set; }
     public DbSet<Presentation> Presentation { get; set; }
+    public DbSet<ShippingAddress> ShippingAddress { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -106,5 +105,8 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Presentation>()
             .Ignore(p => p.CatalogMusics);
+
+        modelBuilder.Entity<ShippingAddress>()
+            .Ignore(p => p.Order);
     }
 }
