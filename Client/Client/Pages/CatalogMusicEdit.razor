@@ -1,10 +1,8 @@
 ﻿@page "/EditCatalogMusic/{MusicCatalogId:int}"
-
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 
 <PageTitle>Crear Catalogo</PageTitle>
-
 @if (!IsLoading)
 {
     <div class="w-full px-10 inline-flex my-5">
@@ -116,7 +114,7 @@
             </EditForm>
         </div>
         <div class="border-1 md:w-1/3 mx-auto">
-            <ImagesManage Images="EditMusicCatalog.Images" SetIsAnyImage="SetIsAnyImageForCatalog"></ImagesManage>
+            <ImagesManage Type="TypeImageWrapper.Music" Images="EditMusicCatalog.Images" SetIsAnyImage="SetIsAnyImageForCatalog"></ImagesManage>
         </div>
     </div>
 }

@@ -1,5 +1,4 @@
 ﻿@page "/OrderManage"
-
 @attribute [Authorize]
 @using Microsoft.AspNetCore.Authorization
 
@@ -15,10 +14,10 @@
                     IdUser
                 </th>
                 <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
-                    Musica
+                    Items
                 </th>
                 <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
-                    Audio
+                    Detalles
                 </th>
             </tr>
         </thead>
@@ -36,12 +35,49 @@
                             @item.ApplicationUserId
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap">
-                            @item.CatalogMusics.Count()
+                            @(item.CatalogMusics.Count() + item.AudioCatalogs.Count())
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap">
-                            @item.AudioCatalogs.Count()
+                            @if (IdOrderDetail == 0 || IdOrderDetail != item.Id)
+                            {
+                                <button @onclick="@(() => IdOrderDetail = item.Id)">+</button>
+                            }
+                            else if(IdOrderDetail == item.Id)
+                            {
+                                <button @onclick="@(() => IdOrderDetail = 0)">-</button>
+                            }
                         </td>
                     </tr>
+
+                    @if (IdOrderDetail == item.Id)
+                    {
+                        <tr>
+                            <td class="px-6 py-4 whitespace-no-wrap border border-2 w-full" colspan="4">
+                                <div class="inline-flex w-full">
+                                    <div class="w-1/2">
+                                        <p>@item.Name</p>
+                                        <p>@item.ShippingAddress.StreetAddres1</p>
+                                        <p>@item.ShippingAddress.StreetAddress2</p>
+                                        <p>@item.ShippingAddress.City</p>
+                                        <p>@item.ShippingAddress.Country</p>
+                                        <p>@item.ShippingAddress.PostalCode</p>
+                                    </div>
+                                    <div class="w-1/2">
+                                        @foreach (var itemCatalog in item.CatalogMusics)
+                                        {
+
+                                            <p>@itemCatalog.Title-@itemCatalog.Genre</p>
+                                        }
+                                        @foreach (var itemAudio in item.AudioCatalogs)
+                                        {
+
+                                            <p>@itemAudio.Name-@itemAudio.Brand</p>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 }
             }
             else
@@ -49,6 +85,5 @@
                 <tr> Sin Datos </tr>
             }
         </tbody>
-
     </table>
 </div>

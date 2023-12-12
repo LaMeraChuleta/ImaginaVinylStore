@@ -16,7 +16,7 @@
         public IResult Get()
         {
             return Results.Ok(_context.AudioCatalog
-                .Where(x => x.Sold!)
+                .Where(x => x.Sold == false)
                 .Include(x => x.Images)
                 .ToArray());
         }

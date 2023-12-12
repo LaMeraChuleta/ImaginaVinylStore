@@ -1,20 +1,20 @@
 ﻿namespace Client.App.Components
 {
-    public class ImageTypeWrapper
+    public class ImageWrapper
     {
-        public ImageTypeWrapper(ImageCatalog image)
+        public ImageWrapper(ImageCatalog image)
         {
             Id = Guid.NewGuid();
             Url = image.Url;
             IsInDb = true;
         }
-        public ImageTypeWrapper(ImageAudio image)
+        public ImageWrapper(ImageAudio image)
         {
             Id = Guid.NewGuid();
             Url = image.Url;
             IsInDb = true;
         }
-        public ImageTypeWrapper(IBrowserFile file, byte[] buffer)
+        public ImageWrapper(IBrowserFile file, byte[] buffer)
         {
             Id = Guid.NewGuid();
             IsInDb = false;
@@ -25,5 +25,11 @@
         public string Url { get; set; }
         public bool IsInDb { get; set; }
         public IBrowserFile BrowserImage { get; set; }
+    }
+
+    public enum TypeImageWrapper
+    {
+        Music,
+        Audio
     }
 }
