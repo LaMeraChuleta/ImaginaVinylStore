@@ -17,7 +17,7 @@ public class MusicCatalogController : ControllerBase
     public IResult Get()
     {
         return Results.Ok(_context.MusicCatalog
-            .Where(x => x.Sold!)
+            .Where(x => x.Sold == false)
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)

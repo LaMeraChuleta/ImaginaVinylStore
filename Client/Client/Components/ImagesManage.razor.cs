@@ -3,12 +3,13 @@
     public partial class ImagesManage : ComponentBase, IDisposable
     {
         private const int MaxAllowedFiles = 3;
+        [Parameter] public TypeImageWrapper Type { get; set; }
         [Parameter] public IEnumerable<ImageCatalog>? Images { get; set; }
         [Parameter] public IEnumerable<ImageAudio>? ImagesAudio { get; set; }
         [Parameter] public EventCallback<bool> SetIsAnyImage { get; set; }
         [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
         [Inject] public IAudioCatalogService AudioCatalogService { get; set; }
-        private List<ImageTypeWrapper> ImagesData { get; set; } = new();
+        private List<ImageWrapper> ImagesData { get; set; } = new();
         private bool IsImageMusic { get; set; }
 
         protected override void OnInitialized()
@@ -30,14 +31,12 @@
         {
             if (Images is not null)
             {
-                IsImageMusic = true;
-                Images.ToList().ForEach(x => ImagesData.Add(new ImageTypeWrapper(x)));
+                Images.ToList().ForEach(x => ImagesData.Add(new ImageWrapper(x)));
                 await SetIsAnyImage.InvokeAsync(ImagesData.Any());
             }
             if (ImagesAudio is not null)
             {
-                IsImageMusic = false;
-                ImagesAudio.ToList().ForEach(x => ImagesData.Add(new ImageTypeWrapper(x)));
+                ImagesAudio.ToList().ForEach(x => ImagesData.Add(new ImageWrapper(x)));
                 await SetIsAnyImage.InvokeAsync(ImagesData.Any());
             }
 
@@ -49,9 +48,9 @@
             {
                 ImagesData.ForEach(x =>
                 {
-                    if (IsImageMusic)
+                    if (Type == TypeImageWrapper.Music)
                         CatalogMusicService.CreateImageAsync(id, x.BrowserImage);
-                    else
+                    if (Type == TypeImageWrapper.Audio)
                         AudioCatalogService.CreateImageAsync(id, x.BrowserImage);
                 });
                 ImagesData.Clear();
@@ -69,7 +68,7 @@
                 {
                     var buffer = new byte[file.Size];
                     await file.OpenReadStream().ReadAsync(buffer);
-                    ImagesData.Add(new ImageTypeWrapper(file, buffer));
+                    ImagesData.Add(new ImageWrapper(file, buffer));
                 }
                 await SetIsAnyImage.InvokeAsync(true);
                 StateHasChanged();
