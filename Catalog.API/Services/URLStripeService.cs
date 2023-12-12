@@ -11,13 +11,12 @@
             try
             {
                 var products = items
-                    .Select(x => new SessionLineItemOptions()
+                    .ConvertAll(x => new SessionLineItemOptions()
                     {
                         Price = x.GetIdPriceStripe(),
                         Quantity = 1
                     })
-                    .ToList();
-
+;
                 var options = new SessionCreateOptions
                 {
                     LineItems = products,
@@ -25,8 +24,10 @@
                     CustomerEmail = email,
                     ShippingAddressCollection = new SessionShippingAddressCollectionOptions
                     {
-                        AllowedCountries = new List<string> { "MX" }
+                        AllowedCountries = new List<string> { "MX" },
+
                     },
+                    Locale = "es",
                     Mode = "payment",
                     SuccessUrl = domain + "Checkout/Complete",
                     CancelUrl = domain + "CartSummary",
