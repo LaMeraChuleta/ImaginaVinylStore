@@ -11,7 +11,8 @@
         {
             try
             {
-                var name = $"{value.Title}-{value.Artist.Name}";
+                var artist = _context.Artist.Find(value.ArtistId);
+                var name = $"{value.Title}-{artist!.Name}";
 
                 var result = value.Images is not null
                     ? CreateInStripe(name, value.Price, value.Images.Select(x => x.Url).ToList())
