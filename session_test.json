@@ -1,0 +1,149 @@
+ {
+  "id": "cs_test_b1huWvWpn9mFBZoi5YGDtTtIjwdLP7T35YEb3nKFGECxSnWwG37Rqn0pim",
+  "object": "checkout.session",
+  "after_expiration": null,
+  "allow_promotion_codes": null,
+  "amount_subtotal": 224600,
+  "amount_total": 224600,
+  "automatic_tax": {
+    "enabled": false,
+    "status": null
+  },
+  "billing_address_collection": null,
+  "cancel_url": "https://localhost:7197/CartSummary",
+  "client_reference_id": "e0fa2c0e-34e0-41bb-82d0-22cac06115d4",
+  "client_secret": null,
+  "consent": null,
+  "consent_collection": null,
+  "created": 1702330038,
+  "currency": "mxn",
+  "currency_conversion": null,
+  "custom_fields": [],
+  "custom_text": {
+    "shipping_address": null,
+    "submit": null,
+    "terms_of_service_acceptance": null
+  },
+  "customer": null,
+  "customer_creation": "if_required",
+  "customer_details": {
+    "address": {
+      "city": "Tlapan",
+      "country": "MX",
+      "line1": "Sisal 380",
+      "line2": "Pedregal de Sn Nicolas",
+      "postal_code": "14100",
+      "state": "CDMX"
+    },
+    "email": "emi.torres.qwerty@gmail.com",
+    "name": "Luis Eduardo Emiliano Torres",
+    "phone": null,
+    "tax_exempt": "none",
+    "tax_ids": []
+  },
+  "customer_email": null,
+  "expires_at": 1702416438,
+  "invoice": null,
+  "invoice_creation": {
+    "enabled": false,
+    "invoice_data": {
+      "account_tax_ids": null,
+      "custom_fields": null,
+      "description": null,
+      "footer": null,
+      "metadata": {},
+      "rendering_options": null
+    }
+  },
+  "line_items": null,
+  "livemode": false,
+  "locale": "es",
+  "metadata": {},
+  "mode": "payment",
+  "payment_intent": "pi_3OMH14F4FZD9gDsP1SOTgEr9",
+  "payment_link": null,
+  "payment_method_collection": "if_required",
+  "payment_method_configuration_details": null,
+  "payment_method_options": {
+    "acss_debit": null,
+    "affirm": null,
+    "afterpay_clearpay": null,
+    "alipay": null,
+    "au_becs_debit": null,
+    "bacs_debit": null,
+    "bancontact": null,
+    "boleto": null,
+    "card": {
+      "installments": {
+        "enabled": false
+      },
+      "setup_future_usage": null,
+      "statement_descriptor_suffix_kana": null,
+      "statement_descriptor_suffix_kanji": null
+    },
+    "cashapp": null,
+    "customer_balance": null,
+    "eps": null,
+    "fpx": null,
+    "giropay": null,
+    "grabpay": null,
+    "ideal": null,
+    "klarna": null,
+    "konbini": null,
+    "link": null,
+    "oxxo": null,
+    "p24": null,
+    "paynow": null,
+    "paypal": null,
+    "pix": null,
+    "revolut_pay": null,
+    "sepa_debit": null,
+    "sofort": null,
+    "us_bank_account": null
+  },
+  "payment_method_types": [
+    "card"
+  ],
+  "payment_status": "paid",
+  "phone_number_collection": {
+    "enabled": false
+  },
+  "recovered_from": null,
+  "redirect_on_completion": null,
+  "return_url": null,
+  "setup_intent": null,
+  "shipping_address_collection": {
+    "allowed_countries": [
+      "MX"
+    ]
+  },
+  "shipping_cost": null,
+  "shipping_details": {
+    "address": {
+      "city": "Tlapan",
+      "country": "MX",
+      "line1": "Sisal 380",
+      "line2": "Pedregal de Sn Nicolas",
+      "postal_code": "14100",
+      "state": "CDMX"
+    },
+    "carrier": null,
+    "name": "Luis Eduardo Emiliano Torres",
+    "phone": null,
+    "tracking_number": null
+  },
+  "shipping_options": [],
+  "status": "complete",
+  "submit_type": null,
+  "subscription": null,
+  "success_url": "https://localhost:7197/Checkout/Complete",
+  "tax_id_collection": null,
+  "total_details": {
+    "amount_discount": 0,
+    "amount_shipping": 0,
+    "amount_tax": 0,
+    "breakdown": null
+  },
+  "ui_mode": "hosted",
+  "url": null
+}

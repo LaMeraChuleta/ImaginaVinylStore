@@ -14,30 +14,54 @@
             var musicCatalog = await ChangeStateToSold<MusicCatalog>(priceStripeId);
             var audioCatalog = await ChangeStateToSold<AudioCatalog>(priceStripeId);
 
+            var shippingAddress = await CreateShippingAddress(session);
+
             var order = new Order()
             {
+                Name = session.ShippingDetails.Name,
                 ApplicationUserId = session.ClientReferenceId,
+                ShippingAddress = shippingAddress,
                 CatalogMusics = musicCatalog,
                 AudioCatalogs = audioCatalog
             };
 
             await _context.Order.AddAsync(order);
             await _context.SaveChangesAsync();
+
             return true;
         }
         public async Task<IEnumerable<Order>> GetAsync(string idAspNetUser)
         {
             return await _context.Order
                 .Where(x => x.ApplicationUserId == idAspNetUser)
+                .Include(x => x.ShippingAddress)
                 .Include(x => x.CatalogMusics)
                 .Include(x => x.AudioCatalogs)
                 .ToArrayAsync();
         }
+        private async Task<ShippingAddress> CreateShippingAddress(Session session)
+        {
+            var shippingAddres = new ShippingAddress
+            {
+                StreetAddres1 = session.ShippingDetails.Address.Line1,
+                StreetAddress2 = session.ShippingDetails.Address.Line2,
+                Country = session.ShippingDetails.Address.Country,
+                City = session.ShippingDetails.Address.City,
+                Phone = "55 44 10 53 55",
+                PostalCode = session.ShippingDetails.Address.PostalCode
+            };
+
+            await _context.ShippingAddress.AddAsync(shippingAddres);
+            await _context.SaveChangesAsync();
+
+            return shippingAddres;
+        }
         private static IEnumerable<string> GetLineItemStripe(Session session)
         {
+            var service = new SessionService();
             var options = new SessionGetOptions();
             options.AddExpand("line_items");
-            var service = new SessionService();
+
             Session sessionWithLineItems = service.Get(session.Id, options);
             StripeList<LineItem> lineItems = sessionWithLineItems.LineItems;
 
