@@ -3,12 +3,12 @@ using SharedApp.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace SharedApp.Models;
-
 public class MusicCatalog : IStripeCatalogBase
 {
     // Primary key
     public int Id { get; set; }
 
+    //Props
     [Required] public string Title { get; set; }
     [Required] public string Country { get; set; }
     [Required] public int Year { get; set; }
