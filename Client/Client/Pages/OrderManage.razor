@@ -8,13 +8,16 @@
         <thead>
             <tr>
                 <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
-                    Id
+                    Cliente
                 </th>
                 <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
-                    IdUser
+                    Numero
                 </th>
                 <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
-                    Items
+                    Articulos
+                </th>
+                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                    Total
                 </th>
                 <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
                     Detalles
@@ -29,20 +32,23 @@
                 {
                     <tr>
                         <td class="px-6 py-4 whitespace-no-wrap">
-                            @item.Id
+                            @item.Name
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap">
-                            @item.ApplicationUserId
+                            @item.ShippingAddress.Number
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap">
-                            @(item.CatalogMusics.Count() + item.AudioCatalogs.Count())
+                            @(item.AudioCatalogs.Count() + item.CatalogMusics.Count())
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            $650
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap">
                             @if (IdOrderDetail == 0 || IdOrderDetail != item.Id)
                             {
                                 <button @onclick="@(() => IdOrderDetail = item.Id)">+</button>
                             }
-                            else if(IdOrderDetail == item.Id)
+                            else if (IdOrderDetail == item.Id)
                             {
                                 <button @onclick="@(() => IdOrderDetail = 0)">-</button>
                             }
@@ -52,27 +58,25 @@
                     @if (IdOrderDetail == item.Id)
                     {
                         <tr>
-                            <td class="px-6 py-4 whitespace-no-wrap border border-2 w-full" colspan="4">
+                            <td class="px-6 py-4 whitespace-no-wrap border-2 border-r-0 border-l-0 border-b-0 w-full" colspan="5">
                                 <div class="inline-flex w-full">
                                     <div class="w-1/2">
-                                        <p>@item.Name</p>
-                                        <p>@item.ShippingAddress.StreetAddres1</p>
-                                        <p>@item.ShippingAddress.StreetAddress2</p>
-                                        <p>@item.ShippingAddress.City</p>
-                                        <p>@item.ShippingAddress.Country</p>
-                                        <p>@item.ShippingAddress.PostalCode</p>
+                                        @foreach (var itemMusic in item.CatalogMusics)
+                                        {
+                                            <div class="inline-flex">
+                                                <img src="@itemMusic.Images.FirstOrDefault().Url" class="h-24 w-24" />
+                                                <div class="ml-10">
+                                                    <p>@itemMusic.Title</p>
+                                                    <p>$@itemMusic.Price.ToString("#,##0.00") MXN</p>
+                                                    <p>@itemMusic.Format.Name</p>
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
                                     <div class="w-1/2">
-                                        @foreach (var itemCatalog in item.CatalogMusics)
-                                        {
-
-                                            <p>@itemCatalog.Title-@itemCatalog.Genre</p>
-                                        }
-                                        @foreach (var itemAudio in item.AudioCatalogs)
-                                        {
-
-                                            <p>@itemAudio.Name-@itemAudio.Brand</p>
-                                        }
+                                        <p>@item.ShippingAddress.StreetAddres1 Int @item.ShippingAddress.IntNumber</p>
+                                        <p>@item.ShippingAddress.StreetAddress2</p>
+                                        <p>@item.ShippingAddress.City @item.ShippingAddress.Country @item.ShippingAddress.PostalCode</p>
                                     </div>
                                 </div>
                             </td>
