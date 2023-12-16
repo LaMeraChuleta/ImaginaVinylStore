@@ -36,6 +36,9 @@
                 .Where(x => x.ApplicationUserId == idAspNetUser)
                 .Include(x => x.ShippingAddress)
                 .Include(x => x.CatalogMusics)
+                    .ThenInclude(x => x.Format)
+                .Include(x => x.CatalogMusics)
+                    .ThenInclude(x => x.Images)
                 .Include(x => x.AudioCatalogs)
                 .ToArrayAsync();
         }
