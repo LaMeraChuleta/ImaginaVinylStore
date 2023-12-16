@@ -4,7 +4,7 @@
 
 <div class="rounded-lg bg-gray-300     text-gray-800 shadow-lg flex-col w-64">
     <img src="@(AudioCatalog.Images?.FirstOrDefault()?.Url ?? "https://udiscover.mx/cdn/shop/files/big-OR_SIGNEDVINYL-version2.png?v=1691079605")" class=" w-64 rounded-lg h-56 border object-cover object-center" alt="">
-    <div class="p-2 text-sm pt-4 sm:h-28 font-bold">        
+    <div class="p-2 text-sm pt-4 sm:h-28 font-bold">
         <p>@AudioCatalog.Name</p>
         <p>Marca: @AudioCatalog.Brand</p>
     </div>
@@ -16,7 +16,7 @@
 
 @code {
     [Parameter]
-    public AudioCatalog AudioCatalog { get; set; } = new();   
+    public AudioCatalog AudioCatalog { get; set; } = new();
 
     private void AddItemShopCart()
     {
