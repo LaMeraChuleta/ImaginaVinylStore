@@ -1,6 +1,6 @@
-﻿namespace Client.App.Pages
+﻿namespace Client.App.Pages.Audio
 {
-    public partial class CatalogAudioManage : ComponentBase
+    public partial class Manage : ComponentBase
     {
         [Inject] public IToastService ToastService { get; set; }
         [Inject] public IAudioCatalogService AudioCatalogService { get; set; }
