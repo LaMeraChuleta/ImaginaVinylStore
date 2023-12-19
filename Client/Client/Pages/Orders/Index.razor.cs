@@ -1,6 +1,6 @@
-﻿namespace Client.App.Pages
+﻿namespace Client.App.Pages.Orders
 {
-    public partial class OrderManage : ComponentBase
+    public partial class Index : ComponentBase
     {
         [Inject] public IToastService ToastService { get; set; }
         [Inject] public IOrderService OrderService { get; set; }

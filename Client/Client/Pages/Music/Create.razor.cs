@@ -1,16 +1,16 @@
-﻿namespace Client.App.Pages
+﻿namespace Client.App.Pages.Music
 {
-    public partial class CatalogMusicEdit : ComponentBase
+    public partial class Create : ComponentBase
     {
-        [Parameter] public int MusicCatalogId { get; set; }
-        [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public IToastService ToastService { get; set; }
         [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
         [Inject] public IArtistService ArtistService { get; set; }
         [Inject] public IPresentationService PresentationService { get; set; }
         [Inject] public IGenreService GenreService { get; set; }
         [Inject] public IFormatService FormatService { get; set; }
-        private MusicCatalog EditMusicCatalog { get; set; } = new();
+        [Inject] public IProductService ProductService { get; set; }
+
+        private MusicCatalog NewMusicCatalog { get; set; } = new();
         private List<Artist> Artists { get; set; } = new();
         private List<Genre> Genres { get; set; } = new();
         private List<Format> Formats { get; set; } = new();
@@ -19,8 +19,8 @@
         private bool IsLoading { get; set; }
         private bool IsAnyImage { get; set; }
 
-        public delegate void CatalogMusicEditOnDb(int idCatalogMusic);
-        public static event CatalogMusicEditOnDb OnCompleteEdit;
+        public delegate void CatalogMusicInsertOnDb(int idCatalogMusic);
+        public static event CatalogMusicInsertOnDb OnCompleteInsert;
 
         protected override async Task OnInitializedAsync()
         {
@@ -29,26 +29,23 @@
             Formats = await FormatService.GetAsync();
             Genres = await GenreService.GetAsync();
             Presentations = await PresentationService.GetAsync();
-            EditMusicCatalog = await CatalogMusicService.GetByIdAsync(MusicCatalogId);
-            _editContextMusicCatalog = new EditContext(EditMusicCatalog);
+            _editContextMusicCatalog = new EditContext(NewMusicCatalog);
             IsLoading = false;
             StateHasChanged();
         }
-        private async void EditCatalogMusics()
+
+        private async void CreateCatalogMusics()
         {
             try
             {
                 if (!_editContextMusicCatalog.Validate()) return;
 
-                if (!await CatalogMusicService.UpdateAsync(EditMusicCatalog))
-                {
-                    ToastService.ShowToast(ToastLevel.Success, $"No se pudo actualizar {EditMusicCatalog!.Title}-{EditMusicCatalog.Artist?.Name} en el catalogo");
-                }
-
-                OnCompleteEdit.Invoke(EditMusicCatalog.Id);
-                ToastService.ShowToast(ToastLevel.Success, $"Exito se actualizo {EditMusicCatalog!.Title}-{EditMusicCatalog.Artist?.Name} en el catalogo");
+                NewMusicCatalog = await CatalogMusicService.CreateAsync(NewMusicCatalog);
+                await ProductService.CreateCatalogOnStripeAsync(NewMusicCatalog!);
+                OnCompleteInsert.Invoke(NewMusicCatalog.Id);
+                ToastService.ShowToast(ToastLevel.Success, $"Exito se creo {NewMusicCatalog!.Title}-{NewMusicCatalog.Artist?.Name} en el catalogo");
+                NewMusicCatalog = new MusicCatalog();
                 StateHasChanged();
-                NavigationManager.NavigateTo("/ManageCatalogMusic");
             }
             catch (Exception exception)
             {

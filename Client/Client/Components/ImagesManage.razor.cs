@@ -14,18 +14,18 @@
 
         protected override void OnInitialized()
         {
-            CatalogMusicCreate.OnCompleteInsert += InsertImagesInDb;
-            CatalogAudioCreate.OnCompleteInsert += InsertImagesInDb;
-            CatalogMusicEdit.OnCompleteEdit += InsertImagesInDb;
-            CatalogAudioEdit.OnCompleteEdit += InsertImagesInDb;
+            Pages.Music.Create.OnCompleteInsert += InsertImagesInDb;
+            Pages.Audio.Create.OnCompleteInsert += InsertImagesInDb;
+            Pages.Music.Edit.OnCompleteEdit += InsertImagesInDb;
+            Pages.Audio.Edit.OnCompleteEdit += InsertImagesInDb;
             base.OnInitialized();
         }
         public void Dispose()
         {
-            CatalogMusicCreate.OnCompleteInsert -= InsertImagesInDb;
-            CatalogAudioCreate.OnCompleteInsert -= InsertImagesInDb;
-            CatalogMusicEdit.OnCompleteEdit -= InsertImagesInDb;
-            CatalogAudioEdit.OnCompleteEdit -= InsertImagesInDb;
+            Pages.Music.Create.OnCompleteInsert -= InsertImagesInDb;
+            Pages.Audio.Create.OnCompleteInsert -= InsertImagesInDb;
+            Pages.Music.Edit.OnCompleteEdit -= InsertImagesInDb;
+            Pages.Audio.Edit.OnCompleteEdit -= InsertImagesInDb;
         }
         protected override async Task OnInitializedAsync()
         {
