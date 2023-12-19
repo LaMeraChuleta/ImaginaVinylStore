@@ -1,6 +1,6 @@
-﻿namespace Client.App.Pages
+﻿namespace Client.App.Pages.Audio
 {
-    public partial class CatalogAudioEdit : ComponentBase
+    public partial class Edit : ComponentBase
     {
         [Parameter] public int AudioCatalogId { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }

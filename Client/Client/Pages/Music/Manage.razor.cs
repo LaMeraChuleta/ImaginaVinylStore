@@ -1,8 +1,8 @@
 ﻿using static Client.App.Services.CatalogMusicService;
 
-namespace Client.App.Pages
+namespace Client.App.Pages.Music
 {
-    public partial class CatalogMusicManage : ComponentBase
+    public partial class Manage : ComponentBase
     {
         [Inject] public IToastService ToastService { get; set; }
         [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
