@@ -1,4 +1,4 @@
-﻿namespace Client.App.Components
+﻿namespace Client.App.Components.Music
 {
     public partial class CatalogsForMusic : ComponentBase
     {
