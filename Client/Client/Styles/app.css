@@ -4,10 +4,30 @@
 
 @layer components {    
     .title-xl {
-        @apply md:text-4xl text-lg text-zinc-800 uppercase font-bold my-5;
+        @apply md:text-4xl text-lg text-gray-800 uppercase font-bold my-5;
     }
 
     .title-lg {
-        @apply md:text-2xl text-lg text-zinc-800 uppercase font-bold my-5;        
+        @apply md:text-2xl text-lg text-gray-800 uppercase font-bold my-5;        
+    }
+
+
+    .table-custom {
+        @apply table-auto min-w-full;
+    }
+    .thead-custom {
+        @apply border bg-gray-200;
+    }
+    .tr-thead-custom {
+        @apply font-bold text-gray-800 text-left uppercase text-xs tracking-wider;
+    }
+    .th-custom {
+        @apply px-6 py-4;
+    }
+    .tr-tbody-custom {
+        @apply border-b text-gray-700 even:bg-gray-50 odd:bg-white;
+    }
+    .td-custom {
+        @apply px-6 py-4;
     }
 }
