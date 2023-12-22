@@ -5,28 +5,28 @@
 
 <div class="w-full px-10 my-5 px-24">
     <h1 class="title-xl">Administrar Catalogo de Musica</h1>
-    <table class="min-w-full">
-        <thead>
-            <tr>
-                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+    <table class="table-custom">
+        <thead class="thead-custom">
+            <tr class="tr-thead-custom">
+                <th class="th-custom">
                     Titulo
                 </th>
-                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                <th class="th-custom">
                     Artista
                 </th>
-                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                <th class="th-custom">
                     Genero
                 </th>
-                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                <th class="th-custom">
                     Formato
                 </th>
-                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                <th class="th-custom">
                     Precio
                 </th>
-                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                <th class="th-custom">
                     Estatus
                 </th>
-                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                <th class="th-custom">
                     Acciones
                 </th>
             </tr>
@@ -34,41 +34,41 @@
         <tbody>
             @foreach (var item in CatalogMusics)
             {
-                <tr>
-                    <td class="px-6 py-4 whitespace-no-wrap">
+                <tr class="tr-tbody-custom">
+                    <td class="td-custom">
                         @item.Title
                     </td>
-                    <td class="px-6 py-4 whitespace-no-wrap">
+                    <td class="td-custom">
                         @item.Artist?.Name
                     </td>
-                    <td class="px-6 py-4 whitespace-no-wrap">
+                    <td class="td-custom">
                         @item.Genre?.Name
                     </td>
-                    <td class="px-6 py-4 whitespace-no-wrap">
+                    <td class="td-custom">
                         @item.Format?.Name - @item.Presentation?.Name
                     </td>
-                    <td class="px-6 py-4 whitespace-no-wrap">
+                    <td class="td-custom">
                         $@item.Price.ToString("#,##0.00")
                     </td>
                     @if (!item.ActiveInStripe)
                     {
-                        <td class="px-6 py-4 whitespace-no-wrap">
+                        <td class="td-custom">
                             <button @onclick="@(() => ActiveCatalogMusicInStripe(item))" class="bg-yellow-300 border rounded-xl p-2">Activar en Stripe</button>
                         </td>
                     }
                     else if (item.Sold)
                     {
-                        <td class="px-6 py-4 whitespace-no-wrap">
+                        <td class="td-custom">
                             <span class="bg-gray-300 border rounded-xl p-2">Vendido</span>
                         </td>
                     }
                     else
                     {
-                        <td class="px-6 py-4 whitespace-no-wrap">
+                        <td class="td-custom">
                             <span class="bg-green-300 border rounded-xl p-2">Disponible</span>
                         </td>
                     }
-                    <td class="flex flex-col space-y-1 px-6 py-4 whitespace-no-wrap">
+                    <td class="td-custom flex flex-col space-y-1">
                         @if (item.Sold)
                         {
                             <span>Ver detalles</span>

@@ -4,22 +4,22 @@
 
 <div class="w-full px-10 my-5 px-24">
     <h1 class="title-xl">Administrar Pedidos</h1>
-    <table class="min-w-full">
-        <thead>
-            <tr>
-                <th class="px-6 bg-pink py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+    <table class="table-custom">
+        <thead class="thead-custom">
+            <tr class=" tr-thead-custom">
+                <th class="th-custom">
                     Cliente
                 </th>
-                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                <th class="th-custom">
                     Numero
                 </th>
-                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                <th class="th-custom">
                     Articulos
                 </th>
-                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                <th class="th-custom">
                     Total
                 </th>
-                <th class="px-6 py-3 bg-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                <th class="th-custom">
                     Detalles
                 </th>
             </tr>
@@ -30,27 +30,37 @@
             {
                 @foreach (var item in Orders)
                 {
-                    <tr>
-                        <td class="px-6 py-4 whitespace-no-wrap">
+                    <tr class="tr-tbody-custom">
+                        <td class="td-custom">
                             @item.Name
                         </td>
-                        <td class="px-6 py-4 whitespace-no-wrap">
+                        <td class="td-custom">
                             @item.ShippingAddress.Number
                         </td>
-                        <td class="px-6 py-4 whitespace-no-wrap">
+                        <td class="td-custom">
                             @(item.AudioCatalogs.Count() + item.CatalogMusics.Count())
                         </td>
-                        <td class="px-6 py-4 whitespace-no-wrap">
+                        <td class="td-custom">
                             $650
                         </td>
-                        <td class="px-6 py-4 whitespace-no-wrap">
+                        <td class="td-custom">
                             @if (IdOrderDetail == 0 || IdOrderDetail != item.Id)
-                            {
-                                <button @onclick="@(() => IdOrderDetail = item.Id)">+</button>
+                            {                                
+                                <button @onclick="@(() => IdOrderDetail = item.Id)" class="inline-flex">
+                                    <span>Ver más</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mt-1 ml-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </button>
                             }
                             else if (IdOrderDetail == item.Id)
-                            {
-                                <button @onclick="@(() => IdOrderDetail = 0)">-</button>
+                            {                                
+                                <button @onclick="@(() => IdOrderDetail = 0)" class="inline-flex">
+                                    <span>Menos</span>                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mt-1 ml-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </button>
                             }
                         </td>
                     </tr>
@@ -58,7 +68,7 @@
                     @if (IdOrderDetail == item.Id)
                     {
                         <tr>
-                            <td class="px-6 py-4 whitespace-no-wrap border-2 border-r-0 border-l-0 border-b-0 w-full" colspan="5">
+                            <td class="border-t-2 w-full" colspan="5">
                                 <div class="inline-flex w-full">
                                     <div class="w-1/2">
                                         @foreach (var itemMusic in item.CatalogMusics)
