@@ -1,0 +1,58 @@
+﻿@page "/CatalogAudioDetail/{IdAudioCatalog:int}"
+
+@if (AudioCatalog is not null)
+{
+    <div class="md:flex w-full p=2 md:p-5">
+        <div class="md:w-1/2 md:grid md:justify-items-center mx-auto">
+            <img src="@(AudioCatalog!.Images!.First().Url ?? "https://erodingwinds.com/cdn/shop/files/4151748-2908234_540x.jpg?v=1702157989")" class="rounded-lg" alt="" />
+            <div class="w-full border-t inline-flex p-5 space-x-3">
+                @foreach (var image in AudioCatalog.Images!)
+                {
+                    <img class="h-20 w-20" src="@(image.Url ??  "https://erodingwinds.com/cdn/shop/files/4151748-2908234_540x.jpg?v=1702157989")" alt="Imagen del disco" />
+                }
+            </div>
+        </div>
+        <div class="md:w-1/2 p-2 md:p-5">
+            <div class=" space-y-1">
+                <h1 class="title-xl">@AudioCatalog.Name-@AudioCatalog.Brand</h1>
+                <p class="text-lg">
+                    <span class="font-semibold">Precio:</span>$@AudioCatalog.Price.ToString("#,##0.00")
+                </p>                                
+            </div>
+            <div class="mt-7">
+                <h1 class="title-lg">Descripcion</h1>
+                <p>
+                    @AudioCatalog.Description
+                </p>
+            </div>
+            <div class="mt-7">
+                <p class="font-semibold">Cantidad:</p>
+                <div class="flex border-2 h-10 max-w-max">
+                    <button class="w-1/3 h-full bg-gray-200 hover:bg-gray-300 flex justify-center py-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                        </svg>
+                    </button>
+                    <input id="cantidad" class="w-1/3 text-center bg-gray-100" type="text" value="1" />
+                    <button class="w-1/3 h-full bg-gray-200 hover:bg-gray-300 flex justify-center py-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex-col space-y-2">
+                    <button @onclick="AddItemShopCart"
+                            class="w-full mt-3 h-10 border rounded-xl font-semibold text-white bg-blue-600 hover:bg-blue-500 hover:border-blue-600 text-sm">
+                        Agregar al carrito
+                    </button>
+                    <button @onclick="AddItemShopCart"
+                            class="w-full mt-3 h-10 border rounded-xl font-semibold text-white bg-green-600 hover:bg-green-500 hover:border-green-600 text-sm">
+                        Comprar ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -25,7 +25,7 @@
         public IResult GetById(int id)
         {
             return Results.Ok(_context.AudioCatalog
-                .Where(x => x.Sold!)
+                .Where(x => x.Sold == false)
                 .Include(x => x.Images)
                 .First(x => x.Id == id));
         }
