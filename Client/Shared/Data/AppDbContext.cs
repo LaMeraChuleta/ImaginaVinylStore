@@ -23,7 +23,8 @@ public class AppDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         const string connectionString =
-            "Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
+            //"Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
+            "Server=imaginadbserver.database.windows.net;Database=dbimagina;User Id=rootimagina;Password=Vaca$Loca69;TrustServerCertificate=True;";
         optionsBuilder.UseSqlServer(connectionString, builder => builder.EnableRetryOnFailure());
     }
 
