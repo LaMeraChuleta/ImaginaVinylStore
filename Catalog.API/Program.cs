@@ -20,7 +20,7 @@ if (builder.Environment.IsProduction())
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
-        options.Authority = "";
+        options.Authority = urlServer;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = false
