@@ -4,13 +4,17 @@
 {
     <div class="md:flex w-full p=2 md:p-5">
         <div class="md:w-1/2 md:grid md:justify-items-center mx-auto">
-            <img src="@(MusicCatalog!.Images!.First().Url ?? "https://erodingwinds.com/cdn/shop/files/4151748-2908234_540x.jpg?v=1702157989")" class="rounded-lg" alt="" />
-            <div class="w-full border-t inline-flex p-5 space-x-3">
-                @foreach (var image in MusicCatalog.Images!)
-                {
-                    <img class="h-20 w-20" src="@(image.Url ??  "https://erodingwinds.com/cdn/shop/files/4151748-2908234_540x.jpg?v=1702157989")" alt="Imagen del disco" />
-                }                
-            </div>
+            @if (MusicCatalog.Images.Any())
+            {
+                <img src="@MusicCatalog.Images.First().Url" class="rounded-lg" alt="" />            
+                <div class="w-full border-t inline-flex p-5 space-x-3">
+                    @foreach (var image in MusicCatalog.Images)
+                    {
+                        <img class="h-20 w-20" src="@(image.Url ??  "https://erodingwinds.com/cdn/shop/files/4151748-2908234_540x.jpg?v=1702157989")" alt="Imagen del disco" />
+                    }                
+                </div>
+            }
+            <img src="https://erodingwinds.com/cdn/shop/files/4151748-2908234_540x.jpg?v=1702157989" class="rounded-lg" alt="" />
         </div>
         <div class="md:w-1/2 p-2 md:p-5">
             <div class=" space-y-1">
