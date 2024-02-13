@@ -16,6 +16,6 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(
-            "Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;");
+            "Server=imaginadbserver.database.windows.net;Database=dbimagina;User Id=rootimagina;Password=Vaca$Loca69;TrustServerCertificate=True;");
     }
 }

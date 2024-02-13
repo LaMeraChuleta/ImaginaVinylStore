@@ -1,7 +1,7 @@
 import excel_to_db_service
 
 path_excel = "catalogo_db.xlsx"
-sql_string_conn = "DRIVER=SQL Server;SERVER=localhost;DATABASE=test;UID=sa;PWD=VacaLoca69"
+sql_string_conn = "DRIVER=SQL Server;SERVER=imaginadbserver.database.windows.net;DATABASE=dbimagina;UID=rootimagina;PWD=Vaca$Loca69"
 
 excel_to_db = excel_to_db_service.ExcelToDbService(path_excel, sql_string_conn)
 
