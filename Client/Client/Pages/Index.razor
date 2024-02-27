@@ -5,10 +5,10 @@
 <div class="w-full">
     @if (CatalogMusics.Any())
     {
-        <div class="my-3 mx-5">
+        <div class="my-3 mx-2">
             <h1 class="title-xl">Novedades</h1>
             <hr class="border-gray-300 my-2" />
-            <div class="scroll-container">
+            <div class="overflow-y-auto">
                 <div class="inline-flex space-x-4 px-3">
                     @foreach (var item in CatalogMusics)
                     {
@@ -20,11 +20,11 @@
     }
     @if (Artists.Any())
     {
-        <div class="my-3 mx-5">
+        <div class="my-3 mx-2 mt-5">
             <h1 class="title-xl">Artistas</h1>
             <hr class="border-gray-300 my-2" />
-            <div class="flex justify-start p-2 md:p-5">
-                <div class="grid gap-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-6">
+            <div class="overflow-y-auto">
+                <div class="inline-flex space-x-10 px-5">
                     @foreach (var item in Artists)
                     {
                         <CardCatalogArtist Artist="item"></CardCatalogArtist>
@@ -33,7 +33,7 @@
             </div>
         </div>
     }
-    @if (AudioCatalogs.Any())
+@*     @if (AudioCatalogs.Any())
     {
         <div class="my-3 mx-5">
             <h1 class="title-xl">Audio</h1>
@@ -62,5 +62,5 @@
                 </div>
             </div>
         </div>
-    }
+    } *@
 </div>
