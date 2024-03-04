@@ -6,12 +6,9 @@
     .title-xl {
         @apply md:text-4xl text-lg text-gray-800 uppercase font-bold my-5;
     }
-
     .title-lg {
         @apply md:text-2xl text-lg text-gray-800 uppercase font-bold my-5;        
     }
-
-
     .table-custom {
         @apply table-auto min-w-full;
     }
