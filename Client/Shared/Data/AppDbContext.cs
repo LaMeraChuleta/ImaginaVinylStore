@@ -22,28 +22,28 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        const string connectionString =
-            //"Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
-            "Server=imaginadbserver.database.windows.net;Database=dbimagina;User Id=rootimagina;Password=Vaca$Loca69;TrustServerCertificate=True;";
-        optionsBuilder.UseSqlServer(connectionString, builder => builder.EnableRetryOnFailure());
+        //const string connectionString =
+        //    //"Server=localhost;Database=test;User Id=sa;Password=VacaLoca69;TrustServerCertificate=True;";
+        //    "Server=imaginadbserver.database.windows.net;Database=dbimagina;User Id=rootimagina;Password=Vaca$Loca69;TrustServerCertificate=True;";
+        //optionsBuilder.UseSqlServer(connectionString, builder => builder.EnableRetryOnFailure());
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<MusicCatalog>()
-            .HasOne<Presentation>(s => s.Presentation)
+            .HasOne(s => s.Presentation)
             .WithMany(g => g.CatalogMusics)
             .HasForeignKey(s => s.PresentationId)
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<MusicCatalog>()
-            .HasOne<Genre>(s => s.Genre)
+            .HasOne(s => s.Genre)
             .WithMany(g => g.CatalogMusics)
             .HasForeignKey(s => s.GenreId)
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<MusicCatalog>()
-            .HasOne<Artist>(s => s.Artist)
+            .HasOne(s => s.Artist)
             .WithMany(g => g.CatalogMusics)
             .HasForeignKey(s => s.ArtistId)
             .OnDelete(DeleteBehavior.NoAction);

@@ -25,7 +25,6 @@ builder.Services.AddIdentityServer()
         if (options.ApiScopes.Any())
             options.ApiResources.Single().UserClaims.Add("role");
     });
-//JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
