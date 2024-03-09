@@ -2,7 +2,7 @@
 
 <PageTitle>Index</PageTitle>
 <Carrousel></Carrousel>
-<div class="w-full">
+<div class="container mx-auto">
     @if (CatalogMusics.Any())
     {
         <div class="my-3 mx-2">
@@ -28,6 +28,21 @@
                     @foreach (var item in Artists)
                     {
                         <CardCatalogArtist Artist="item"></CardCatalogArtist>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    @if (CatalogMusics.Any())
+    {
+        <div class="my-3 mx-2">
+            <h1 class="title-xl">Novedades</h1>
+            <hr class="border-gray-300 my-2" />
+            <div class="overflow-y-auto">
+                <div class="inline-flex space-x-4 px-3">
+                    @foreach (var item in CatalogMusics)
+                    {
+                        <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
                     }
                 </div>
             </div>
