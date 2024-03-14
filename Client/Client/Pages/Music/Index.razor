@@ -1,6 +1,6 @@
 ﻿@page "/IndexCatalogMusic/{TypeFormat}"
 
-<div class="container mx-auto px-10">
+<div class="container mx-auto px-3 md:px-10">
     <h1 class="title-xl">@TypeFormat</h1>
     <div class="flex my-5 space-x-16 hidden md:flex">
         <h3 class="text-2xl">Filtros</h3>
@@ -58,11 +58,11 @@
             <div class="flex-col mx-auto my-3">
                 <p class="pl-5 text-2xl font-bold">Rock Psicodelico</p>
                 <hr class="border-gray-300 my-2"/>
-                <div class="flex justify-center p-2 md:p-5">
-                    <div class="grid grid-cols-3 md:grid-cols-5 gap-5">
+                <div class="flex justify-center p-0 md:p-5">
+                    <div class="grid grid-cols-3 md:grid-cols-5 gap-3 md:gap-5">
                         @foreach (var item in CatalogMusics)
                         {
-                            <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
+                            <CardCatalogMusic MusicCatalog="item" IsCardForGrid="true"></CardCatalogMusic>
                         }
                     </div>
                 </div>

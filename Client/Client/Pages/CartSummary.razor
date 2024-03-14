@@ -75,11 +75,11 @@
         </div>
     </div>
 
-    <div class="mt-20">
-        <p class="pl-5 text-2xl font-bold">RECOMENDACIONES</p>
+    <div class="my-3 mx-2">
+        <h1 class="title-xl">RECOMENDACIONES</h1>
         <hr class="border-gray-300 my-2" />
-        <div class="flex justify-start p-2 md:p-5">
-            <div class="grid gap-4 grid-cols-6">
+        <div class="overflow-y-auto">
+            <div class="inline-flex space-x-4 px-3">
                 @foreach (var item in MusicCatalogs)
                 {
                     <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
