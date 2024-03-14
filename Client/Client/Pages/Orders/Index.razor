@@ -45,7 +45,7 @@
                         </td>
                         <td class="td-custom">
                             @if (IdOrderDetail == 0 || IdOrderDetail != item.Id)
-                            {                                
+                            {
                                 <button @onclick="@(() => IdOrderDetail = item.Id)" class="inline-flex">
                                     <span>Ver más</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mt-1 ml-2">
@@ -69,16 +69,41 @@
                     {
                         <tr>
                             <td class="border-t-2 w-full" colspan="5">
-                                <div class="inline-flex w-full">
-                                    <div class="w-1/2">
+                                <div class="inline-flex w-full p-3">
+                                    <div class="flex flex-col space-y-5 w-1/2">
                                         @foreach (var itemMusic in item.CatalogMusics)
                                         {
                                             <div class="inline-flex">
-                                                <img src="@itemMusic.Images.FirstOrDefault().Url" class="h-24 w-24" />
+                                                @if (itemMusic.Images.Any())
+                                                {
+                                                    <img src="@itemMusic.Images.FirstOrDefault().Url" class="h-24 w-24" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="https://erodingwinds.com/cdn/shop/files/4151748-2908234_540x.jpg?v=1702157989" class="rounded-lg h-24 w-24" alt="" />
+                                                }
                                                 <div class="ml-10">
                                                     <p>@itemMusic.Title</p>
                                                     <p>$@itemMusic.Price.ToString("#,##0.00") MXN</p>
                                                     <p>@itemMusic.Format.Name</p>
+                                                </div>
+                                            </div>
+                                        }
+                                        @foreach (var itemAudio in item.AudioCatalogs)
+                                        {
+                                            <div class="inline-flex">
+                                                @if (itemAudio.Images.Any())
+                                                {
+                                                    <img src="@itemAudio.Images.FirstOrDefault().Url" class="h-24 w-24" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="https://erodingwinds.com/cdn/shop/files/4151748-2908234_540x.jpg?v=1702157989" class="rounded-lg h-24 w-24" alt="" />
+                                                }
+                                                <div class="ml-10">
+                                                    <p>@itemAudio.Name</p>
+                                                    <p>$@itemAudio.Price.ToString("#,##0.00") MXN</p>
+                                                    <p>@itemAudio.Brand</p>
                                                 </div>
                                             </div>
                                         }

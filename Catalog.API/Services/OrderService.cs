@@ -40,6 +40,7 @@
                 .Include(x => x.CatalogMusics)
                     .ThenInclude(x => x.Images)
                 .Include(x => x.AudioCatalogs)
+                    .ThenInclude(x => x.Images)
                 .ToArrayAsync();
         }
         private async Task<ShippingAddress> CreateShippingAddress(Session session)
