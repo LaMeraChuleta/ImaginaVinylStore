@@ -4,22 +4,33 @@
 [ApiController]
 public class OrderController : Controller
 {
-    private readonly IOrderService _orderService;
+    private readonly IOrderService _orderService;    
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly string endpointSecret = "whsec_2bacb0ffe54bdc9d94dd067b03cb0730c67ab567f143c5b76c5f8502ab5940b8";
+
+    private string endpointSecret = string.Empty;
 
     public OrderController(IHttpContextAccessor httpContextAccessor,
+        IHostEnvironment hostEnvironment,
         IOrderService orderService)
     {
-        _orderService = orderService;
+        _orderService = orderService;        
         _httpContextAccessor = httpContextAccessor;
+
+        if (hostEnvironment.IsProduction())
+        {
+            endpointSecret = "whsec_TGjZm10IX1UHQLZshNy2Ae2XPMFyPukU";
+        }
+        if (hostEnvironment.IsDevelopment())
+        {
+            endpointSecret = "whsec_2bacb0ffe54bdc9d94dd067b03cb0730c67ab567f143c5b76c5f8502ab5940b8";
+        }
     }
 
     [HttpPost]
     public async Task<IResult> Post()
     {
         try
-        {
+        {             
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
             var stripeEvent = EventUtility.ParseEvent(json, throwOnApiVersionMismatch: false);
 

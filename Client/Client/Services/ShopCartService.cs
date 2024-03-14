@@ -115,10 +115,9 @@
         public async Task<bool> DeleteShopCart()
         {
             try
-            {
-                var value = await GetShopCart();
-                value.ForEach(async (x) => await DeleteShopCartItem(x.Guid));
-
+            {               
+                await _localStorageService.SetItemAsync(nameof(ShopCartWrapper), new List<ShopCartWrapper>());
+                _shopCartNotificationService.NotifitShopCartCountChanges(0);
                 return true;
             }
             catch (Exception)

@@ -16,6 +16,7 @@
         public IResult Get()
         {
             return Results.Ok(_context.AudioCatalog
+                .Where(x => x.ActiveInStripe)
                 .Where(x => x.Sold == false)
                 .Include(x => x.Images)
                 .ToArray());
@@ -25,6 +26,7 @@
         public IResult GetById(int id)
         {
             return Results.Ok(_context.AudioCatalog
+                .Where(x => x.ActiveInStripe)
                 .Where(x => x.Sold == false)
                 .Include(x => x.Images)
                 .First(x => x.Id == id));

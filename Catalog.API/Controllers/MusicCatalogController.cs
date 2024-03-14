@@ -17,6 +17,7 @@ public class MusicCatalogController : ControllerBase
     public IResult Get()
     {
         return Results.Ok(_context.MusicCatalog
+            .Where(x => x.ActiveInStripe)
             .Where(x => x.Sold == false)
             .Include(x => x.Artist)
             .Include(x => x.Genre)
@@ -30,6 +31,7 @@ public class MusicCatalogController : ControllerBase
     public IResult GetById(int id)
     {
         return Results.Ok(_context.MusicCatalog
+            .Where(x => x.ActiveInStripe)
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
@@ -41,7 +43,7 @@ public class MusicCatalogController : ControllerBase
     [HttpGet("ForFilter")]
     public IResult GetByFilter(string? title, int? idGenre, int? idArtist, int? idFormat, int? idPresentation, bool? isActiveInStripe)
     {
-        var query = _context.MusicCatalog
+        var query = _context.MusicCatalog            
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)
@@ -68,6 +70,7 @@ public class MusicCatalogController : ControllerBase
     public IResult GetForSearchBar(string querySearch)
     {
         return Results.Ok(_context.MusicCatalog
+            .Where(x => x.ActiveInStripe)
             .Include(x => x.Artist)
             .Include(x => x.Genre)
             .Include(x => x.Presentation)

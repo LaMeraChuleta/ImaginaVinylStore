@@ -53,7 +53,7 @@
             internal int IdGenre { get; set; }
             internal int IdFormat { get; set; }
             internal int IdPresentation { get; set; }
-            internal bool? IsActiveInStripe { get; set; }
+            internal bool? IsActiveInStripe { get; set; } = true;
 
             internal Dictionary<string, string> ParseToDictionary()
             {

@@ -19,8 +19,8 @@
 ;
                 var options = new SessionCreateOptions
                 {
-                    LineItems = products,
-                    ClientReferenceId = idAspNetUser,
+                    LineItems = products,                    
+                    ClientReferenceId = idAspNetUser,                    
                     CustomerEmail = email,
                     ShippingAddressCollection = new SessionShippingAddressCollectionOptions
                     {
