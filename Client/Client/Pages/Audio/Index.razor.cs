@@ -1,50 +1,20 @@
-﻿using static Client.App.Services.CatalogMusicService;
-
-namespace Client.App.Pages.Audio
+﻿namespace Client.App.Pages.Audio
 {
     public partial class Index : ComponentBase
     {
-        [Parameter] public string TypeFormat { get; set; }
-        [Inject] public ICatalogMusicService CatalogMusicService { get; set; }
-        [Inject] public IArtistService ArtistService { get; set; }
-        [Inject] public IGenreService GenreService { get; set; }
-        [Inject] public IFormatService FormatService { get; set; }
-        [Inject] public IPresentationService PresentationService { get; set; }
+        [Parameter] public string TypeFormat { get; set; }        
+        [Inject] public IAudioCatalogService CatalogAudioService { get; set; }        
         [Inject] public IToastService ToastService { get; set; }
-
-        private List<Artist> Artists { get; set; } = new();
-        private List<Genre> Genres { get; set; } = new();
-        private List<Format> Formats { get; set; } = new();
-        private List<Presentation> Presentations { get; set; } = new();
-        private List<MusicCatalog> CatalogMusics { get; set; } = new();
-        private FilterForCatalogMusic Filter { get; set; } = new();
+                        
+        private List<AudioCatalog> AudioCatalogs { get; set; } = new();        
         private bool IsLoading { get; set; }
 
         protected override async Task OnParametersSetAsync()
         {
             try
             {
-                IsLoading = true;
-
-                Filter = new();
-                CatalogMusics = new();
-                Presentations = new();
-
-                Artists = await ArtistService.GetAsync();
-                Genres = await GenreService.GetAsync();
-                Formats = await FormatService.GetAsync();
-
-                var formatCurrent = Formats.Find(x => x.Name == TypeFormat);
-
-                if (formatCurrent is not null)
-                {
-                    Filter.IdFormat = formatCurrent.Id;
-                    CatalogMusics = await CatalogMusicService.GetAsync(Filter);
-                    Presentations = (await PresentationService.GetAsync())
-                        .Where(x => x.FormatId == Filter.IdFormat)
-                        .ToList();
-                }
-
+                IsLoading = true;               
+                AudioCatalogs = await CatalogAudioService.GetAsync();       
                 IsLoading = false;
                 StateHasChanged();
 
@@ -55,20 +25,6 @@ namespace Client.App.Pages.Audio
             }
 
             await base.OnParametersSetAsync();
-        }
-
-        private async Task FilterCatalogMusic()
-        {
-            try
-            {
-                CatalogMusics = await CatalogMusicService.GetAsync(Filter);
-                StateHasChanged();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
+        }   
     }
 }

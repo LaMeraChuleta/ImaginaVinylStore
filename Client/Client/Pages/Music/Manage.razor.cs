@@ -19,6 +19,9 @@ namespace Client.App.Pages.Music
             try
             {
                 await ProductService.CreateCatalogOnStripeAsync(musicCatalog);
+                ToastService.ShowToast(ToastLevel.Success, $"Se activo correctamente el disco {musicCatalog!.Title}-{musicCatalog.Artist?.Name} en stripe.");
+                musicCatalog.ActiveInStripe = true;
+                StateHasChanged();
             }
             catch (Exception exception)
             {

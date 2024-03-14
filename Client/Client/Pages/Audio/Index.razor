@@ -4,32 +4,20 @@
     <h1 class="title-xl">@TypeFormat</h1>
     <div class="flex my-5 space-x-16 hidden md:flex">
         <h3 class="text-2xl">Filtros</h3>
-        <input @bind="Filter.Title" type="text" class="w-52 h-8 rounded-lg" />
-        <select @bind="Filter.IdArtist" class="w-52 h-8 rounded-lg" name="" id="">
-            <option value="">Artista</option>
-            @foreach (var artist in Artists)
-            {
-                <option value="@artist.Id">@artist.Name</option>
-            }
+        <input placeholder="Busqueda" type="text" class="w-52 h-8 rounded-lg" />
+        <select class="w-52 h-8 rounded-lg" name="" id="">
+            <option value="">Marca</option>     
         </select>
-        <select @bind="@Filter.IdGenre" class="w-52 h-8 rounded-lg" name="" id="">
-            <option value="">Genero</option>
-            @foreach (var genre in Genres)
-            {
-                <option value="@genre.Id">@genre.Name</option>
-            }
+        <select class="w-52 h-8 rounded-lg" name="" id="">
+            <option value="">Traccion</option>
         </select>
-        <select @bind="Filter.IdPresentation" disabled="@(!Presentations.Any())" class="w-52 h-8 rounded-lg" name="" id="">
-            <option value="">Presentacion</option>
-            @foreach (var presentation in Presentations)
-            {
-                <option value="@presentation.Id">@presentation.Name</option>
-            }
+        <select class="w-52 h-8 rounded-lg" name="" id="">
+            <option value="">Tipo</option>
         </select>
         <select class="w-52 rounded-lg" name="" id="">
             <option value="">Ordenar por</option>
         </select>
-        <button @onclick="FilterCatalogMusic" class="h-10 w-32 border rounded-xl font-semibold text-white bg-green-600">Buscar</button>
+        <button class="h-10 w-32 border rounded-xl font-semibold text-white bg-green-600">Buscar</button>
     </div>
 
     <div class="flex justify-between md:hidden">
@@ -52,16 +40,16 @@
     
     @if (!IsLoading)
     {
-        @if (CatalogMusics.Any())
+        @if (AudioCatalogs.Any())
         {
             <div class="my-3">
                 <p class="pl-5 text-2xl font-bold">Rock Psicodelico</p>
                 <hr class="border-gray-300 my-2" />
                 <div class="flex justify-center p-2 md:p-5">
                     <div class="grid grid-cols-3 md:grid-cols-5 gap-5">
-                        @foreach (var item in CatalogMusics)
+                        @foreach (var item in AudioCatalogs)
                         {
-                            <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
+                            <CardAudioCatalog AudioCatalog="item"></CardAudioCatalog>
                         }
                     </div>
                 </div>

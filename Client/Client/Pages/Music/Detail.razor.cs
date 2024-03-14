@@ -10,7 +10,7 @@
         private MusicCatalog MusicCatalog { get; set; }
         private List<MusicCatalog> CatalogMusics { get; set; } = new();
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
             try
             {
@@ -21,8 +21,7 @@
             {
                 ToastService.ShowToast(ToastLevel.Error, ex.Message);
             }
-
-            await base.OnInitializedAsync();
+            await base.OnParametersSetAsync();
         }
 
         private async void AddItemShopCart()
