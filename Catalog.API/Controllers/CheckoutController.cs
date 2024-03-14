@@ -1,15 +1,17 @@
-﻿namespace Catalog.API.Controllers
+﻿using Microsoft.Extensions.Hosting;
+
+namespace Catalog.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CheckoutController : Controller
     {
-        private readonly IURLStripeService _urlStripeService;
+        private readonly IURLStripeService _urlStripeService;        
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public CheckoutController(IHttpContextAccessor httpContextAccessor, IURLStripeService urlStripeService)
         {
-            _urlStripeService = urlStripeService;
+            _urlStripeService = urlStripeService;            
             _httpContextAccessor = httpContextAccessor;
         }
 

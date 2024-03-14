@@ -1,10 +1,19 @@
 ﻿namespace Catalog.API.Services
 {
     public class URLStripeService : IURLStripeService
-    {
-        private const string domain = "https://localhost:7197/";
-        public URLStripeService()
+    {        
+        private string domain = string.Empty;
+        public URLStripeService(IHostEnvironment hostEnvironment)
         {
+
+            if (hostEnvironment.IsProduction())
+            {
+                domain = "https://imaginavinyl.azurewebsites.net/";                
+            }
+            if (hostEnvironment.IsDevelopment())
+            {
+                domain = "https://localhost:7197/";
+            }
         }
         public string CreateURLCheckoutPayment(string idAspNetUser, string email, List<ShopCartWrapper> items)
         {
