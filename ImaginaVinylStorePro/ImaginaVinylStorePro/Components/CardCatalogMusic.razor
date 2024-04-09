@@ -1,0 +1,53 @@
+﻿@using SharedApp.Models
+@inject NavigationManager NavigationManager
+
+<div @onclick="@(() => NavigationManager.NavigateTo($"CatalogMusicDetail/{MusicCatalog.Id}"))" class="rounded-lg bg-gray-300 text-gray-800 shadow-lg flex-col @ContainerGridCss">
+    <img class="@CardGridCss rounded-lg border object-cover object-center" src="@(MusicCatalog.Images?.FirstOrDefault()?.Url ?? "https://udiscover.mx/cdn/shop/files/big-OR_SIGNEDVINYL-version2.png?v=1691079605")" alt="">
+    <div class="p-2 text-sm pt-4 sm:h-28 font-bold">
+        <span class="@BgTypeFormat inline-block mb-2 font-sans px-2 py-1 leading-none text-white rounded-full uppercase tracking-wide text-xs">@MusicCatalog.Format?.Name</span>
+        <p>@MusicCatalog.Title - @MusicCatalog.Artist?.Name</p>
+        <p>Genero: @MusicCatalog.Genre?.Name</p>
+    </div>
+    <div class="w-full justify-between px-3 inline-flex text-md sm:h-10 p-2">
+        @if (MusicCatalog.Discount != null)
+        {
+            <p>$@(((int)(MusicCatalog.Price - (MusicCatalog.Price * (MusicCatalog.Discount / 100.0)))).ToString("#,##0.00")) MXN</p>
+            <div class="relative">
+                <div class="absolute w-auto -top-3 -right-2 bg-orange-400 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs z-10">-@MusicCatalog.Discount %</div>
+                <p class="text-xs my-auto text-gray-600 line-through">$@MusicCatalog.Price.ToString("#,##0.00") MXN</p>
+            </div>
+        }
+        else
+        {
+            <p>$@MusicCatalog.Price.ToString("#,##0.00") MXN</p>
+        }
+    </div>
+</div>
+
+@code {
+
+    [Parameter] public MusicCatalog MusicCatalog { get; set; } = new();
+    [Parameter] public bool IsCardForGrid { get; set; }
+
+    private string BgTypeFormat { get; set; } = "bg-grey-400";
+    public string CardGridCss { get; set; } = "w-64 h-56";
+    public string ContainerGridCss { get; set; } = "w-64";
+
+    protected override void OnParametersSet()
+    {
+
+        if (IsCardForGrid)
+        {
+            CardGridCss = "w-44 h-40 md:w-64 md:h-56";
+            ContainerGridCss = "w-auto md:w-64";
+        }
+
+        BgTypeFormat = MusicCatalog.Format?.Name switch
+        {
+            "Vinyl" => "bg-red-400",
+            "CD" => "bg-blue-400",
+            "Cassette" => "bg-orange-400",
+            _ => "bg-grey-400"
+        };
+    }
+}
