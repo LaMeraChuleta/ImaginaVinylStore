@@ -1,4 +1,4 @@
-﻿namespace SharedApp.Validation;
+﻿namespace ImaginaVinylStorePro.Validation;
 
 public class ProblemDetails
 {

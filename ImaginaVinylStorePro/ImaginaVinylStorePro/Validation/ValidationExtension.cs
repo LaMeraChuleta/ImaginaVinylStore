@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SharedApp.Validation;
+namespace ImaginaVinylStorePro.Validation;
 
 public class NotZero : ValidationAttribute
 {

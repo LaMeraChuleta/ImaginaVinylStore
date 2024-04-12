@@ -1,0 +1,26 @@
+﻿@using ImaginaVinylStorePro.Interfaces
+@using SharedApp.Models
+@inject NavigationManager NavigationManager
+@inject IShopCartService ShopCartsService
+
+<div @onclick="@(() => NavigationManager.NavigateTo($"CatalogAudioDetail/{AudioCatalog.Id}"))" class="rounded-lg bg-gray-300     text-gray-800 shadow-lg flex-col w-64">
+    <img src="@(AudioCatalog.Images?.FirstOrDefault()?.Url ?? "https://udiscover.mx/cdn/shop/files/big-OR_SIGNEDVINYL-version2.png?v=1691079605")" class=" w-64 rounded-lg h-56 border object-cover object-center" alt="">
+    <div class="p-2 text-sm pt-4 sm:h-28 font-bold">
+        <p>@AudioCatalog.Name</p>
+        <p>Marca: @AudioCatalog.Brand</p>
+    </div>
+    <div class="text-md sm:h-10 p-2">
+        <p>$@AudioCatalog.Price.ToString("#,##0.00") MXN</p>
+        <button @onclick="AddItemShopCart" class="py-2 px-4 rounded-lg py-2 bg-blue-600 text-xs text-white font-semibold uppercase hover:bg-blue-600">Agregar al carrito</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public AudioCatalog AudioCatalog { get; set; } = new();
+
+    private void AddItemShopCart()
+    {
+        ShopCartsService.SetShopCartItem(AudioCatalog);
+    }
+}

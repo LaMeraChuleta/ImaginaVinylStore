@@ -1,4 +1,4 @@
-﻿using SharedApp.Validation;
+﻿using ImaginaVinylStorePro.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace SharedApp.Models;

@@ -1,7 +1,79 @@
 ﻿@page "/"
+@using ImaginaVinylStorePro.Components.Layout
+@using ImaginaVinylStorePro.Data
+@using Microsoft.EntityFrameworkCore
+@using SharedApp.Models
+@inject ApplicationDbContext ApplicationDbContext
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Index</PageTitle>
+<Carrousel></Carrousel>
+<div class="container mx-auto">
+    @if (CatalogMusics.Any())
+    {
+        <div class="my-3 mx-2">
+            <h1 class="title-xl">Novedades</h1>
+            <hr class="border-gray-300 my-2" />
+            <div class="overflow-y-auto">
+                <div class="inline-flex space-x-4 px-3">
+                    @foreach (var item in CatalogMusics)
+                    {
+                        <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    @if (Artists.Any())
+    {
+        <div class="my-3 mx-2 mt-5">
+            <h1 class="title-xl">Artistas</h1>
+            <hr class="border-gray-300 my-2" />
+            <div class="overflow-y-auto">
+                <div class="inline-flex space-x-10 px-5">
+                    @foreach (var item in Artists)
+                    {
+                        <CardCatalogArtist Artist="item"></CardCatalogArtist>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    @if (CatalogMusics.Any())
+    {
+        <div class="my-3 mx-2">
+            <h1 class="title-xl">Novedades</h1>
+            <hr class="border-gray-300 my-2" />
+            <div class="overflow-y-auto">
+                <div class="inline-flex space-x-4 px-3">
+                    @foreach (var item in CatalogMusics)
+                    {
+                        <CardCatalogMusic MusicCatalog="item"></CardCatalogMusic>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
-<h1>Hello, world!</h1>
+@code {
+    
+    
+    private IEnumerable<Artist> Artists { get; set; } = Enumerable.Empty<Artist>();
+    private IEnumerable<MusicCatalog> CatalogMusics { get; set; } = Enumerable.Empty<MusicCatalog>();
 
-Welcome to your new app.
+    protected override async Task OnInitializedAsync()
+    {        
+        await Task.Delay(500);
+        CatalogMusics = ApplicationDbContext.MusicCatalog
+            // .Where(x => x.ActiveInStripe)
+            // .Where(x => x.Sold == false)
+            .Include(x => x.Artist)
+            .Include(x => x.Genre)
+            .Include(x => x.Presentation)
+            .Include(x => x.Format)
+            .Include(x => x.Images)
+            .ToList();
+
+        Artists = ApplicationDbContext.Artist.ToList();
+    }
+}

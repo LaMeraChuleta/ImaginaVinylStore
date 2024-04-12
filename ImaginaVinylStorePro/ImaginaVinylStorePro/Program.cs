@@ -1,7 +1,9 @@
-using ImaginaVinylStorePro.Client.Pages;
+using Blazored.LocalStorage;
 using ImaginaVinylStorePro.Components;
 using ImaginaVinylStorePro.Components.Account;
 using ImaginaVinylStorePro.Data;
+using ImaginaVinylStorePro.Interfaces;
+using ImaginaVinylStorePro.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,9 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<IShopCartService, ShopCartService>();
+builder.Services.AddScoped<IShopCartNotificationService, ShopCartNotificationService>();
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();

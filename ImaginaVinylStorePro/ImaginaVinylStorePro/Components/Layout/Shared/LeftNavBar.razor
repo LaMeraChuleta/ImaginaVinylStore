@@ -1,0 +1,46 @@
+<div class="flex flex-col items-center h-screen bg-gray-100 shadow-lg fixed z-50 top w-64 pt-5">
+    <div class="p-4">
+        <img alt="Imagen del usuario" src="https://imusic.b-cdn.net/images/item/original/532/0887828045532.jpg?arctic-monkeys-2022-the-car-lp&class=scaled" class="w-16 h-16 rounded-full" />
+    </div>
+    <LoginDisplay></LoginDisplay>
+    <div class="mt-4">
+        <ul class="text-gray-600">
+            <AuthorizeView Roles="Customer">
+                <Authorized>
+                    <div class="space-y-1">
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/OrderManage"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Mis pedidos</button>
+                    </div>
+                </Authorized>
+            </AuthorizeView>
+            <AuthorizeView Roles="Admistrator">
+                <Authorized>
+                    <div class="space-y-1">
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/OrderManage"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Administrar Pedidos</button>
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/ManageCatalogMusic"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Administrar Catalogo Musica</button>
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/ManageCatalogAudio"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Administrar Catalogo Audio</button>
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogMusic"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Agregar Catálogo Musica</button>
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/CreateCatalogAudio"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Agregar Catálogo Audio</button>
+                        <a href="Rol" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Administrar Roles</a>
+                    </div>
+                </Authorized>
+            </AuthorizeView>
+            <AuthorizeView Roles="StoreOwner">
+                <Authorized>
+                    <div class="space-y-1">
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/OrderManage"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Administrar Pedidos</button>
+                        <button @onclick="@(() => SendRedirectPage.InvokeAsync("/ManageCatalogMusic"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Administrar Catalogo</button>                        
+                    </div>
+                </Authorized>
+            </AuthorizeView>
+            <button @onclick="@(() => SendRedirectPage.InvokeAsync("/"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Tornamesas</button>
+            <button @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/Vinyl"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Vinyl</button>
+            <button @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/Cassette"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">Cassette</button>
+            <button @onclick="@(() => SendRedirectPage.InvokeAsync("/IndexCatalogMusic/CD"))" class="w-full px-6 py-2 rounded-lg hover:bg-gray-200 text-start">CD</button>
+        </ul>
+    </div>
+</div>
+@code {
+
+    [Parameter]
+    public EventCallback<string> SendRedirectPage { get; set; }
+}

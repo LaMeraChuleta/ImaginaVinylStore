@@ -1,0 +1,30 @@
+﻿<NavBar SendOpenLeftBar="ChangeShowLeftBar"
+        SendOpenSearchList="ChangeShowSearList"
+        SendOpenShopCartList="ChangeShowShopCartList"
+        SendCloseSecondComponent="CloseSecondComponets"
+        SendRedirectPage="RedirectByPathUrl">
+</NavBar>
+<div class="flex shadow-lg text-xl decoration-gray-200 decoration-4 py-3 px-3 justify-center text-gray-800 space-x-10 underline overflow-y-auto">
+    <a class="hover:decoration-gray-700" href="/IndexCatalogNews">Novedades</a>
+    <a class="hover:decoration-gray-700" href="/IndexCatalogDiscount">Ofertas</a>
+    <a class="hover:decoration-gray-700" href="/IndexCatalogAudio/Tornamesas">Tornamesas</a>
+    <a class="hover:decoration-gray-700" href="/IndexCatalogMusic/Vinyl">Vinyles</a>
+    <a class="hover:decoration-gray-700" href="/IndexCatalogMusic/Cassette">Cassette</a>
+    <a class="hover:decoration-gray-700" href="/IndexCatalogMusic/CD">CD</a>
+</div>
+
+
+@if (ShowLeftBar)
+{
+    <LeftNavBar SendRedirectPage="RedirectByPathUrl"></LeftNavBar>
+}
+
+@if (ShowSearList)
+{
+    <SearchNavBarList></SearchNavBarList>
+}
+
+@if (ShowShopCartList)
+{
+    <ShopCartNavBarList SendCloseComponent="CloseSecondComponets"></ShopCartNavBarList>
+}
